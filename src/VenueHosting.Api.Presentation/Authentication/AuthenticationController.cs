@@ -22,7 +22,12 @@ public class AuthenticationController : ControllerBase
         RegisterUserCommand command = new(request.FirstName, request.LastName, request.Email, request.Password);
         RegistrationResult result = await _mediator.Send(command);
 
-        AuthenticationResponse response = new(result.Id, result.FirstName, result.LastName, result.Email, result.Token);
+        AuthenticationResponse response = new(
+            result.User.Id, 
+            result.User.FirstName, 
+            result.User.LastName, 
+            result.User.Email, 
+            result.Token);
         return Ok(response);
     }
 
@@ -32,7 +37,12 @@ public class AuthenticationController : ControllerBase
         LoginCommand command = new(request.Email, request.Password);
         LoginResult result = await _mediator.Send(command);
 
-        AuthenticationResponse response = new(result.Id, result.FirstName, result.LastName, result.Email, result.Token);
+        AuthenticationResponse response = new(
+            result.User.Id, 
+            result.User.FirstName, 
+            result.User.LastName, 
+            result.User.Email, 
+            result.Token);
         return Ok(response);
     }
 }

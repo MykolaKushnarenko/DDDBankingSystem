@@ -1,28 +1,40 @@
 using MediatR;
 using VenueHosting.Application.Common.Interfaces;
+using VenueHosting.Application.Common.Persistence;
+using VenueHosting.Domain.Entities;
 
 namespace VenueHosting.Application.Commands.Register;
 
 public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, RegistrationResult>
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
+    private readonly IUserStore _userStore;
 
-    public RegisterUserCommandHandler(IJwtTokenGenerator jwtTokenGenerator)
+    public RegisterUserCommandHandler(IJwtTokenGenerator jwtTokenGenerator, IUserStore userStore)
     {
         _jwtTokenGenerator = jwtTokenGenerator;
+        _userStore = userStore;
     }
 
     public Task<RegistrationResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        // Check if user exists
+        if (_userStore.GetByEmail(request.Email) is not null)
+        {
+            throw new Exception("User already exists.");
+        }
+
+        User user = new User
+        {
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            Email = request.Email,
+            Password = request.Password
+        };
+
+        _userStore.Add(user);
         
-        // Create a user
-        string userId = Guid.NewGuid().ToString();
+        string token = _jwtTokenGenerator.Generate(user);
         
-        // Create a token
-        string token = _jwtTokenGenerator.Generate(userId, request.FirstName, request.LastName);
-        
-        return Task.FromResult(new RegistrationResult(Guid.NewGuid().ToString(), request.FirstName, request.LastName,
-            request.Email, token));
+        return Task.FromResult(new RegistrationResult(user, token));
     }
 }

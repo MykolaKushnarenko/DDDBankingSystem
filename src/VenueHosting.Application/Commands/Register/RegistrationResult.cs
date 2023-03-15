@@ -1,7 +1,6 @@
+using VenueHosting.Domain.Entities;
+
 namespace VenueHosting.Application.Commands.Register;
 
-public record RegistrationResult(string Id,
-    string FirstName, 
-    string LastName, 
-    string Email, 
+public record RegistrationResult(User User, 
     string Token);

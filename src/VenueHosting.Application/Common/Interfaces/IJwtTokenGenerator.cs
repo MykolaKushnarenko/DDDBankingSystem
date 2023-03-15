@@ -1,6 +1,8 @@
+using VenueHosting.Domain.Entities;
+
 namespace VenueHosting.Application.Common.Interfaces;
 
 public interface IJwtTokenGenerator
 {
-    public string Generate(string userId, string firstName, string lastName);
+    public string Generate(User user);
 }
