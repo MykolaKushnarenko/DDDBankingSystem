@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+      <UserSecretsId>9c4ea327-1f6c-4212-8fd4-3377d2de3ab8</UserSecretsId>
+  </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\VenueHosting.Api.Presentation\VenueHosting.Api.Presentation.csproj" />
+      <ProjectReference Include="..\VenueHosting.Application\VenueHosting.Application.csproj" />
+      <ProjectReference Include="..\VenueHosting.Infrastructure\VenueHosting.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>
