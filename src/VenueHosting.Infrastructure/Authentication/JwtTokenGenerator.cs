@@ -9,7 +9,7 @@ using VenueHosting.Infrastructure.Configuration;
 
 namespace VenueHosting.Infrastructure.Authentication;
 
-public class JwtTokenGenerator : IJwtTokenGenerator
+public class JwtTokenGenerator :IJwtTokenGenerator
 {
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly JwtSettings _jwtSettings;
