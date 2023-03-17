@@ -1,11 +1,13 @@
+using ErrorOr;
 using MediatR;
 using VenueHosting.Application.Common.Interfaces;
 using VenueHosting.Application.Common.Persistence;
+using VenueHosting.Domain.Common.Errors;
 using VenueHosting.Domain.Entities;
 
 namespace VenueHosting.Application.Commands.Login;
 
-public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResult>
+public class LoginCommandHandler : IRequestHandler<LoginCommand, ErrorOr<LoginResult>>
 {
     private readonly IUserStore _userStore;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
@@ -16,20 +18,24 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResult>
         _jwtTokenGenerator = jwtTokenGenerator;
     }
     
-    public Task<LoginResult> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public Task<ErrorOr<LoginResult>>Handle(LoginCommand request, CancellationToken cancellationToken)
     {
+        ErrorOr<LoginResult> result;
         if (_userStore.GetByEmail(request.Email) is not User user)
         {
-            throw new Exception("User doesn't exist.");
+            result = Errors.Authentication.InvalidCredentials;
+            return Task.FromResult(result);
         }
 
         if (user.Password != request.Password)
         {
-            throw new Exception("Invalid password");
+            result = Errors.Authentication.InvalidCredentials;
+            return Task.FromResult(result);
         }
         
         string token = _jwtTokenGenerator.Generate(user);
 
-        return Task.FromResult(new LoginResult(user, token));
+        result = new LoginResult(user, token);
+        return Task.FromResult(result);
     }
 }

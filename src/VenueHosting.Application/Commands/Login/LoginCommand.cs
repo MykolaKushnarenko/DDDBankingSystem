@@ -1,7 +1,8 @@
+using ErrorOr;
 using MediatR;
 
 namespace VenueHosting.Application.Commands.Login;
 
 public record LoginCommand(
     string Email, 
-    string Password) : IRequest<LoginResult>;
+    string Password) : IRequest<ErrorOr<LoginResult>>;

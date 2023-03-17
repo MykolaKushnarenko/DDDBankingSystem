@@ -1,11 +1,13 @@
+using ErrorOr;
 using MediatR;
 using VenueHosting.Application.Common.Interfaces;
 using VenueHosting.Application.Common.Persistence;
+using VenueHosting.Domain.Common.Errors;
 using VenueHosting.Domain.Entities;
 
 namespace VenueHosting.Application.Commands.Register;
 
-public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, RegistrationResult>
+public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,ErrorOr<RegistrationResult>>
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IUserStore _userStore;
@@ -16,11 +18,13 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
         _userStore = userStore;
     }
 
-    public Task<RegistrationResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+    public Task<ErrorOr<RegistrationResult>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
+        ErrorOr<RegistrationResult> result;
         if (_userStore.GetByEmail(request.Email) is not null)
         {
-            throw new Exception("User already exists.");
+            result = Errors.User.DuplicateEmail;
+            return Task.FromResult(result);
         }
 
         User user = new User
@@ -34,7 +38,8 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
         _userStore.Add(user);
         
         string token = _jwtTokenGenerator.Generate(user);
-        
-        return Task.FromResult(new RegistrationResult(user, token));
+
+        result = new RegistrationResult(user, token);
+        return Task.FromResult(result);
     }
 }
