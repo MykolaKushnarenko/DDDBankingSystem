@@ -1,7 +1,7 @@
 using ErrorOr;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using VenueHosting.Api.Presentation.Common.Consts;
+using VenueHosting.Api.Host.Common.Consts;
 
 namespace VenueHosting.Api.Presentation;
 

@@ -1,12 +1,11 @@
 using System.Diagnostics;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
-using VenueHosting.Api.Presentation.Common.Consts;
+using VenueHosting.Api.Host.Common.Consts;
 
-namespace VenueHosting.Api.Presentation.Common.Error;
+namespace VenueHosting.Api.Host.Common.Error;
 
 public class CustomProblemDetailsFactory : ProblemDetailsFactory
 {

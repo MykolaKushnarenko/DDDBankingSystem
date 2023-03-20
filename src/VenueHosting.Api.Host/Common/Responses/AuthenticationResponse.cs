@@ -1,4 +1,4 @@
-namespace VenueHosting.Api.Presentation.Authentication;
+namespace VenueHosting.Api.Host.Common.Responses;
 
 public record AuthenticationResponse(
     string Id,

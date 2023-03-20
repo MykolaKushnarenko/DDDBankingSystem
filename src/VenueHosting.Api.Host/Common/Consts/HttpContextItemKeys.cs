@@ -1,4 +1,4 @@
-namespace VenueHosting.Api.Presentation.Common.Consts;
+namespace VenueHosting.Api.Host.Common.Consts;
 
 public static class HttpContextItemKeys
 {
