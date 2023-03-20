@@ -5,7 +5,7 @@ using VenueHosting.Application.Common.Persistence;
 using VenueHosting.Domain.Common.Errors;
 using VenueHosting.Domain.Entities;
 
-namespace VenueHosting.Application.Commands.Register;
+namespace VenueHosting.Application.Features.Authentication.Register;
 
 public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,ErrorOr<RegistrationResult>>
 {
@@ -18,10 +18,10 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,Er
         _userStore = userStore;
     }
 
-    public Task<ErrorOr<RegistrationResult>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+    public Task<ErrorOr<RegistrationResult>> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
     {
         ErrorOr<RegistrationResult> result;
-        if (_userStore.GetByEmail(request.Email) is not null)
+        if (_userStore.GetByEmail(command.Email) is not null)
         {
             result = Errors.User.DuplicateEmail;
             return Task.FromResult(result);
@@ -29,10 +29,10 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,Er
 
         User user = new User
         {
-            FirstName = request.FirstName,
-            LastName = request.LastName,
-            Email = request.Email,
-            Password = request.Password
+            FirstName = command.FirstName,
+            LastName = command.LastName,
+            Email = command.Email,
+            Password = command.Password
         };
 
         _userStore.Add(user);

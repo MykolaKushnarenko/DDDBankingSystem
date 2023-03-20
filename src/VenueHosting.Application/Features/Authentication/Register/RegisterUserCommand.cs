@@ -1,7 +1,7 @@
 using ErrorOr;
 using MediatR;
 
-namespace VenueHosting.Application.Commands.Register;
+namespace VenueHosting.Application.Features.Authentication.Register;
 
 public record RegisterUserCommand(string FirstName,
     string LastName,

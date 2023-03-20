@@ -1,17 +1,17 @@
 using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VenueHosting.Application.Commands.Login;
-using VenueHosting.Application.Commands.Register;
+using VenueHosting.Application.Features.Authentication.Login;
+using VenueHosting.Application.Features.Authentication.Register;
 
 namespace VenueHosting.Api.Presentation.Authentication;
 
 [Route("api/auth")]
 public class AuthenticationController : ApiController
 {
-    private readonly IMediator _mediator;
+    private readonly ISender _mediator;
     
-    public AuthenticationController(IMediator mediator)
+    public AuthenticationController(ISender mediator)
     {
         _mediator = mediator;
     }
@@ -39,8 +39,8 @@ public class AuthenticationController : ApiController
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
-        LoginCommand command = new(request.Email, request.Password);
-        ErrorOr<LoginResult> loginResult = await _mediator.Send(command);
+        LoginQuery query = new(request.Email, request.Password);
+        ErrorOr<LoginResult> loginResult = await _mediator.Send(query);
 
         return loginResult.Match(result => Ok(ToLoginResponse(loginResult.Value)),
             Problem);
