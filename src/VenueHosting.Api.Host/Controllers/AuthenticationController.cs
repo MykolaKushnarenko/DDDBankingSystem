@@ -4,7 +4,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using VenueHosting.Api.Host.Common.Requests;
 using VenueHosting.Api.Host.Common.Responses;
-using VenueHosting.Api.Presentation;
 using VenueHosting.Application.Features.Authentication.Login;
 using VenueHosting.Application.Features.Authentication.Register;
 
