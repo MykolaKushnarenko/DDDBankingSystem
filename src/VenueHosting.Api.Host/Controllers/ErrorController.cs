@@ -7,7 +7,7 @@ namespace VenueHosting.Api.Host.Controllers;
 
 public class ErrorsController : ControllerBase
 {
-    [Route("/error")]
+    [HttpGet("/error")]
     public IActionResult Error()
     {
         Exception error = HttpContext.Features.GetRequiredFeature<IExceptionHandlerFeature>().Error;
