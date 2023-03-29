@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
 using VenueHosting.Application.Common.Persistence;
-using VenueHosting.Domain.Entities;
+using VenueHosting.Domain.User;
 
 namespace VenueHosting.Infrastructure.Persistence;
 

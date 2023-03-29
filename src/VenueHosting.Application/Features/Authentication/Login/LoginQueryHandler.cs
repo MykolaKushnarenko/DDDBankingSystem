@@ -3,7 +3,7 @@ using MediatR;
 using VenueHosting.Application.Common.Interfaces;
 using VenueHosting.Application.Common.Persistence;
 using VenueHosting.Domain.Common.Errors;
-using VenueHosting.Domain.Entities;
+using VenueHosting.Domain.User;
 
 namespace VenueHosting.Application.Features.Authentication.Login;
 

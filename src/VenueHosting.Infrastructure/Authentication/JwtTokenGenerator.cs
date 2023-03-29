@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using VenueHosting.Domain.Entities;
+using VenueHosting.Domain.User;
 using VenueHosting.Infrastructure.Configuration;
 
 namespace VenueHosting.Infrastructure.Authentication;

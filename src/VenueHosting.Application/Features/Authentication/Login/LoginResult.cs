@@ -1,4 +1,4 @@
-using VenueHosting.Domain.Entities;
+using VenueHosting.Domain.User;
 
 namespace VenueHosting.Application.Features.Authentication.Login;
 

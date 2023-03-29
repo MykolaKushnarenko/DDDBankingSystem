@@ -3,7 +3,7 @@ using MediatR;
 using VenueHosting.Application.Common.Interfaces;
 using VenueHosting.Application.Common.Persistence;
 using VenueHosting.Domain.Common.Errors;
-using VenueHosting.Domain.Entities;
+using VenueHosting.Domain.User;
 
 namespace VenueHosting.Application.Features.Authentication.Register;
 
@@ -27,13 +27,12 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,Er
             return Task.FromResult(result);
         }
 
-        User user = new User
-        {
-            FirstName = command.FirstName,
-            LastName = command.LastName,
-            Email = command.Email,
-            Password = command.Password
-        };
+        User user = User.Create(
+            command.FirstName,
+            command.LastName,
+            command.Email,
+            command.Password
+        );
 
         _userStore.Add(user);
         
