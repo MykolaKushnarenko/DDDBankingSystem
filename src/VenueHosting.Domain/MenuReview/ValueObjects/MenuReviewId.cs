@@ -4,7 +4,11 @@ namespace VenueHosting.Domain.MenuReview.ValueObjects;
 
 public sealed class MenuReviewId : ValueObject
 {
-    public Guid Value { get; }
+    public Guid Value { get; private set; }
+
+    private MenuReviewId()
+    {
+    }
 
     private MenuReviewId(Guid value)
     {

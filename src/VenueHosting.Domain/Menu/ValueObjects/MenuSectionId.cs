@@ -4,7 +4,11 @@ namespace VenueHosting.Domain.Menu.ValueObjects;
 
 public sealed class MenuSectionId : ValueObject
 {
-    public Guid Value { get; }
+    public Guid Value { get; private set; }
+
+    private MenuSectionId()
+    {
+    }
 
     private MenuSectionId(Guid value)
     {
@@ -19,5 +23,10 @@ public sealed class MenuSectionId : ValueObject
     protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
+    }
+
+    public static MenuSectionId Create(Guid value)
+    {
+        return new MenuSectionId(value);
     }
 }

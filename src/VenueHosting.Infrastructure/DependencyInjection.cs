@@ -1,5 +1,6 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -9,6 +10,7 @@ using VenueHosting.Application.Common.Persistence;
 using VenueHosting.Infrastructure.Authentication;
 using VenueHosting.Infrastructure.Configuration;
 using VenueHosting.Infrastructure.Persistence;
+using VenueHosting.Infrastructure.Persistence.Stores;
 using VenueHosting.Infrastructure.Services;
 
 namespace VenueHosting.Infrastructure;
@@ -21,7 +23,17 @@ public static class DependencyInjection
         serviceCollection.AddAuth(builderConfiguration);
 
         serviceCollection.AddScoped<IUserStore, UserStore>();
+        serviceCollection.AddScoped<IMenuStore, MenuStore>();
         serviceCollection.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+
+        serviceCollection.AddPersistence();
+
+        return serviceCollection;
+    }
+
+    public static IServiceCollection AddPersistence(this IServiceCollection serviceCollection)
+    {
+        serviceCollection.AddDbContext<VenueHostingDbContext>(options => options.UseSqlServer());
 
         return serviceCollection;
     }

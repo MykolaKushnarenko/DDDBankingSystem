@@ -1,0 +1,35 @@
+# http://editorconfig.org
+
+root = true
+
+[*]
+charset = utf-8
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+[*.{csproj,json,config,yml,yaml,props}]
+indent_size = 2
+
+[*.md]
+insert_final_newline = false
+trim_trailing_whitespace = false
+
+[*.cs]
+dotnet_diagnostic.CA1724.severity = warning     # Type names should not match namespaces
+dotnet_diagnostic.CA1711.severity = none        # Naming for event handlers
+dotnet_diagnostic.CA1707.severity = none        # Naming for tests
+dotnet_diagnostic.CS1591.severity = warning     # Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CA1032.severity = none        # CA1032: Implement standard exception constructors
+dotnet_diagnostic.CA1054.severity = none        # CA1054: Uri parameters should not be strings
+dotnet_diagnostic.CA1056.severity = none        # CA1056: Uri properties should not be strings
+dotnet_diagnostic.CA1812.severity = none        # CA1812: Avoid uninstantiated internal classes
+dotnet_diagnostic.CA1822.severity = none        # CA1822: Mark members as static
+dotnet_diagnostic.CA2007.severity = none        # CA2007: Consider calling ConfigureAwait on the awaited task
+dotnet_diagnostic.CA1014.severity = none        # CA1014: Mark assemblies with CLSCompliantAttribute
+dotnet_diagnostic.CA2227.severity = warning     # Change property to be read-only by removing the property setter
+dotnet_diagnostic.CA1062.severity = none        # Argument checking on null before using
+dotnet_diagnostic.CA1848.severity = none        # Logger
+
+[**/*Tests/**/*.cs]
+dotnet_diagnostic.CA5394.severity = none        # Do not use insecure randomness
