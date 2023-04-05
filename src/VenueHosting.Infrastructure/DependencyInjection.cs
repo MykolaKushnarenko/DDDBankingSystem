@@ -23,7 +23,6 @@ public static class DependencyInjection
         serviceCollection.AddAuth(builderConfiguration);
 
         serviceCollection.AddScoped<IUserStore, UserStore>();
-        serviceCollection.AddScoped<IMenuStore, MenuStore>();
         serviceCollection.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
         serviceCollection.AddPersistence();

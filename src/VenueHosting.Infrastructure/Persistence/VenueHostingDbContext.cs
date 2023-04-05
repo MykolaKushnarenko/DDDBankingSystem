@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using VenueHosting.Domain.Menu;
+using VenueHosting.Domain.VenueDomain.Venue;
 
 namespace VenueHosting.Infrastructure.Persistence;
 
@@ -9,7 +9,7 @@ public class VenueHostingDbContext : DbContext
     {
     }
 
-    public DbSet<Menu> Menus { get; set; } = null!;
+    public DbSet<Venue> Venues { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
