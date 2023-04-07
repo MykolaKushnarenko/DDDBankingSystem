@@ -1,6 +1,6 @@
-using System.Diagnostics;
 using VenueHosting.Domain.Common.Models;
 using VenueHosting.Domain.Reservation.ValueObjects;
+using VenueHosting.Domain.Venue.Entities;
 using VenueHosting.Domain.Venue.ValueObjects;
 using VenueHosting.Domain.VenueDomain.Lessee.ValueObjects;
 using VenueHosting.Domain.VenueDomain.Owner.ValueObjects;
@@ -65,7 +65,7 @@ public class Venue : AggregateRote<VenueId>
 
     public IReadOnlyList<VenueReviewId> VenueReviewIds => _venueReviewIds.ToList().AsReadOnly();
 
-    public IReadOnlyList<ReservationId> ReservationId => _reservationIds.ToList().AsReadOnly();
+    public IReadOnlyList<ReservationId> ReservationIds => _reservationIds.ToList().AsReadOnly();
 
     public DateTime StartAtDateTime { get; private set; }
 

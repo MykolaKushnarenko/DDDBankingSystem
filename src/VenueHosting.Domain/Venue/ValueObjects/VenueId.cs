@@ -6,4 +6,9 @@ public sealed record VenueId(Guid Value)
     {
         return new VenueId(Guid.NewGuid());
     }
+
+    public static VenueId Create(Guid value)
+    {
+        return new VenueId(value);
+    }
 }

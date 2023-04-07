@@ -1,5 +1,6 @@
 using VenueHosting.Domain.Common.Models;
 using VenueHosting.Domain.Place.Entities;
+using VenueHosting.Domain.Place.ValueObjects;
 using VenueHosting.Domain.VenueDomain.Owner.ValueObjects;
 using VenueHosting.Domain.VenueDomain.Place.ValueObjects;
 
@@ -11,13 +12,20 @@ public class Place : AggregateRote<PlaceId>
 
     private Place(){}
 
-    private Place(PlaceId value, OwnerId ownerId) : base(value)
+    private Place(PlaceId value, OwnerId ownerId, Address address) : base(value)
     {
         OwnerId = ownerId;
+        Address = address;
     }
 
+    public Address Address { get; private set; }
 
     public OwnerId OwnerId { get; private set; }
 
     public IReadOnlyList<Facility> Facilities => _facilities.ToList().AsReadOnly();
+
+    public Place Create(OwnerId ownerId, Address address)
+    {
+        return new Place(PlaceId.CreateUnique(), ownerId, address);
+    }
 }

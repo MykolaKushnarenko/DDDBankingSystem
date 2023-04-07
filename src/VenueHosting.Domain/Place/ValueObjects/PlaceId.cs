@@ -6,4 +6,9 @@ public record PlaceId(Guid Value)
     {
         return new PlaceId(Guid.NewGuid());
     }
+
+    public static PlaceId Create(Guid value)
+    {
+        return new PlaceId(value);
+    }
 }

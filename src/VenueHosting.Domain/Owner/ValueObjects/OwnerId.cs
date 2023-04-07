@@ -6,4 +6,9 @@ public record OwnerId(Guid Value)
     {
         return new OwnerId(Guid.NewGuid());
     }
+
+    public static OwnerId Create(Guid value)
+    {
+        return new OwnerId(value);
+    }
 }

@@ -6,4 +6,10 @@ public record ActivityId(Guid Value)
     {
         return new ActivityId(Guid.NewGuid());
     }
+
+    public static ActivityId Create(Guid value)
+    {
+        return new ActivityId(value);
+
+    }
 }
