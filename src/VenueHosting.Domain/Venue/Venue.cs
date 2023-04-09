@@ -1,13 +1,13 @@
 using VenueHosting.Domain.Common.Models;
+using VenueHosting.Domain.Lessee.ValueObjects;
 using VenueHosting.Domain.Reservation.ValueObjects;
 using VenueHosting.Domain.Venue.Entities;
 using VenueHosting.Domain.Venue.ValueObjects;
-using VenueHosting.Domain.VenueDomain.Lessee.ValueObjects;
 using VenueHosting.Domain.VenueDomain.Owner.ValueObjects;
 using VenueHosting.Domain.VenueDomain.Place.ValueObjects;
 using VenueHosting.Domain.VenueReview.ValueObjects;
 
-namespace VenueHosting.Domain.VenueDomain.Venue;
+namespace VenueHosting.Domain.Venue;
 
 public class Venue : AggregateRote<VenueId>
 {

@@ -3,9 +3,9 @@ using VenueHosting.Domain.Common.Models;
 using VenueHosting.Domain.Venue.ValueObjects;
 using VenueHosting.Domain.VenueReview.ValueObjects;
 
-namespace VenueHosting.Domain.VenueDomain.VenueReview;
+namespace VenueHosting.Domain.VenueReview;
 
-public class VenueReview : AggregateRote<VenueReviewId>
+public sealed class VenueReview : AggregateRote<VenueReviewId>
 {
     private VenueReview()
     {

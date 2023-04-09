@@ -6,4 +6,9 @@ public sealed record UserId(Guid Value)
     {
         return new UserId(Guid.NewGuid());
     }
+
+    public static UserId Create(Guid value)
+    {
+        return new UserId(value);
+    }
 }

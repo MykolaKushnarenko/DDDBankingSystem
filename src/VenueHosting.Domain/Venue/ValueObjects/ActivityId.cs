@@ -10,6 +10,5 @@ public record ActivityId(Guid Value)
     public static ActivityId Create(Guid value)
     {
         return new ActivityId(value);
-
     }
 }

@@ -6,4 +6,9 @@ public sealed record BillId (Guid Value)
     {
         return new BillId(Guid.NewGuid());
     }
+
+    public static BillId Create(Guid value)
+    {
+        return new BillId(value);
+    }
 }

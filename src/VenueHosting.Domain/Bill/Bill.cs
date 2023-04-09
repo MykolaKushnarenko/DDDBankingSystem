@@ -2,13 +2,15 @@ using VenueHosting.Domain.Attendee.ValueObjects;
 using VenueHosting.Domain.Bill.ValueObjects;
 using VenueHosting.Domain.Common.Models;
 using VenueHosting.Domain.Common.ValueObjects;
+using VenueHosting.Domain.Lessee.ValueObjects;
 using VenueHosting.Domain.Venue.ValueObjects;
-using VenueHosting.Domain.VenueDomain.Lessee.ValueObjects;
 
 namespace VenueHosting.Domain.Bill;
 
 public sealed class Bill : AggregateRote<BillId>
 {
+    private Bill(){}
+
     private Bill(BillId id, VenueId venueId, AttendeeId attendeeId, LesseeId lesseeId, Price price, DateTime createdDateTime,
         DateTime updatedDateTime) : base(id)
     {

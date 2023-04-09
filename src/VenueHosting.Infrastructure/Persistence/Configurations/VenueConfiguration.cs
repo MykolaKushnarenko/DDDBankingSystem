@@ -1,14 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using VenueHosting.Domain.Lessee.ValueObjects;
+using VenueHosting.Domain.Venue;
 using VenueHosting.Domain.Venue.ValueObjects;
-using VenueHosting.Domain.VenueDomain.Lessee.ValueObjects;
 using VenueHosting.Domain.VenueDomain.Owner.ValueObjects;
 using VenueHosting.Domain.VenueDomain.Place.ValueObjects;
-using VenueHosting.Domain.VenueDomain.Venue;
 
-namespace VenueHosting.Infrastructure.Persistence;
+namespace VenueHosting.Infrastructure.Persistence.Configurations;
 
-public class VenueConfiguration : IEntityTypeConfiguration<Venue>
+internal sealed class VenueConfiguration : IEntityTypeConfiguration<Venue>
 {
     public void Configure(EntityTypeBuilder<Venue> builder)
     {
@@ -89,7 +89,7 @@ public class VenueConfiguration : IEntityTypeConfiguration<Venue>
 
     private void ConfigureVenueTable(EntityTypeBuilder<Venue> builder)
     {
-        builder.ToTable("Venue");
+        builder.ToTable("Venues");
         builder.HasKey("Id");
 
         builder

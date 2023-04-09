@@ -6,4 +6,9 @@ public sealed record ReservationId(Guid Value)
     {
         return new ReservationId(Guid.NewGuid());
     }
+
+    public static ReservationId Create(Guid value)
+    {
+        return new ReservationId(value);
+    }
 }

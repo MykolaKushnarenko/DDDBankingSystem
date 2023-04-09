@@ -6,4 +6,9 @@ public sealed record LesseeReviewId(Guid Value)
     {
         return new LesseeReviewId(Guid.NewGuid());
     }
+
+    public static LesseeReviewId Create(Guid value)
+    {
+        return new LesseeReviewId(value);
+    }
 }

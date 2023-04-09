@@ -1,8 +1,8 @@
 using VenueHosting.Domain.Common.Models;
+using VenueHosting.Domain.Lessee.ValueObjects;
 using VenueHosting.Domain.LesseeReview.ValueObjects;
 using VenueHosting.Domain.User.ValueObjects;
 using VenueHosting.Domain.Venue.ValueObjects;
-using VenueHosting.Domain.VenueDomain.Lessee.ValueObjects;
 
 namespace VenueHosting.Domain.Lessee;
 

@@ -1,4 +1,4 @@
-namespace VenueHosting.Domain.VenueDomain.Lessee.ValueObjects;
+namespace VenueHosting.Domain.Lessee.ValueObjects;
 
 public sealed record LesseeId(Guid Value)
 {

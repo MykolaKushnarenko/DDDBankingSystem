@@ -22,6 +22,7 @@ public sealed class User : AggregateRote<UserId>
 
     public string Email { get; private set; }
 
+    //TODO: Hash this
     public string Password { get; private set; }
 
     public DateTime CreatedDateTime { get; private set; }

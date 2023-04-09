@@ -6,4 +6,9 @@ public record VenueReviewId(Guid Value)
     {
         return new VenueReviewId(Guid.NewGuid());
     }
+
+    public static VenueReviewId Create(Guid value)
+    {
+        return new VenueReviewId(value);
+    }
 }
