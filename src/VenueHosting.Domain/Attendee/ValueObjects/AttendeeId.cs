@@ -2,9 +2,9 @@ using VenueHosting.Domain.Common.Models;
 
 namespace VenueHosting.Domain.Attendee.ValueObjects;
 
-public class AttendeeId : ValueObject
+public sealed class AttendeeId : AggregateRootId<Guid>
 {
-    public Guid Value { get; private set; }
+    public override Guid Value { get; protected set; }
 
     private AttendeeId(){}
 

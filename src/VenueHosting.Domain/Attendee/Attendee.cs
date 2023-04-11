@@ -8,7 +8,7 @@ using VenueHosting.Domain.Venue.ValueObjects;
 
 namespace VenueHosting.Domain.Attendee;
 
-public class Attendee : AggregateRote<AttendeeId>
+public class Attendee : AggregateRote<AttendeeId, Guid>
 {
     private List<AttendeeReviewId> _attendeeReviewIds = new();
     private List<BillId> _billIds = new();

@@ -6,7 +6,7 @@ using VenueHosting.Domain.Venue.ValueObjects;
 
 namespace VenueHosting.Domain.LesseeReview;
 
-public class LesseeReview : AggregateRote<LesseeReviewId>
+public class LesseeReview : AggregateRote<LesseeReviewId, Guid>
 {
     private LesseeReview()
     {

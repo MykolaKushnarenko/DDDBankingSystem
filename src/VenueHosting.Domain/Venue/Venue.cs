@@ -1,22 +1,21 @@
 using VenueHosting.Domain.Common.Models;
 using VenueHosting.Domain.Lessee.ValueObjects;
+using VenueHosting.Domain.Owner.ValueObjects;
+using VenueHosting.Domain.Place.ValueObjects;
 using VenueHosting.Domain.Reservation.ValueObjects;
 using VenueHosting.Domain.Venue.Entities;
 using VenueHosting.Domain.Venue.ValueObjects;
-using VenueHosting.Domain.VenueDomain.Owner.ValueObjects;
-using VenueHosting.Domain.VenueDomain.Place.ValueObjects;
 using VenueHosting.Domain.VenueReview.ValueObjects;
 
 namespace VenueHosting.Domain.Venue;
 
-public class Venue : AggregateRote<VenueId>
+public class Venue : AggregateRote<VenueId, Guid>
 {
     private List<Activity> _activities = new();
 
     private List<VenueReviewId> _venueReviewIds = new();
 
     private List<ReservationId> _reservationIds = new();
-
 
     private Venue()
     {

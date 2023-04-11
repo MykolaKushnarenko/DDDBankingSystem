@@ -1,11 +1,11 @@
 using VenueHosting.Domain.Common.Models;
+using VenueHosting.Domain.Owner.ValueObjects;
+using VenueHosting.Domain.Place.ValueObjects;
 using VenueHosting.Domain.User.ValueObjects;
-using VenueHosting.Domain.VenueDomain.Owner.ValueObjects;
-using VenueHosting.Domain.VenueDomain.Place.ValueObjects;
 
 namespace VenueHosting.Domain.Owner;
 
-public class Owner : AggregateRote<OwnerId>
+public class Owner : AggregateRote<OwnerId, Guid>
 {
     private List<PlaceId> _placeIds = new();
 

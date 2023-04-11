@@ -3,9 +3,9 @@ using VenueHosting.Domain.Common.Models;
 
 namespace VenueHosting.Domain.AttendeeReview.ValueObjects;
 
-public class AttendeeReviewId : ValueObject
+public sealed class AttendeeReviewId :AggregateRootId<Guid>
 {
-    public Guid Value { get; private set; }
+    public override Guid Value { get; protected set; }
 
     private AttendeeReviewId(){}
 

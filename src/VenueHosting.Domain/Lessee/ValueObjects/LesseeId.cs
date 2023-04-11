@@ -1,7 +1,18 @@
+using VenueHosting.Domain.Common.Models;
+
 namespace VenueHosting.Domain.Lessee.ValueObjects;
 
-public sealed record LesseeId(Guid Value)
+public sealed class LesseeId : AggregateRootId<Guid>
 {
+    public override Guid Value { get; protected set; }
+
+    private LesseeId(){}
+
+    private LesseeId(Guid value)
+    {
+        Value = value;
+    }
+
     public static LesseeId CreateUnique()
     {
         return new LesseeId(Guid.NewGuid());
@@ -10,5 +21,10 @@ public sealed record LesseeId(Guid Value)
     public static LesseeId Create(Guid value)
     {
         return new LesseeId(value);
+    }
+
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return Value;
     }
 }

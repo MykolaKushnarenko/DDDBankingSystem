@@ -6,7 +6,7 @@ using VenueHosting.Domain.Venue.ValueObjects;
 
 namespace VenueHosting.Domain.Reservation;
 
-public sealed class Reservation : AggregateRote<ReservationId>
+public sealed class Reservation : AggregateRote<ReservationId, Guid>
 {
     private Reservation() {}
 

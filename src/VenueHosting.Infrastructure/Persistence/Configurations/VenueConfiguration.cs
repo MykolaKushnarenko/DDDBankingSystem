@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using VenueHosting.Domain.Lessee.ValueObjects;
+using VenueHosting.Domain.Owner.ValueObjects;
+using VenueHosting.Domain.Place.ValueObjects;
 using VenueHosting.Domain.Venue;
 using VenueHosting.Domain.Venue.ValueObjects;
-using VenueHosting.Domain.VenueDomain.Owner.ValueObjects;
-using VenueHosting.Domain.VenueDomain.Place.ValueObjects;
 
 namespace VenueHosting.Infrastructure.Persistence.Configurations;
 

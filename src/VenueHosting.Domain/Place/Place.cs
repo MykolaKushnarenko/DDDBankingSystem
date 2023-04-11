@@ -1,12 +1,11 @@
 using VenueHosting.Domain.Common.Models;
+using VenueHosting.Domain.Owner.ValueObjects;
 using VenueHosting.Domain.Place.Entities;
 using VenueHosting.Domain.Place.ValueObjects;
-using VenueHosting.Domain.VenueDomain.Owner.ValueObjects;
-using VenueHosting.Domain.VenueDomain.Place.ValueObjects;
 
 namespace VenueHosting.Domain.Place;
 
-public class Place : AggregateRote<PlaceId>
+public class Place : AggregateRote<PlaceId, Guid>
 {
     private List<Facility> _facilities = new();
 

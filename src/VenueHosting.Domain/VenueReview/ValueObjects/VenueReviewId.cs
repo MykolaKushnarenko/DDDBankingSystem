@@ -1,7 +1,20 @@
+using VenueHosting.Domain.Common.Models;
+
 namespace VenueHosting.Domain.VenueReview.ValueObjects;
 
-public record VenueReviewId(Guid Value)
+public sealed class VenueReviewId : AggregateRootId<Guid>
 {
+    public override Guid Value { get; protected set; }
+
+    private VenueReviewId()
+    {
+    }
+
+    private VenueReviewId(Guid value)
+    {
+        Value = value;
+    }
+
     public static VenueReviewId CreateUnique()
     {
         return new VenueReviewId(Guid.NewGuid());
@@ -10,5 +23,10 @@ public record VenueReviewId(Guid Value)
     public static VenueReviewId Create(Guid value)
     {
         return new VenueReviewId(value);
+    }
+
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return Value;
     }
 }

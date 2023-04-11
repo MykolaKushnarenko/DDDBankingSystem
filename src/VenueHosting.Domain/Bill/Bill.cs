@@ -7,7 +7,7 @@ using VenueHosting.Domain.Venue.ValueObjects;
 
 namespace VenueHosting.Domain.Bill;
 
-public sealed class Bill : AggregateRote<BillId>
+public sealed class Bill : AggregateRote<BillId, Guid>
 {
     private Bill(){}
 

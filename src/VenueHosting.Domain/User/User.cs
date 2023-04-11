@@ -3,8 +3,10 @@ using VenueHosting.Domain.User.ValueObjects;
 
 namespace VenueHosting.Domain.User;
 
-public sealed class User : AggregateRote<UserId>
+public sealed class User : AggregateRote<UserId, Guid>
 {
+    private User(){}
+
     private User(UserId id, string firstName, string lastName, string email, string password, DateTime createdDateTime,
         DateTime updatedDateTime) : base(id)
     {
