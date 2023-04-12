@@ -96,4 +96,39 @@ public class Venue : AggregateRote<VenueId, Guid>
             DateTime.UtcNow,
             DateTime.UtcNow);
     }
+
+    public void AddActivity(Activity activity)
+    {
+        //TODO: validation
+
+        _activities.Add(activity);
+    }
+
+    public void MakeEvenPrivate()
+    {
+        IsPublic = false;
+    }
+
+    public void MakeEvenPublic()
+    {
+        IsPublic = true;
+    }
+
+    public void AddANewReservationId(ReservationId reservationId)
+    {
+        _reservationIds.Add(reservationId);
+    }
+
+    public void AddANewReview(VenueReviewId venueReviewId)
+    {
+        _venueReviewIds.Add(venueReviewId);
+    }
+
+    public void UpdateEventGeneralInformation(string eventName, string description)
+    {
+        //validation
+
+        EventName = eventName;
+        Description = description;
+    }
 }
