@@ -10,7 +10,6 @@ using VenueHosting.Domain.Reservation;
 using VenueHosting.Domain.User;
 using VenueHosting.Domain.Venue;
 using VenueHosting.Domain.VenueReview;
-using VenueHosting.Domain.VenueReview.ValueObjects;
 
 namespace VenueHosting.Infrastructure.Persistence;
 

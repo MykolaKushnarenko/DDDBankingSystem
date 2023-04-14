@@ -7,7 +7,7 @@ namespace VenueHosting.Domain.Place;
 
 public class Place : AggregateRote<PlaceId, Guid>
 {
-    private List<Facility> _facilities = new();
+    private readonly List<Facility> _facilities = new();
 
     private Place(){}
 
@@ -23,8 +23,37 @@ public class Place : AggregateRote<PlaceId, Guid>
 
     public IReadOnlyList<Facility> Facilities => _facilities.ToList().AsReadOnly();
 
-    public Place Create(OwnerId ownerId, Address address)
+    public PlaceStatus Status { get; private set; }
+
+    public static Place Create(OwnerId ownerId, Address address)
     {
         return new Place(PlaceId.CreateUnique(), ownerId, address);
+    }
+
+    public void AddExistingFacilities(IEnumerable<Facility> facility)
+    {
+        //TODO: validation
+        _facilities.AddRange(facility);
+    }
+
+    public void ProvideAddressInformation(Address address)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(address.City);
+        ArgumentException.ThrowIfNullOrEmpty(address.Country);
+        ArgumentException.ThrowIfNullOrEmpty(address.Street);
+        if (Address.Number <= 0)
+            throw new ArgumentException(nameof(Address.Number));
+
+        Address = address;
+    }
+
+    public void SetStatusToPending()
+    {
+        Status = PlaceStatus.Pending;
+    }
+
+    public void SetStatusToBooked()
+    {
+        Status = PlaceStatus.Booked;
     }
 }

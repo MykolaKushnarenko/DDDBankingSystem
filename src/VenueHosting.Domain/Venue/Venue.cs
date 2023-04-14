@@ -1,3 +1,4 @@
+using VenueHosting.Domain.Attendee.ValueObjects;
 using VenueHosting.Domain.Common.Models;
 using VenueHosting.Domain.Lessee.ValueObjects;
 using VenueHosting.Domain.Owner.ValueObjects;
@@ -44,6 +45,8 @@ public class Venue : AggregateRote<VenueId, Guid>
         EndAtDateTime = endAtDateTime;
         CreatedAtDateTime = createdAtDateTime;
         UpdatedAtDateTime = updatedAtDateTime;
+
+        //Venue registred 
     }
 
     public OwnerId OwnerId { get; private set; }
@@ -102,14 +105,16 @@ public class Venue : AggregateRote<VenueId, Guid>
         //TODO: validation
 
         _activities.Add(activity);
+
+        UpdatedAtDateTime = DateTime.UtcNow;
     }
 
-    public void MakeEvenPrivate()
+    public void MakeEvenAsPrivate()
     {
         IsPublic = false;
     }
 
-    public void MakeEvenPublic()
+    public void MakeEvenAsPublic()
     {
         IsPublic = true;
     }

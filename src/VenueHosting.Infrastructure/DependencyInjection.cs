@@ -7,9 +7,11 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using VenueHosting.Application.Common.Interfaces;
 using VenueHosting.Application.Common.Persistence;
+using VenueHosting.Application.Common.Persistence.AtomicScope;
 using VenueHosting.Infrastructure.Authentication;
 using VenueHosting.Infrastructure.Configuration;
 using VenueHosting.Infrastructure.Persistence;
+using VenueHosting.Infrastructure.Persistence.AtomicScopeFactory;
 using VenueHosting.Infrastructure.Persistence.Stores;
 using VenueHosting.Infrastructure.Services;
 
@@ -23,16 +25,23 @@ public static class DependencyInjection
         serviceCollection.AddAuth(builderConfiguration);
 
         serviceCollection.AddScoped<IUserStore, UserStore>();
+        serviceCollection.AddScoped<IPlaceStore, PlaceStore>();
+        serviceCollection.AddScoped<IVenueStore, VenueStore>();
         serviceCollection.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
+        serviceCollection.AddScoped<IAtomicScope, AtomicScope>();
+
         serviceCollection.AddPersistence();
+
 
         return serviceCollection;
     }
 
-    public static IServiceCollection AddPersistence(this IServiceCollection serviceCollection)
+    private static IServiceCollection AddPersistence(this IServiceCollection serviceCollection)
     {
-        serviceCollection.AddDbContext<VenueHostingDbContext>(options => options.UseSqlServer());
+        serviceCollection.AddDbContext<VenueHostingDbContext>(options =>
+            options.UseSqlServer(
+                "Data Source=(local);Initial Catalog=Local-Account-Main;User Id=SA;Password=Qwerty123$%;TrustServerCertificate=true;"));
 
         return serviceCollection;
     }

@@ -20,6 +20,8 @@ public sealed class Bill : AggregateRote<BillId, Guid>
         Price = price;
         CreatedDateTime = createdDateTime;
         UpdatedDateTime = updatedDateTime;
+
+        // raise payed domain event
     }
 
     public VenueId VenueId { get; private set; }
@@ -34,7 +36,7 @@ public sealed class Bill : AggregateRote<BillId, Guid>
 
     public DateTime UpdatedDateTime { get; }
 
-    public static Bill Create(VenueId venueId, AttendeeId attendeeId, LesseeId lesseeId, Price price)
+    public static Bill Pay(VenueId venueId, AttendeeId attendeeId, LesseeId lesseeId, Price price)
     {
         return new Bill(BillId.CreateUnique(), venueId, attendeeId, lesseeId, price, DateTime.UtcNow, DateTime.UtcNow);
     }

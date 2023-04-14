@@ -12,6 +12,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Host", "Host", "{CAA7ABA9-7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Contracts", "src\VenueHosting.Contracts\VenueHosting.Contracts.csproj", "{9D90B376-4CF3-4A8C-93EB-701EB8EB08BC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D4B5B13E-FFEA-4891-B7E8-5639B8B5180F}"
+	ProjectSection(SolutionItems) = preProject
+		run-docker-compose.sh = run-docker-compose.sh
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

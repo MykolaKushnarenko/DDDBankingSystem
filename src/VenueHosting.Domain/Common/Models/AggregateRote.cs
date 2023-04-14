@@ -1,15 +1,20 @@
+using VenueHosting.Domain.Common.DomainEvents;
+
 namespace VenueHosting.Domain.Common.Models;
 
-public abstract class AggregateRote<TId, TIdType> : Entity<TId>
+public abstract class AggregateRote<TId, TIdType> : Entity<TId>, IAggregateRote
 where TId : AggregateRootId<TIdType>
 {
     public new AggregateRootId<TIdType> Id { get; protected set; }
 
-    protected AggregateRote(TId id) : base(id)
+    protected AggregateRote(TId id)
     {
+        Id = id;
     }
 
     protected AggregateRote()
     {
     }
 }
+
+public interface IAggregateRote{}

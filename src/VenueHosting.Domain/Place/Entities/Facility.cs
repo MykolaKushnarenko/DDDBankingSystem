@@ -20,7 +20,7 @@ public class Facility : Entity<FacilityId>
 
     public int Quantity { get; private set; }
 
-    public Facility Create(string name, string description, int quantity)
+    public static Facility Create(string name, string description, int quantity)
     {
         return new Facility(FacilityId.CreateUnique(), name, description, quantity);
     }

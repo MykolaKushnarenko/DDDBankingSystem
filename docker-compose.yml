@@ -1,0 +1,47 @@
+version: '3.4'
+
+services:
+
+  shared-ports:
+    image: alpine
+    entrypoint: tail -f /dev/null
+    ports:
+      - 1433:1433     # sql port
+      - 15672:15672   # rabbitmq
+      - 15671:15671   # rabbitmq
+      - 5671:5671     # rabbitmq
+      - 5672:5672     # rabbitmq
+      - 6379:6379     # redis
+      - 15341:80      # seq
+      - 27017:27017   # mongodb
+
+  seq:
+    image: datalust/seq:latest
+    environment:
+      - ACCEPT_EULA=Y
+    network_mode: service:shared-ports
+
+  sql.data:
+    image: "mcr.microsoft.com/azure-sql-edge"
+    environment:
+      - SA_PASSWORD=Qwerty123$$% #There is a spec symbol here.
+      - ACCEPT_EULA=Y
+    network_mode: service:shared-ports
+
+#  redis:
+#    image: redis:alpine
+#    network_mode: service:shared-ports
+
+#  rabbitmq:
+#    image: rabbitmq:3.7.8-management
+#    network_mode: service:shared-ports
+
+#  mongodb:
+#    image: mongo:latest
+#    network_mode: service:shared-ports
+#    command: ["--bind_ip_all", "--replSet", "rs0"]
+#    healthcheck:
+#        test: test $$(echo "rs.status().ok || rs.initiate({_id:'rs0',members:[{_id:0,host:'127.0.0.1:27017'}]}).ok" | mongo --quiet) -eq 1
+#        interval: 10s
+#        start_period: 60s
+

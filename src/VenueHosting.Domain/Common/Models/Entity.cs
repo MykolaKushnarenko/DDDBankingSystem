@@ -1,6 +1,8 @@
+using VenueHosting.Domain.Common.DomainEvents;
+
 namespace VenueHosting.Domain.Common.Models;
 
-public abstract class Entity<TId> : IEquatable<Entity<TId>> where TId: notnull
+public abstract class Entity<TId> : Entity, IEquatable<Entity<TId>> where TId: notnull
 {
     public TId Id { get; protected set; }
 
@@ -34,5 +36,27 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>> where TId: notnull
     public override int GetHashCode()
     {
         return Id.GetHashCode();
+    }
+}
+
+public class Entity
+{
+    private List<IDomainEvent> _domainEvents;
+    public List<IDomainEvent> DomainEvents => _domainEvents;
+
+    public void AddDomainEvent(IDomainEvent eventItem)
+    {
+        _domainEvents ??= new List<IDomainEvent>();
+        _domainEvents.Add(eventItem);
+    }
+
+    public void RemoveDomainEvent(IDomainEvent eventItem)
+    {
+        _domainEvents?.Remove(eventItem);
+    }
+
+    public void ClearDomainEvents()
+    {
+        _domainEvents?.Clear();
     }
 }
