@@ -1,5 +1,3 @@
-using VenueHosting.Domain.Common.DomainEvents;
-
 namespace VenueHosting.Domain.Common.Models;
 
 public abstract class AggregateRote<TId, TIdType> : Entity<TId>, IAggregateRote

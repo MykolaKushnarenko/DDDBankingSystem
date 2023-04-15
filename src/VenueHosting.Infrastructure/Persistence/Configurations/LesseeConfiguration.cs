@@ -43,6 +43,8 @@ internal sealed class LesseeConfiguration : IEntityTypeConfiguration<Lessee>
         {
             navigationBuilder.WithOwner().HasForeignKey("LesseeId");
 
+            navigationBuilder.ToTable("LesseeReviewIds");
+
             navigationBuilder.HasKey("Id");
 
             navigationBuilder

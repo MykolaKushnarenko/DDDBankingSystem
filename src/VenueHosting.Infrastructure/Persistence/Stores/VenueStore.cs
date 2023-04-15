@@ -40,6 +40,11 @@ internal sealed class VenueStore : IVenueStore
         await _dbContext.Venues.AddAsync(venue);
     }
 
+    public async Task<Venue?> FetchBySpecification(ISpecification<Venue> specification, CancellationToken token)
+    {
+        return await SpecificationEvaluator<Venue>.GetQuery(_dbContext.Venues, specification).FirstOrDefaultAsync(token);
+    }
+
     public async Task<IReadOnlyList<Venue>> FetchAllBySpecificationAsync(ISpecification<Venue> specification, CancellationToken token)
     {
         return await SpecificationEvaluator<Venue>.GetQuery(_dbContext.Venues, specification).ToListAsync(token);

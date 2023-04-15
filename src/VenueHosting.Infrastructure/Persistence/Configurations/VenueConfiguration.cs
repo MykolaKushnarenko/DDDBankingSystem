@@ -44,7 +44,7 @@ internal sealed class VenueConfiguration : IEntityTypeConfiguration<Venue>
         {
             navigationBuilder.WithOwner().HasForeignKey("VenueId");
 
-            navigationBuilder.ToTable("ReservationIds");
+            navigationBuilder.ToTable("VenueReservationIds");
 
             navigationBuilder.HasKey("Id");
 
@@ -64,7 +64,7 @@ internal sealed class VenueConfiguration : IEntityTypeConfiguration<Venue>
         {
             ownedNavigationBuilder.WithOwner().HasForeignKey("VenueId");
 
-            ownedNavigationBuilder.ToTable("Activities");
+            ownedNavigationBuilder.ToTable("VenueActivities");
 
             ownedNavigationBuilder.HasKey("Id");
 

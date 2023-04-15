@@ -47,13 +47,29 @@ public class Place : AggregateRote<PlaceId, Guid>
         Address = address;
     }
 
-    public void SetStatusToPending()
+    public void ReservePlace()
     {
-        Status = PlaceStatus.Pending;
+        if (Status is PlaceStatus.Reserved)
+        {
+            throw new AggregateException("Place already reserved.");
+        }
+
+
+        Status = PlaceStatus.Reserved;
     }
 
-    public void SetStatusToBooked()
+    public void BookPlace()
     {
+        if (Status is PlaceStatus.Booked)
+        {
+            throw new AggregateException("Cannot book already booked place.");
+        }
+
         Status = PlaceStatus.Booked;
+    }
+
+    public void FreePlace()
+    {
+        Status = PlaceStatus.Free;
     }
 }

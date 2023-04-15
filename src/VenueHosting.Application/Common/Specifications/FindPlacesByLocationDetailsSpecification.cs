@@ -1,7 +1,6 @@
 using System.Linq.Expressions;
-using VenueHosting.Application.Common.Specifications;
 
-namespace VenueHosting.Application.Features.Venue.FindVenuesByLocation.Specifications;
+namespace VenueHosting.Application.Common.Specifications;
 
 public sealed class FindPlacesByLocationDetailsSpecification : BaseSpecification<Domain.Place.Place>
 {

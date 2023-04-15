@@ -15,17 +15,35 @@ internal sealed class PlaceStore : IPlaceStore
         _dbContext = dbContext;
     }
 
+    public async Task<bool> CheckIfPlaceExistAsync(FindPlaceByPlaceIdSpecification specification,
+        CancellationToken token)
+    {
+        return await SpecificationEvaluator<Place>.GetQuery(_dbContext.Places, specification).AnyAsync(token);
+    }
+
     public async Task<IReadOnlyList<Place>> FetchAllAsync(CancellationToken token)
     {
         //TODO: That's critical, add with cursor paging.
         return await _dbContext.Places.ToListAsync(token);
     }
-    
+
 
     public async Task AddAsync(Place place, CancellationToken token)
     {
 
         await _dbContext.Places.AddAsync(place, token);
+    }
+
+    public Task UpdateAsync(Place place)
+    {
+        _dbContext.Places.Update(place);
+
+        return Task.CompletedTask;
+    }
+
+    public async Task<Place?> FetchBySpecification(ISpecification<Place> specification, CancellationToken token)
+    {
+        return await SpecificationEvaluator<Place>.GetQuery(_dbContext.Places, specification).FirstOrDefaultAsync(token);
     }
 
     public async Task<IReadOnlyList<Place>> FetchAllBySpecificationAsync(ISpecification<Place> specification, CancellationToken token)

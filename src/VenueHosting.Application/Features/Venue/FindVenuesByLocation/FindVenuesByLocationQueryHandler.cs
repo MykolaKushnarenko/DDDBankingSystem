@@ -1,6 +1,6 @@
 using MediatR;
 using VenueHosting.Application.Common.Persistence;
-using VenueHosting.Application.Features.Venue.FindVenuesByLocation.Specifications;
+using VenueHosting.Application.Common.Specifications;
 using VenueHosting.Domain.Place.ValueObjects;
 
 namespace VenueHosting.Application.Features.Venue.FindVenuesByLocation;

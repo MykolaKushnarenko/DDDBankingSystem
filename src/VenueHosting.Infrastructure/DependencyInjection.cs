@@ -11,7 +11,7 @@ using VenueHosting.Application.Common.Persistence.AtomicScope;
 using VenueHosting.Infrastructure.Authentication;
 using VenueHosting.Infrastructure.Configuration;
 using VenueHosting.Infrastructure.Persistence;
-using VenueHosting.Infrastructure.Persistence.AtomicScopeFactory;
+using VenueHosting.Infrastructure.Persistence.AtomicScope;
 using VenueHosting.Infrastructure.Persistence.Stores;
 using VenueHosting.Infrastructure.Services;
 
@@ -27,12 +27,13 @@ public static class DependencyInjection
         serviceCollection.AddScoped<IUserStore, UserStore>();
         serviceCollection.AddScoped<IPlaceStore, PlaceStore>();
         serviceCollection.AddScoped<IVenueStore, VenueStore>();
+        serviceCollection.AddScoped<ILesseeStore, LesseeStore>();
+
         serviceCollection.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
         serviceCollection.AddScoped<IAtomicScope, AtomicScope>();
 
         serviceCollection.AddPersistence();
-
 
         return serviceCollection;
     }

@@ -69,6 +69,11 @@ internal sealed class PlaceConfiguration : IEntityTypeConfiguration<Place>
                 id => id.Value,
                 value => OwnerId.Create(value));
 
+        builder.Property(x => x.Status)
+            .HasColumnName("Status")
+            .HasConversion(status => status.ToString(),
+                value => (PlaceStatus)Enum.Parse(typeof(PlaceStatus), value));
+
         builder.OwnsOne(x => x.Address);
     }
 }

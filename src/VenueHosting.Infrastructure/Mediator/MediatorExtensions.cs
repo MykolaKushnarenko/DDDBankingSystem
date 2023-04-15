@@ -3,11 +3,11 @@ using VenueHosting.Domain.Common.DomainEvents;
 using VenueHosting.Domain.Common.Models;
 using VenueHosting.Infrastructure.Persistence;
 
-namespace VenueHosting.Infrastructure.DomainEvents;
+namespace VenueHosting.Infrastructure.Mediator;
 
 internal static class MediatorExtensions
 {
-    public static async Task DispatchEventsAsync(this IMediator mediator, VenueHostingDbContext context)
+    public static async Task DispatchEventsAsync(this IPublisher mediator, VenueHostingDbContext context)
     {
         var aggregateRoots = context.ChangeTracker
             .Entries<Entity>()
@@ -24,7 +24,7 @@ internal static class MediatorExtensions
         ClearDomainEvents(aggregateRoots);
     }
 
-    private static async Task DispatchDomainEventsAsync(this IMediator mediator, List<IDomainEvent> domainEvents)
+    private static async Task DispatchDomainEventsAsync(this IPublisher mediator, List<IDomainEvent> domainEvents)
     {
         foreach (IDomainEvent domainEvent in domainEvents)
         {

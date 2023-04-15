@@ -31,4 +31,9 @@ public class Lessee : AggregateRote<LesseeId, Guid>
     {
         return new Lessee(LesseeId.CreateUnique(), userId);
     }
+
+    public void AddRegistredVenue(VenueId venueId)
+    {
+        _venueIds.Add(venueId);
+    }
 }

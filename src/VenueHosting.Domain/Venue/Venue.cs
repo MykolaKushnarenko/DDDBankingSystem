@@ -4,6 +4,7 @@ using VenueHosting.Domain.Lessee.ValueObjects;
 using VenueHosting.Domain.Owner.ValueObjects;
 using VenueHosting.Domain.Place.ValueObjects;
 using VenueHosting.Domain.Reservation.ValueObjects;
+using VenueHosting.Domain.Venue.DomainEvents;
 using VenueHosting.Domain.Venue.Entities;
 using VenueHosting.Domain.Venue.ValueObjects;
 using VenueHosting.Domain.VenueReview.ValueObjects;
@@ -46,7 +47,7 @@ public class Venue : AggregateRote<VenueId, Guid>
         CreatedAtDateTime = createdAtDateTime;
         UpdatedAtDateTime = updatedAtDateTime;
 
-        //Venue registred 
+        AddDomainEvent(new VenueOrganizedDomainEvent(venueId, PlaceId, LesseeId));
     }
 
     public OwnerId OwnerId { get; private set; }
@@ -77,7 +78,7 @@ public class Venue : AggregateRote<VenueId, Guid>
 
     public DateTime UpdatedAtDateTime { get; private set; }
 
-    public static Venue Create(
+    public static Venue Organize(
         OwnerId ownerId,
         LesseeId lesseeId,
         PlaceId placeId,

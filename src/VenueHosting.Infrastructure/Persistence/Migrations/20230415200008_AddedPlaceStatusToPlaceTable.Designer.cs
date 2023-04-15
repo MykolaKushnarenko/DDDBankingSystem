@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VenueHosting.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using VenueHosting.Infrastructure.Persistence;
 namespace VenueHosting.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(VenueHostingDbContext))]
-    partial class VenueHostingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230415200008_AddedPlaceStatusToPlaceTable")]
+    partial class AddedPlaceStatusToPlaceTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -343,7 +346,7 @@ namespace VenueHosting.Infrastructure.Persistence.Migrations
 
                             b1.HasIndex("AttendeeId");
 
-                            b1.ToTable("AttendeeReservationIds", null, t =>
+                            b1.ToTable("Attendees_ReservationIds", t =>
                                 {
                                     t.Property("Id")
                                         .HasColumnName("Id1");
@@ -372,7 +375,7 @@ namespace VenueHosting.Infrastructure.Persistence.Migrations
 
                             b1.HasIndex("AttendeeId");
 
-                            b1.ToTable("AttendeeVenueIds", null, t =>
+                            b1.ToTable("Attendees_VenueIds", t =>
                                 {
                                     t.Property("Id")
                                         .HasColumnName("Id1");
@@ -401,7 +404,7 @@ namespace VenueHosting.Infrastructure.Persistence.Migrations
 
                             b1.HasIndex("AttendeeId");
 
-                            b1.ToTable("AttendeeReviewIds", (string)null);
+                            b1.ToTable("AttendeeReviewId");
 
                             b1.WithOwner()
                                 .HasForeignKey("AttendeeId");
@@ -426,7 +429,7 @@ namespace VenueHosting.Infrastructure.Persistence.Migrations
 
                             b1.HasIndex("AttendeeId");
 
-                            b1.ToTable("AttendeeBillIds", null, t =>
+                            b1.ToTable("BillId", t =>
                                 {
                                     t.Property("Id")
                                         .HasColumnName("Id1");
@@ -521,7 +524,7 @@ namespace VenueHosting.Infrastructure.Persistence.Migrations
 
                             b1.HasIndex("LesseeId");
 
-                            b1.ToTable("LesseeReviewIds", null, t =>
+                            b1.ToTable("LesseeReviewId", t =>
                                 {
                                     t.Property("Id")
                                         .HasColumnName("Id1");
@@ -557,7 +560,7 @@ namespace VenueHosting.Infrastructure.Persistence.Migrations
 
                             b1.HasIndex("OwnerId");
 
-                            b1.ToTable("OwnerPlaceIds", null, t =>
+                            b1.ToTable("PlaceId", t =>
                                 {
                                     t.Property("Id")
                                         .HasColumnName("Id1");
@@ -666,7 +669,7 @@ namespace VenueHosting.Infrastructure.Persistence.Migrations
 
                             b1.HasIndex("VenueId");
 
-                            b1.ToTable("VenueActivities", (string)null);
+                            b1.ToTable("Activities", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("VenueId");
@@ -691,7 +694,7 @@ namespace VenueHosting.Infrastructure.Persistence.Migrations
 
                             b1.HasIndex("VenueId");
 
-                            b1.ToTable("VenueReservationIds", (string)null);
+                            b1.ToTable("ReservationIds", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("VenueId");

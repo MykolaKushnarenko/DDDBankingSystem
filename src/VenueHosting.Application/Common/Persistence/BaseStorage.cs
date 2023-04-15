@@ -5,5 +5,7 @@ namespace VenueHosting.Application.Common.Persistence;
 
 public interface IStorageSpecification<T> where T : IAggregateRote
 {
+    Task<T?> FetchBySpecification(ISpecification<T> specification, CancellationToken token);
+
     Task<IReadOnlyList<T>> FetchAllBySpecificationAsync(ISpecification<T> specification, CancellationToken token);
 }

@@ -31,6 +31,8 @@ internal sealed class OwnerConfiguration : IEntityTypeConfiguration<Owner>
         {
             navigationBuilder.WithOwner().HasForeignKey("OwnerId");
 
+            navigationBuilder.ToTable("OwnerPlaceIds");
+
             navigationBuilder.HasKey("Id");
 
             navigationBuilder

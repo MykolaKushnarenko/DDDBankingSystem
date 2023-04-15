@@ -31,6 +31,8 @@ internal sealed class AttendeeConfiguration : IEntityTypeConfiguration<Attendee>
         {
             navigationBuilder.WithOwner().HasForeignKey("AttendeeId");
 
+            navigationBuilder.ToTable("AttendeeReservationIds");
+
             navigationBuilder.HasKey("Id");
 
             navigationBuilder
@@ -42,6 +44,8 @@ internal sealed class AttendeeConfiguration : IEntityTypeConfiguration<Attendee>
         builder.OwnsMany(x => x.VenueIds, navigationBuilder =>
         {
             navigationBuilder.WithOwner().HasForeignKey("AttendeeId");
+
+            navigationBuilder.ToTable("AttendeeVenueIds");
 
             navigationBuilder.HasKey("Id");
 
@@ -55,6 +59,8 @@ internal sealed class AttendeeConfiguration : IEntityTypeConfiguration<Attendee>
         {
             navigationBuilder.WithOwner().HasForeignKey("AttendeeId");
 
+            navigationBuilder.ToTable("AttendeeBillIds");
+
             navigationBuilder.HasKey("Id");
 
             navigationBuilder
@@ -66,6 +72,8 @@ internal sealed class AttendeeConfiguration : IEntityTypeConfiguration<Attendee>
         builder.OwnsMany(x => x.AttendeeReviewIds, navigationBuilder =>
         {
             navigationBuilder.WithOwner().HasForeignKey("AttendeeId");
+
+            navigationBuilder.ToTable("AttendeeReviewIds");
 
             navigationBuilder.HasKey("Id");
 
