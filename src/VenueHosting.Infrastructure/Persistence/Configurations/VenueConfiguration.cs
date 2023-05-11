@@ -117,6 +117,11 @@ internal sealed class VenueConfiguration : IEntityTypeConfiguration<Venue>
                 id => id.Value,
                 value => OwnerId.Create(value));
 
+        builder.Property(x => x.Status)
+            .HasColumnName("Status")
+            .HasConversion(status => status.ToString(),
+                value => (VenueStatus)Enum.Parse(typeof(VenueStatus), value));
+
         builder
             .Property(x => x.EventName)
             .HasMaxLength(100);

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VenueHosting.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using VenueHosting.Infrastructure.Persistence;
 namespace VenueHosting.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(VenueHostingDbContext))]
-    partial class VenueHostingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230511184404_VenueStatus")]
+    partial class VenueStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
