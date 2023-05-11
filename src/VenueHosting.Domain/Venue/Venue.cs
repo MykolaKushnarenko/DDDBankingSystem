@@ -46,8 +46,6 @@ public class Venue : AggregateRote<VenueId, Guid>
         EndAtDateTime = endAtDateTime;
         CreatedAtDateTime = createdAtDateTime;
         UpdatedAtDateTime = updatedAtDateTime;
-
-        AddDomainEvent(new VenueOrganizedDomainEvent(venueId, PlaceId, LesseeId));
     }
 
     public OwnerId OwnerId { get; private set; }
@@ -78,7 +76,7 @@ public class Venue : AggregateRote<VenueId, Guid>
 
     public DateTime UpdatedAtDateTime { get; private set; }
 
-    public static Venue Organize(
+    public static Venue Create(
         OwnerId ownerId,
         LesseeId lesseeId,
         PlaceId placeId,
@@ -88,7 +86,9 @@ public class Venue : AggregateRote<VenueId, Guid>
         DateTime startAtDateTime,
         DateTime endAtDateTime)
     {
-        return new Venue(VenueId.CreateUnique(),
+        VenueId id = VenueId.CreateUnique();
+
+        var venue = new Venue(VenueId.CreateUnique(),
             ownerId,
             lesseeId,
             placeId,
@@ -99,6 +99,10 @@ public class Venue : AggregateRote<VenueId, Guid>
             endAtDateTime,
             DateTime.UtcNow,
             DateTime.UtcNow);
+
+        venue.AddDomainEvent(new VenueOrganizedDomainEvent(id, venue.PlaceId, venue.LesseeId));
+
+        return venue;
     }
 
     public void AddActivity(Activity activity)

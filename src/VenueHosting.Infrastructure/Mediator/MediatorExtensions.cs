@@ -1,6 +1,5 @@
 using MediatR;
 using VenueHosting.Domain.Common.DomainEvents;
-using VenueHosting.Domain.Common.Models;
 using VenueHosting.Infrastructure.Persistence;
 
 namespace VenueHosting.Infrastructure.Mediator;
@@ -9,9 +8,9 @@ internal static class MediatorExtensions
 {
     public static async Task DispatchEventsAsync(this IPublisher mediator, VenueHostingDbContext context)
     {
-        var aggregateRoots = context.ChangeTracker
-            .Entries<Entity>()
-            .Where(x => x.Entity != null && x.Entity.DomainEvents.Any())
+        List<IHasDomainEvents> aggregateRoots = context.ChangeTracker
+            .Entries<IHasDomainEvents>()
+            .Where(x => x.Entity.DomainEvents.Any())
             .Select(e => e.Entity)
             .ToList();
 
@@ -32,7 +31,7 @@ internal static class MediatorExtensions
         }
     }
 
-    private static void ClearDomainEvents(List<Entity> aggregateRoots)
+    private static void ClearDomainEvents(List<IHasDomainEvents> aggregateRoots)
     {
         aggregateRoots.ForEach(aggregate => aggregate.ClearDomainEvents());
     }

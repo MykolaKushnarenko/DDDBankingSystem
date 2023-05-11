@@ -20,7 +20,7 @@ internal sealed class OrganizeVenueCommandHandler : IRequestHandler<OrganizeVenu
 
     public async Task<Domain.Venue.Venue> Handle(OrganizeVenueCommand request, CancellationToken cancellationToken)
     {
-        bool placeExist = await _placeStore.CheckIfPlaceExistAsync(new FindPlaceByPlaceIdSpecification(request.placeId),
+        bool placeExist = await _placeStore.CheckIfPlaceExistAsync(new FindPlaceByPlaceIdSpecification(request.PlaceId),
             cancellationToken);
 
         if (!placeExist)
@@ -28,15 +28,15 @@ internal sealed class OrganizeVenueCommandHandler : IRequestHandler<OrganizeVenu
             throw new ArgumentException("Place doesn't exist.");
         }
 
-        Domain.Venue.Venue venue = Domain.Venue.Venue.Organize(
-            request.ownerId,
-            request.lesseeId,
-            request.placeId,
-            request.eventName,
-            request.description,
-            request.isPublic,
-            request.startAtDateTime,
-            request.endAtDateTime);
+        Domain.Venue.Venue venue = Domain.Venue.Venue.Create(
+            request.OwnerId,
+            request.LesseeId,
+            request.PlaceId,
+            request.EventName,
+            request.Description,
+            request.IsPublic,
+            request.StartAtDateTime,
+            request.EndAtDateTime);
 
         await _venueStore.AddAsync(venue);
 

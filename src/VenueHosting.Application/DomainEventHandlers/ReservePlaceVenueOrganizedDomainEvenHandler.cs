@@ -17,9 +17,11 @@ internal sealed class
 
     public async Task Handle(VenueOrganizedDomainEvent notification, CancellationToken cancellationToken)
     {
-        Domain.Place.Place place = await _placeStore.FetchBySpecification(
+        Domain.Place.Place? place = await _placeStore.FetchBySpecification(
             new FindPlaceByPlaceIdSpecification(notification.PlaceId),
             cancellationToken);
+
+        ArgumentNullException.ThrowIfNull(place);
 
         place.ReservePlace();
     }

@@ -2,9 +2,13 @@ using VenueHosting.Domain.Common.DomainEvents;
 
 namespace VenueHosting.Domain.Common.Models;
 
-public abstract class Entity<TId> : Entity, IEquatable<Entity<TId>> where TId: notnull
+public abstract class Entity<TId> : IHasDomainEvents, IEquatable<Entity<TId>> where TId: notnull
 {
     public TId Id { get; protected set; }
+
+    private List<IDomainEvent>? _domainEvents;
+
+    public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents;
 
     protected Entity()
     {
@@ -37,22 +41,11 @@ public abstract class Entity<TId> : Entity, IEquatable<Entity<TId>> where TId: n
     {
         return Id.GetHashCode();
     }
-}
-
-public class Entity
-{
-    private List<IDomainEvent> _domainEvents;
-    public List<IDomainEvent> DomainEvents => _domainEvents;
 
     public void AddDomainEvent(IDomainEvent eventItem)
     {
         _domainEvents ??= new List<IDomainEvent>();
         _domainEvents.Add(eventItem);
-    }
-
-    public void RemoveDomainEvent(IDomainEvent eventItem)
-    {
-        _domainEvents?.Remove(eventItem);
     }
 
     public void ClearDomainEvents()

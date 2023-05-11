@@ -13,7 +13,7 @@ using VenueHosting.Domain.VenueReview;
 
 namespace VenueHosting.Infrastructure.Persistence;
 
-public class VenueHostingDbContext : DbContext
+internal sealed class VenueHostingDbContext : DbContext
 {
     public VenueHostingDbContext(DbContextOptions<VenueHostingDbContext> options) : base(options)
     {
