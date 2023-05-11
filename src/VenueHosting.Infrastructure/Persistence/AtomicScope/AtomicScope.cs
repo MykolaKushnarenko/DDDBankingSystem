@@ -17,6 +17,7 @@ internal sealed class AtomicScope : IAtomicScope
 
     public async Task CommitAsync(CancellationToken token)
     {
+        //Dispatch all domain events before commiting a transaction.
         await _publisher.DispatchEventsAsync(_dbContext);
 
         await _dbContext.SaveChangesAsync(token);

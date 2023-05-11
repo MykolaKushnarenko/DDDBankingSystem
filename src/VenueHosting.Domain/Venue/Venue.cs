@@ -13,11 +13,11 @@ namespace VenueHosting.Domain.Venue;
 
 public class Venue : AggregateRote<VenueId, Guid>
 {
-    private List<Activity> _activities = new();
+    private readonly List<Activity> _activities = new();
 
-    private List<VenueReviewId> _venueReviewIds = new();
+    private readonly List<VenueReviewId> _venueReviewIds = new();
 
-    private List<ReservationId> _reservationIds = new();
+    private readonly List<ReservationId> _reservationIds = new();
 
     private Venue()
     {
@@ -46,6 +46,7 @@ public class Venue : AggregateRote<VenueId, Guid>
         EndAtDateTime = endAtDateTime;
         CreatedAtDateTime = createdAtDateTime;
         UpdatedAtDateTime = updatedAtDateTime;
+        Status = VenueStatus.InPayment;
     }
 
     public OwnerId OwnerId { get; private set; }
@@ -61,6 +62,8 @@ public class Venue : AggregateRote<VenueId, Guid>
     public string EventName { get; private set; }
 
     public bool IsPublic { get; private set; }
+
+    public VenueStatus Status { get; private set; }
 
     public IReadOnlyList<Activity> Activities => _activities.ToList().AsReadOnly();
 
@@ -140,5 +143,10 @@ public class Venue : AggregateRote<VenueId, Guid>
 
         EventName = eventName;
         Description = description;
+    }
+
+    public void Organize()
+    {
+        Status = VenueStatus.Organized;
     }
 }

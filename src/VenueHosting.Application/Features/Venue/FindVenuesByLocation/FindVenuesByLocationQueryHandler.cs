@@ -25,11 +25,11 @@ internal sealed class FindVenuesByLocationQueryHandler : IRequestHandler<FindVen
         IReadOnlyList<Domain.Place.Place> nearbyPlaces =
             await _placeStore.FetchAllBySpecificationAsync(findPlacesByLocationDetailsSpecification, cancellationToken);
 
-        FindVenuesByPlaceIdsSpecification findVenuesByPlaceIdsSpec =
-            new FindVenuesByPlaceIdsSpecification(nearbyPlaces.Select(x => PlaceId.Create(x.Id.Value)).ToList());
+        FindUpcomingVenuesByPlaceIdsSpecification findUpcomingVenuesByPlaceIdsSpec =
+            new FindUpcomingVenuesByPlaceIdsSpecification(nearbyPlaces.Select(x => PlaceId.Create(x.Id.Value)).ToList());
 
         IReadOnlyList<Domain.Venue.Venue?> nearbyVenues =
-            await _venueStore.FetchAllBySpecificationAsync(findVenuesByPlaceIdsSpec, cancellationToken);
+            await _venueStore.FetchAllBySpecificationAsync(findUpcomingVenuesByPlaceIdsSpec, cancellationToken);
 
         return nearbyVenues;
     }

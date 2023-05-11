@@ -30,7 +30,8 @@ internal static class SpecificationEvaluator<TAggregateRote> where TAggregateRot
         // Apply paging if enabled
         if (specification.IsPagingEnabled)
         {
-            query = query.Skip(specification.Skip)
+            query = query
+                .Skip(specification.Skip)
                 .Take(specification.Take);
         }
 

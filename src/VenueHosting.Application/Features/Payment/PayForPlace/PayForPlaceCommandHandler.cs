@@ -20,11 +20,15 @@ public class PayForPlaceCommandHandler : IRequestHandler<PayForPlaceCommand, Uni
     {
         //Introduce payment process.
 
-        Domain.Place.Place? place = await _placeStore.FetchBySpecification(new FindPlaceByPlaceIdSpecification(request.PlaceId), cancellationToken);
+        Domain.Place.Place? place =
+            await _placeStore.FetchBySpecification(new FindPlaceByPlaceIdSpecification(request.PlaceId),
+                cancellationToken);
+
+        ArgumentNullException.ThrowIfNull(place);
 
         place.BookPlace();
 
-        _placeStore.UpdateAsync(place);
+        await _placeStore.UpdateAsync(place);
 
         await _atomicScope.CommitAsync(cancellationToken);
 
