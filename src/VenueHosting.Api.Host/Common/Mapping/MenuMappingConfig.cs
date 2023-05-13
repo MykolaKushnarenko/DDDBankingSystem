@@ -1,9 +1,9 @@
 // using Mapster;
-// using VenueHosting.Application.Features.Menus.Commands.CreateMenu;
+// using VenueHosting.Module.User.Application.Features.Menus.Commands.CreateMenu;
 // using VenueHosting.Contracts.Manus;
-// using VenueHosting.Domain.Menu;
-// using VenueHosting.Domain.Menu.Entities;
-// using MenuSection = VenueHosting.Domain.Menu.Entities.MenuSection;
+// using VenueHosting.Module.User.Domain.Menu;
+// using VenueHosting.Module.User.Domain.Menu.Entities;
+// using MenuSection = VenueHosting.Module.User.Domain.Menu.Entities.MenuSection;
 //
 // namespace VenueHosting.Api.Host.Common.Mapping;
 //

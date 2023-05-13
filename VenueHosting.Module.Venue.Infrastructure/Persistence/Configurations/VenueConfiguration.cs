@@ -1,0 +1,133 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using VenueHosting.Module.Venue.Domain.Place.ValueObjects;
+using VenueHosting.Module.Venue.Domain.Venue.ValueObjects;
+
+namespace VenueHosting.Module.Venue.Infrastructure.Persistence.Configurations;
+
+internal sealed class VenueConfiguration : IEntityTypeConfiguration<Domain.Venue.Venue>
+{
+    public void Configure(EntityTypeBuilder<Domain.Venue.Venue> builder)
+    {
+        ConfigureVenueTable(builder);
+        ConfigureVenueActivityTable(builder);
+        ConfigureReservationIdsTable(builder);
+        ConfigureVenueReviewIdsTable(builder);
+    }
+
+    private void ConfigureVenueReviewIdsTable(EntityTypeBuilder<Domain.Venue.Venue> builder)
+    {
+        builder.OwnsMany(x => x.VenueReviewIds, navigationBuilder =>
+        {
+            navigationBuilder.WithOwner().HasForeignKey("VenueId");
+
+            navigationBuilder.ToTable("VenueReviewIds");
+
+            navigationBuilder.HasKey("Id");
+
+            navigationBuilder.Property(d => d.Value)
+                .HasColumnName("VenueReviewId")
+                .ValueGeneratedNever();
+        });
+
+        builder.Metadata
+            .FindNavigation(nameof(Domain.Venue.Venue.VenueReviewIds))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
+    }
+
+    private void ConfigureReservationIdsTable(EntityTypeBuilder<Domain.Venue.Venue> builder)
+    {
+        builder.OwnsMany(x => x.ReservationIds, navigationBuilder =>
+        {
+            navigationBuilder.WithOwner().HasForeignKey("VenueId");
+
+            navigationBuilder.ToTable("VenueReservationIds");
+
+            navigationBuilder.HasKey("Id");
+
+            navigationBuilder.Property(d => d.Value)
+                .HasColumnName("ReservationId")
+                .ValueGeneratedNever();
+        });
+
+        builder.Metadata
+            .FindNavigation(nameof(Domain.Venue.Venue.ReservationIds))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
+    }
+
+    private void ConfigureVenueActivityTable(EntityTypeBuilder<Domain.Venue.Venue> builder)
+    {
+        builder.OwnsMany(x => x.Activities, ownedNavigationBuilder =>
+        {
+            ownedNavigationBuilder.WithOwner().HasForeignKey("VenueId");
+
+            ownedNavigationBuilder.ToTable("VenueActivities");
+
+            ownedNavigationBuilder.HasKey("Id");
+
+            ownedNavigationBuilder.Property(s => s.Id)
+                .HasColumnName("ActivityId")
+                .ValueGeneratedNever()
+                .HasConversion(
+                    id => id.Value,
+                    value => ActivityId.Create(value));
+
+            ownedNavigationBuilder.Property(x => x.Name)
+                .HasMaxLength(100);
+
+            ownedNavigationBuilder.Property(x => x.Description)
+                .HasMaxLength(100);
+        });
+
+        builder.Metadata
+            .FindNavigation(nameof(Domain.Venue.Venue.Activities))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
+    }
+
+    private void ConfigureVenueTable(EntityTypeBuilder<Domain.Venue.Venue> builder)
+    {
+        builder.ToTable("Venues");
+        builder.HasKey("Id");
+
+        builder
+            .Property(x => x.Id)
+            .ValueGeneratedNever()
+            .HasConversion(
+                id => id.Value,
+                value => VenueId.Create(value));
+
+        builder
+            .Property(x => x.PlaceId)
+            .HasConversion(
+                id => id.Value,
+                value => PlaceId.Create(value));
+
+        builder
+            .Property(x => x.LesseeId)
+            .HasConversion(
+                id => id.Value,
+                value => LesseeId.Create(value));
+
+        builder
+            .Property(x => x.OwnerId)
+            .HasConversion(
+                id => id.Value,
+                value => OwnerId.Create(value));
+
+        builder.Property(x => x.Status)
+            .HasColumnName("Status")
+            .HasConversion(status => status.ToString(),
+                value => (VenueStatus)Enum.Parse(typeof(VenueStatus), value));
+
+        builder
+            .Property(x => x.EventName)
+            .HasMaxLength(100);
+
+        builder
+            .Property(x => x.Description)
+            .HasMaxLength(100);
+
+        builder.Property(x => x.IsPublic)
+            .HasDefaultValue(true);
+    }
+}

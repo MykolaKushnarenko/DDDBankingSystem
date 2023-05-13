@@ -1,0 +1,12 @@
+using VenueHosting.Module.Place.Domain.Place.ValueObjects;
+using VenueHosting.SharedKernel.Specifications;
+
+namespace VenueHosting.Module.Place.Application.Common.Specifications;
+
+public sealed class FindPlaceByPlaceIdSpecification : BaseSpecification<VenueHosting.Domain.Place.Place>
+{
+    public FindPlaceByPlaceIdSpecification(PlaceId id)
+    {
+        AddCriteria(x => x.Id == id);
+    }
+}

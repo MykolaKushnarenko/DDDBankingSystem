@@ -1,6 +1,8 @@
 using VenueHosting.Api.Host;
 using VenueHosting.Application;
 using VenueHosting.Infrastructure;
+using VenueHosting.Module.User.Application;
+using VenueHosting.Module.User.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 {
