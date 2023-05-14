@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Common\Persistence\" />
+      <Folder Include="Common\Specifications\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\VenueHosting.Module.Venue.Domain\VenueHosting.Module.Venue.Domain.csproj" />
+      <ProjectReference Include="..\..\VenueHosting.SharedKernel\VenueHosting.SharedKernel.csproj" />
+      <ProjectReference Include="..\VenueHosting.Module.Payment.Domain\VenueHosting.Module.Payment.Domain.csproj" />
+      <ProjectReference Include="..\VenueHosting.Module.Place.Domain\VenueHosting.Module.Place.Domain.csproj" />
+    </ItemGroup>
+
+</Project>

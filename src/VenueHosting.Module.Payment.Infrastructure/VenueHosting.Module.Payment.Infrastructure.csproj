@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\VenueHosting.Module.Venue.Application\VenueHosting.Module.Venue.Application.csproj" />
+      <ProjectReference Include="..\..\VenueHosting.SharedKernel\VenueHosting.SharedKernel.csproj" />
+      
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.4" />
+      
+      <ProjectReference Include="..\VenueHosting.Module.Payment.Domain\VenueHosting.Module.Payment.Domain.csproj" />
+    </ItemGroup>
+
+</Project>
