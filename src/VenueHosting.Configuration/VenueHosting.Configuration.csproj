@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VenueHosting.Module.Attendee.Infrastructure\VenueHosting.Module.Attendee.Infrastructure.csproj" />
+    <ProjectReference Include="..\VenueHosting.Module.Lessee.Infrastructure\VenueHosting.Module.Lessee.Infrastructure.csproj" />
+    <ProjectReference Include="..\VenueHosting.Module.Payment.Infrastructure\VenueHosting.Module.Payment.Infrastructure.csproj" />
+    <ProjectReference Include="..\VenueHosting.Module.Place.Api\VenueHosting.Module.Place.Api.csproj" />
+    <ProjectReference Include="..\VenueHosting.Module.Place.Infrastructure\VenueHosting.Module.Place.Infrastructure.csproj" />
+    <ProjectReference Include="..\VenueHosting.Module.User.Infrastructure\VenueHosting.Module.User.Infrastructure.csproj" />
+    <ProjectReference Include="..\VenueHosting.Module.Venue.Api\VenueHosting.Module.Venue.Api.csproj" />
+    <ProjectReference Include="..\VenueHosting.Module.Venue.Infrastructure\VenueHosting.Module.Venue.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>

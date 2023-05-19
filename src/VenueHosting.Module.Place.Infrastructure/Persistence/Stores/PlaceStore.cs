@@ -7,9 +7,9 @@ namespace VenueHosting.Module.Place.Infrastructure.Persistence.Stores;
 
 internal sealed class PlaceStore : IPlaceStore
 {
-    private readonly ApplicationDbContext _dbContext;
+    private readonly PlaceApplicationDbContext _dbContext;
 
-    public PlaceStore(ApplicationDbContext dbContext)
+    public PlaceStore(PlaceApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }

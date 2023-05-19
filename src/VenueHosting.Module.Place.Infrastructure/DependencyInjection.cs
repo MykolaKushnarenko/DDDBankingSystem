@@ -14,7 +14,7 @@ namespace VenueHosting.Module.Place.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection serviceCollection,
+    public static IServiceCollection AddPlaceInfrastructure(this IServiceCollection serviceCollection,
         IConfiguration builderConfiguration)
     {
         serviceCollection.AddScoped<IPlaceStore, PlaceStore>();
@@ -30,7 +30,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddPersistence(this IServiceCollection serviceCollection)
     {
-        serviceCollection.AddDbContext<ApplicationDbContext>(options =>
+        serviceCollection.AddDbContext<PlaceApplicationDbContext>(options =>
             options.UseSqlServer(
                 "Data Source=(local);Initial Catalog=Local-Account-Main;User Id=SA;Password=Qwerty123$%;TrustServerCertificate=true;",
                 builder => builder.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "Place")));

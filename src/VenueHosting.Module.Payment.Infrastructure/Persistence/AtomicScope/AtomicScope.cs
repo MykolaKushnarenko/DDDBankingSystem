@@ -5,10 +5,10 @@ namespace VenueHosting.Module.Payment.Infrastructure.Persistence.AtomicScope;
 
 internal sealed class AtomicScope : IAtomicScope
 {
-    private readonly ApplicationDbContext _dbContext;
+    private readonly PaymentApplicationDbContext _dbContext;
     private readonly IPublisher _publisher;
 
-    public AtomicScope(ApplicationDbContext dbContext, IPublisher publisher)
+    public AtomicScope(PaymentApplicationDbContext dbContext, IPublisher publisher)
     {
         _dbContext = dbContext;
         _publisher = publisher;

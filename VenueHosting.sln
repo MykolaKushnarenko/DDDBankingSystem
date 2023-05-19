@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Module.User.In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Module.User.Application", "src\VenueHosting.Module.User.Application\VenueHosting.Module.User.Application.csproj", "{BD1CAD63-154D-47F1-BCF8-E626378CD5DC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Host", "Host", "{CAA7ABA9-75AD-4364-9CC3-AC04A8872A82}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{CAA7ABA9-75AD-4364-9CC3-AC04A8872A82}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D4B5B13E-FFEA-4891-B7E8-5639B8B5180F}"
 	ProjectSection(SolutionItems) = preProject
@@ -20,15 +20,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{5256
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Venue", "Venue", "{D6E5B43C-034B-4DAF-A46A-B41C11C303BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Module.Venue.Api", "VenueHosting.Module.Venue.Api\VenueHosting.Module.Venue.Api.csproj", "{266D5AE5-F9EF-49A7-96C2-38620CE10B86}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Module.Venue.Api", "src\VenueHosting.Module.Venue.Api\VenueHosting.Module.Venue.Api.csproj", "{266D5AE5-F9EF-49A7-96C2-38620CE10B86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Module.Venue.Application", "VenueHosting.Module.Venue.Application\VenueHosting.Module.Venue.Application.csproj", "{E6153CC5-9BB6-4C39-9E79-CF9AD54562B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Module.Venue.Application", "src\VenueHosting.Module.Venue.Application\VenueHosting.Module.Venue.Application.csproj", "{E6153CC5-9BB6-4C39-9E79-CF9AD54562B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Module.Venue.Domain", "VenueHosting.Module.Venue.Domain\VenueHosting.Module.Venue.Domain.csproj", "{3CAF28E6-0E30-45BF-8FD5-3AAD6ABE32D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Module.Venue.Domain", "src\VenueHosting.Module.Venue.Domain\VenueHosting.Module.Venue.Domain.csproj", "{3CAF28E6-0E30-45BF-8FD5-3AAD6ABE32D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Module.Venue.Infrastructure", "VenueHosting.Module.Venue.Infrastructure\VenueHosting.Module.Venue.Infrastructure.csproj", "{9B10617C-AE38-47C5-A5AB-E1A545690DF2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Module.Venue.Infrastructure", "src\VenueHosting.Module.Venue.Infrastructure\VenueHosting.Module.Venue.Infrastructure.csproj", "{9B10617C-AE38-47C5-A5AB-E1A545690DF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.SharedKernel", "VenueHosting.SharedKernel\VenueHosting.SharedKernel.csproj", "{B0AE0EE4-3695-4EF9-897E-A470393535E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.SharedKernel", "src\VenueHosting.SharedKernel\VenueHosting.SharedKernel.csproj", "{B0AE0EE4-3695-4EF9-897E-A470393535E8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Attendee", "Attendee", "{249BE977-D2E0-4C6E-A650-EEF1E624BEC1}"
 EndProject
@@ -48,7 +48,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Module.Lessee.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Module.Lessee.Domain", "src\VenueHosting.Module.Lessee.Domain\VenueHosting.Module.Lessee.Domain.csproj", "{24ADFDDD-D0C6-49C4-943A-A0B9120C4579}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Module.Lessee.Infrastructure", "VenueHosting.Module.Lessee.Infrastructure\VenueHosting.Module.Lessee.Infrastructure.csproj", "{AF99067C-DBF5-475F-AD1D-D063969202CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Module.Lessee.Infrastructure", "src\VenueHosting.Module.Lessee.Infrastructure\VenueHosting.Module.Lessee.Infrastructure.csproj", "{AF99067C-DBF5-475F-AD1D-D063969202CF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Place", "Place", "{257F5EAE-4C96-48D4-9447-E766424B6828}"
 EndProject
@@ -71,6 +71,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Module.Payment.Application", "src\VenueHosting.Module.Payment.Application\VenueHosting.Module.Payment.Application.csproj", "{6974E99E-2B69-47A3-B789-DAE864045912}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "User", "{5359C893-942F-4973-8032-DE3B86A0B0F3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configurations", "{66BCF546-0630-4456-9DD3-4BBF28F58CE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Configuration", "src\VenueHosting.Configuration\VenueHosting.Configuration.csproj", "{AF7E70DC-9037-4B25-AEBB-9A421A4274CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Contracts", "src\VenueHosting.Contracts\VenueHosting.Contracts.csproj", "{753A9934-1469-4C0E-9BD6-EA4C22F9A37E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -178,6 +184,14 @@ Global
 		{6974E99E-2B69-47A3-B789-DAE864045912}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6974E99E-2B69-47A3-B789-DAE864045912}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6974E99E-2B69-47A3-B789-DAE864045912}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF7E70DC-9037-4B25-AEBB-9A421A4274CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF7E70DC-9037-4B25-AEBB-9A421A4274CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF7E70DC-9037-4B25-AEBB-9A421A4274CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF7E70DC-9037-4B25-AEBB-9A421A4274CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{753A9934-1469-4C0E-9BD6-EA4C22F9A37E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{753A9934-1469-4C0E-9BD6-EA4C22F9A37E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{753A9934-1469-4C0E-9BD6-EA4C22F9A37E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{753A9934-1469-4C0E-9BD6-EA4C22F9A37E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4CB14973-93E2-4B96-B67A-4E2981CA7F14} = {CAA7ABA9-75AD-4364-9CC3-AC04A8872A82}
@@ -210,5 +224,6 @@ Global
 		{BD1CAD63-154D-47F1-BCF8-E626378CD5DC} = {5359C893-942F-4973-8032-DE3B86A0B0F3}
 		{EBCD5B76-20BA-4CD9-B8FC-A7D9522C4C31} = {5359C893-942F-4973-8032-DE3B86A0B0F3}
 		{CA3FA2B0-8C00-4846-ABEA-1BCA0B3D1719} = {5359C893-942F-4973-8032-DE3B86A0B0F3}
+		{AF7E70DC-9037-4B25-AEBB-9A421A4274CF} = {66BCF546-0630-4456-9DD3-4BBF28F58CE3}
 	EndGlobalSection
 EndGlobal

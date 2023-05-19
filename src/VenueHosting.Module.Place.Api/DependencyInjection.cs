@@ -5,7 +5,7 @@ namespace VenueHosting.Module.Place.Api;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddAttendeeControllers(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddPlaceControllers(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddTransient<ControllerBase, PlacesController>();
 

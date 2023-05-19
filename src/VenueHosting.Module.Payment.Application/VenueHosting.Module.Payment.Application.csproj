@@ -12,8 +12,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\VenueHosting.Module.Venue.Domain\VenueHosting.Module.Venue.Domain.csproj" />
-      <ProjectReference Include="..\..\VenueHosting.SharedKernel\VenueHosting.SharedKernel.csproj" />
+      <ProjectReference Include="..\VenueHosting.Module.Venue.Domain\VenueHosting.Module.Venue.Domain.csproj" />
+      <ProjectReference Include="..\VenueHosting.SharedKernel\VenueHosting.SharedKernel.csproj" />
       <ProjectReference Include="..\VenueHosting.Module.Payment.Domain\VenueHosting.Module.Payment.Domain.csproj" />
       <ProjectReference Include="..\VenueHosting.Module.Place.Domain\VenueHosting.Module.Place.Domain.csproj" />
     </ItemGroup>

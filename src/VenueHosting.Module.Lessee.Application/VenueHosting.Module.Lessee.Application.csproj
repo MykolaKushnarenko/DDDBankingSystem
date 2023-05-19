@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\VenueHosting.Module.Venue.Domain\VenueHosting.Module.Venue.Domain.csproj" />
-      <ProjectReference Include="..\..\VenueHosting.SharedKernel\VenueHosting.SharedKernel.csproj" />
+      <ProjectReference Include="..\VenueHosting.Module.Venue.Domain\VenueHosting.Module.Venue.Domain.csproj" />
+      <ProjectReference Include="..\VenueHosting.SharedKernel\VenueHosting.SharedKernel.csproj" />
       <ProjectReference Include="..\VenueHosting.Module.Lessee.Domain\VenueHosting.Module.Lessee.Domain.csproj" />
     </ItemGroup>
 

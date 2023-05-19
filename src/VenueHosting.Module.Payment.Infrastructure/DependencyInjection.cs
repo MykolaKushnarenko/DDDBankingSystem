@@ -12,7 +12,7 @@ namespace VenueHosting.Module.Payment.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection serviceCollection,
+    public static IServiceCollection AddPaymentInfrastructure(this IServiceCollection serviceCollection,
         IConfiguration builderConfiguration)
     {
         serviceCollection.AddSingleton<IDateTimeProvider, DateTimeProvider>();
@@ -26,7 +26,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddPersistence(this IServiceCollection serviceCollection)
     {
-        serviceCollection.AddDbContext<ApplicationDbContext>(options =>
+        serviceCollection.AddDbContext<PaymentApplicationDbContext>(options =>
             options.UseSqlServer(
                 "Data Source=(local);Initial Catalog=Local-Account-Main;User Id=SA;Password=Qwerty123$%;TrustServerCertificate=true;",
                 builder => builder.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "Payment")));

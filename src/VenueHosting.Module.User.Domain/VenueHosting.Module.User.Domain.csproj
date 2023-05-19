@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\VenueHosting.SharedKernel\VenueHosting.SharedKernel.csproj" />
+      <ProjectReference Include="..\VenueHosting.SharedKernel\VenueHosting.SharedKernel.csproj" />
     </ItemGroup>
 
 </Project>

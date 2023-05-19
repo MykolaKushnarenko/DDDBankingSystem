@@ -6,10 +6,10 @@ namespace VenueHosting.Module.User.Infrastructure.Persistence.AtomicScope;
 
 internal sealed class AtomicScope : IAtomicScope
 {
-    private readonly ApplicationDbContext _dbContext;
+    private readonly UserApplicationDbContext _dbContext;
     private readonly IPublisher _publisher;
 
-    public AtomicScope(ApplicationDbContext dbContext, IPublisher publisher)
+    public AtomicScope(UserApplicationDbContext dbContext, IPublisher publisher)
     {
         _dbContext = dbContext;
         _publisher = publisher;

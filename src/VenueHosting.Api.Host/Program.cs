@@ -1,6 +1,5 @@
 using VenueHosting.Api.Host;
-using VenueHosting.Application;
-using VenueHosting.Infrastructure;
+using VenueHosting.Configuration.Extensions;
 using VenueHosting.Module.User.Application;
 using VenueHosting.Module.User.Infrastructure;
 
@@ -9,8 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services
         .AddPresentation()
         .AddApplication()
-        .AddInfrastructure(builder.Configuration);
-    
+        .AddUserInfrastructure(builder.Configuration);
+
+    builder.Services.AddVenueModule(builder.Configuration);
+
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 }
@@ -24,7 +25,7 @@ var app = builder.Build();
 
     app.UseAuthentication();
     app.UseAuthorization();
-    
+
     app.UseHttpsRedirection();
 
     app.MapControllers();

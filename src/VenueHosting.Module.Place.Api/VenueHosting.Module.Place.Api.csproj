@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\VenueHosting.SharedKernel\VenueHosting.SharedKernel.csproj" />
+      <ProjectReference Include="..\VenueHosting.SharedKernel\VenueHosting.SharedKernel.csproj" />
       <ProjectReference Include="..\VenueHosting.Module.Place.Application\VenueHosting.Module.Place.Application.csproj" />
     </ItemGroup>
 

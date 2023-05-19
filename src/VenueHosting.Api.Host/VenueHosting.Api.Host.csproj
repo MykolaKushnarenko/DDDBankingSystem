@@ -26,6 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\VenueHosting.Configuration\VenueHosting.Configuration.csproj" />
       <ProjectReference Include="..\VenueHosting.Module.User.Application\VenueHosting.Module.User.Application.csproj" />
       <ProjectReference Include="..\VenueHosting.Module.User.Infrastructure\VenueHosting.Module.User.Infrastructure.csproj" />
     </ItemGroup>
