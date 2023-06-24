@@ -14,7 +14,7 @@ internal static class MediatorExtensions
             .Select(e => e.Entity)
             .ToList();
 
-        List<IDomainEvent> domainEvents = aggregateRoots
+        List<IntegrationEvent> domainEvents = aggregateRoots
             .SelectMany(x => x.DomainEvents)
             .ToList();
 
@@ -23,9 +23,9 @@ internal static class MediatorExtensions
         ClearDomainEvents(aggregateRoots);
     }
 
-    private static async Task DispatchDomainEventsAsync(this IPublisher mediator, List<IDomainEvent> domainEvents)
+    private static async Task DispatchDomainEventsAsync(this IPublisher mediator, List<IntegrationEvent> domainEvents)
     {
-        foreach (IDomainEvent domainEvent in domainEvents)
+        foreach (IntegrationEvent domainEvent in domainEvents)
         {
             await mediator.Publish(domainEvent);
         }

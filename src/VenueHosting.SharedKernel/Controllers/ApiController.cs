@@ -10,7 +10,6 @@ namespace VenueHosting.SharedKernel.Controllers;
 /// <summary>
 /// Base controller
 /// </summary>
-[Route("/loyalty")]
 [Produces(MediaTypeNames.Application.Json)]
 [Consumes(MediaTypeNames.Application.Json)]
 [ProducesResponseType((int) HttpStatusCode.OK)]

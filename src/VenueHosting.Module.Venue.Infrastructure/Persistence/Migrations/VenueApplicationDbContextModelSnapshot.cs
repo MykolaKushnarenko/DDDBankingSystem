@@ -52,37 +52,6 @@ namespace VenueHosting.Module.Venue.Infrastructure.Persistence.Migrations
                     b.ToTable("Places", "Venue");
                 });
 
-            modelBuilder.Entity("VenueHosting.Module.Venue.Domain.Reservation.Reservation", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("Id");
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int")
-                        .HasColumnName("Amount");
-
-                    b.Property<Guid>("AttendeeId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("AttendeeId");
-
-                    b.Property<Guid>("BillId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("BillId");
-
-                    b.Property<DateTime>("ReservationDateTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("ReservationDateTime");
-
-                    b.Property<Guid>("VenueId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("VenueId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Reservations", "Venue");
-                });
-
             modelBuilder.Entity("VenueHosting.Module.Venue.Domain.Venue.Venue", b =>
                 {
                     b.Property<Guid>("Id")
@@ -104,11 +73,6 @@ namespace VenueHosting.Module.Venue.Infrastructure.Persistence.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<bool>("IsPublic")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
                     b.Property<Guid>("LesseeId")
                         .HasColumnType("uniqueidentifier");
 
@@ -129,43 +93,51 @@ namespace VenueHosting.Module.Venue.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("UpdatedAtDateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Visibility")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Venues", "Venue");
                 });
 
-            modelBuilder.Entity("VenueHosting.Module.Venue.Domain.VenueReview.VenueReview", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AuthorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)")
-                        .HasColumnName("Comment");
-
-                    b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreatedDateTime");
-
-                    b.Property<float>("RatingGiven")
-                        .HasColumnType("real")
-                        .HasColumnName("RatingGiven");
-
-                    b.Property<Guid>("VenueId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("VenueReviews", "Venue");
-                });
-
             modelBuilder.Entity("VenueHosting.Module.Venue.Domain.Venue.Venue", b =>
                 {
+                    b.OwnsMany("VenueHosting.Module.Venue.Domain.Reservation.Reservation", "Reservations", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uniqueidentifier")
+                                .HasColumnName("ReservationId");
+
+                            b1.Property<int>("Amount")
+                                .HasColumnType("int")
+                                .HasColumnName("Amount");
+
+                            b1.Property<Guid>("AttendeeId")
+                                .HasColumnType("uniqueidentifier")
+                                .HasColumnName("AttendeeId");
+
+                            b1.Property<Guid>("BillId")
+                                .HasColumnType("uniqueidentifier")
+                                .HasColumnName("BillId");
+
+                            b1.Property<DateTime>("ReservationDateTime")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("ReservationDateTime");
+
+                            b1.Property<Guid>("VenueId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("VenueId");
+
+                            b1.ToTable("VenueReservations", "Venue");
+
+                            b1.WithOwner()
+                                .HasForeignKey("VenueId");
+                        });
+
                     b.OwnsMany("VenueHosting.Module.Venue.Domain.Venue.Entities.Activity", "Activities", b1 =>
                         {
                             b1.Property<Guid>("Id")
@@ -195,43 +167,29 @@ namespace VenueHosting.Module.Venue.Infrastructure.Persistence.Migrations
                                 .HasForeignKey("VenueId");
                         });
 
-                    b.OwnsMany("VenueHosting.Module.Venue.Domain.Venue.ValueObjects.ReservationId", "ReservationIds", b1 =>
+                    b.OwnsMany("VenueHosting.Module.Venue.Domain.VenueReview.VenueReview", "VenueReviews", b1 =>
                         {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
-
-                            b1.Property<Guid>("Value")
-                                .HasColumnType("uniqueidentifier")
-                                .HasColumnName("ReservationId");
-
-                            b1.Property<Guid>("VenueId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("VenueId");
-
-                            b1.ToTable("VenueReservationIds", "Venue");
-
-                            b1.WithOwner()
-                                .HasForeignKey("VenueId");
-                        });
-
-                    b.OwnsMany("VenueHosting.Module.Venue.Domain.VenueReview.ValueObjects.VenueReviewId", "VenueReviewIds", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
-
-                            b1.Property<Guid>("Value")
+                            b1.Property<Guid>("Id")
                                 .HasColumnType("uniqueidentifier")
                                 .HasColumnName("VenueReviewId");
 
+                            b1.Property<Guid>("AuthorId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Comment")
+                                .IsRequired()
+                                .HasMaxLength(1000)
+                                .HasColumnType("nvarchar(1000)")
+                                .HasColumnName("Comment");
+
+                            b1.Property<DateTime>("CreatedDateTime")
+                                .HasColumnType("datetime2")
+                                .HasColumnName("CreatedDateTime");
+
+                            b1.Property<float>("RatingGiven")
+                                .HasColumnType("real")
+                                .HasColumnName("RatingGiven");
+
                             b1.Property<Guid>("VenueId")
                                 .HasColumnType("uniqueidentifier");
 
@@ -239,7 +197,7 @@ namespace VenueHosting.Module.Venue.Infrastructure.Persistence.Migrations
 
                             b1.HasIndex("VenueId");
 
-                            b1.ToTable("VenueReviewIds", "Venue");
+                            b1.ToTable("VenueReviews", "Venue");
 
                             b1.WithOwner()
                                 .HasForeignKey("VenueId");
@@ -247,9 +205,9 @@ namespace VenueHosting.Module.Venue.Infrastructure.Persistence.Migrations
 
                     b.Navigation("Activities");
 
-                    b.Navigation("ReservationIds");
+                    b.Navigation("Reservations");
 
-                    b.Navigation("VenueReviewIds");
+                    b.Navigation("VenueReviews");
                 });
 #pragma warning restore 612, 618
         }

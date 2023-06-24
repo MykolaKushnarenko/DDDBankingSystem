@@ -11,7 +11,7 @@ internal sealed class PlaceApplicationDbContext : DbContext
 
     public DbSet<Owner> Owners { get; set; }
 
-    public DbSet<VenueHosting.Domain.Place.Place> Places { get; set; }
+    public DbSet<Domain.Place.Place> Places { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

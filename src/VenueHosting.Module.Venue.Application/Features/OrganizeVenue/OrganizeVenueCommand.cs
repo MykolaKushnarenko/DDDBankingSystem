@@ -10,6 +10,6 @@ public record OrganizeVenueCommand(
     PlaceId PlaceId,
     string EventName,
     string Description,
-    bool IsPublic,
+    Visibility Visibility,
     DateTime StartAtDateTime,
     DateTime EndAtDateTime) : IRequest<Domain.Venue.Venue>;

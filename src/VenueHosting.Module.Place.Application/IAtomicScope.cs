@@ -1,4 +1,4 @@
-namespace VenueHosting.SharedKernel.Persistence.AtomicScope;
+namespace VenueHosting.Module.Place.Application;
 
 public interface IAtomicScope
 {

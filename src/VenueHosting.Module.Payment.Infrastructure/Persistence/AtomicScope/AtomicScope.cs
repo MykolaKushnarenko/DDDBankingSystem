@@ -1,5 +1,5 @@
 using MediatR;
-using VenueHosting.SharedKernel.Persistence.AtomicScope;
+using VenueHosting.Module.Venue.Application;
 
 namespace VenueHosting.Module.Payment.Infrastructure.Persistence.AtomicScope;
 

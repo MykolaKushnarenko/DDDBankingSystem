@@ -1,19 +1,18 @@
+using VenueHosting.Contracts.Events;
 using VenueHosting.Module.Venue.Domain.Place.ValueObjects;
-using VenueHosting.Module.Venue.Domain.Venue.DomainEvents;
 using VenueHosting.Module.Venue.Domain.Venue.Entities;
 using VenueHosting.Module.Venue.Domain.Venue.ValueObjects;
-using VenueHosting.Module.Venue.Domain.VenueReview.ValueObjects;
 using VenueHosting.SharedKernel.Common.Models;
 
 namespace VenueHosting.Module.Venue.Domain.Venue;
 
-public class Venue : AggregateRote<VenueId, Guid>
+public sealed class Venue : AggregateRote<VenueId, Guid>
 {
     private readonly List<Activity> _activities = new();
 
-    private readonly List<VenueReviewId> _venueReviewIds = new();
+    private readonly List<VenueReview.VenueReview> _venueReviews = new();
 
-    private readonly List<ReservationId> _reservationIds = new();
+    private readonly List<Reservation.Reservation> _reservations = new();
 
     private Venue()
     {
@@ -26,7 +25,7 @@ public class Venue : AggregateRote<VenueId, Guid>
         PlaceId placeId,
         string eventName,
         string description,
-        bool isPublic,
+        Visibility visibility,
         DateTime startAtDateTime,
         DateTime endAtDateTime,
         DateTime createdAtDateTime,
@@ -37,7 +36,7 @@ public class Venue : AggregateRote<VenueId, Guid>
         PlaceId = placeId;
         EventName = eventName;
         Description = description;
-        IsPublic = isPublic;
+        Visibility = visibility;
         StartAtDateTime = startAtDateTime;
         EndAtDateTime = endAtDateTime;
         CreatedAtDateTime = createdAtDateTime;
@@ -57,15 +56,15 @@ public class Venue : AggregateRote<VenueId, Guid>
 
     public string EventName { get; private set; }
 
-    public bool IsPublic { get; private set; }
+    public Visibility Visibility { get; private set; }
 
     public VenueStatus Status { get; private set; }
 
     public IReadOnlyList<Activity> Activities => _activities.ToList().AsReadOnly();
 
-    public IReadOnlyList<VenueReviewId> VenueReviewIds => _venueReviewIds.ToList().AsReadOnly();
+    public IReadOnlyList<VenueReview.VenueReview> VenueReviews => _venueReviews.ToList().AsReadOnly();
 
-    public IReadOnlyList<ReservationId> ReservationIds => _reservationIds.ToList().AsReadOnly();
+    public IReadOnlyList<Reservation.Reservation> Reservations => _reservations.ToList().AsReadOnly();
 
     public DateTime StartAtDateTime { get; private set; }
 
@@ -81,7 +80,7 @@ public class Venue : AggregateRote<VenueId, Guid>
         PlaceId placeId,
         string eventName,
         string description,
-        bool isPublic,
+        Visibility visibility,
         DateTime startAtDateTime,
         DateTime endAtDateTime)
     {
@@ -93,13 +92,13 @@ public class Venue : AggregateRote<VenueId, Guid>
             placeId,
             eventName,
             description,
-            isPublic,
+            visibility,
             startAtDateTime,
             endAtDateTime,
             DateTime.UtcNow,
             DateTime.UtcNow);
 
-        venue.AddDomainEvent(new VenueOrganizedDomainEvent(id.Value, venue.LesseeId.Value));
+        venue.AddDomainEvent(new VenueCreatedIntegrationEvent(id.Value, venue.LesseeId.Value));
 
         return venue;
     }
@@ -113,27 +112,22 @@ public class Venue : AggregateRote<VenueId, Guid>
         UpdatedAtDateTime = DateTime.UtcNow;
     }
 
-    public void MakeEvenAsPrivate()
+    public void ChangeVisibility(Visibility visibility)
     {
-        IsPublic = false;
+        Visibility = visibility;
     }
 
-    public void MakeEvenAsPublic()
+    public void AddReview(VenueReview.VenueReview venueReview)
     {
-        IsPublic = true;
+        _venueReviews.Add(venueReview);
     }
 
-    public void AddNewReservation(ReservationId reservationId)
+    public void RemoveReview(VenueReview.VenueReview venueReview)
     {
-        _reservationIds.Add(reservationId);
+        _venueReviews.Remove(venueReview);
     }
 
-    public void AddNewReview(VenueReviewId venueReviewId)
-    {
-        _venueReviewIds.Add(venueReviewId);
-    }
-
-    public void UpdateEventGeneralInformation(string eventName, string description)
+    public void UpdateDetails(string eventName, string description)
     {
         //validation
 
@@ -141,8 +135,18 @@ public class Venue : AggregateRote<VenueId, Guid>
         Description = description;
     }
 
-    public void Organize()
+    public void Reserve(Reservation.Reservation reservation)
     {
-        Status = VenueStatus.Organized;
+        _reservations.Add(reservation);
+    }
+
+    public void CancelReservation(Reservation.Reservation reservation)
+    {
+        _reservations.Remove(reservation);
+    }
+
+    public void ChangeStatus(VenueStatus status)
+    {
+        Status = status;
     }
 }

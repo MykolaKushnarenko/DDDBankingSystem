@@ -16,6 +16,7 @@
     <ProjectReference Include="..\VenueHosting.Module.Place.Infrastructure\VenueHosting.Module.Place.Infrastructure.csproj" />
     <ProjectReference Include="..\VenueHosting.Module.User.Infrastructure\VenueHosting.Module.User.Infrastructure.csproj" />
     <ProjectReference Include="..\VenueHosting.Module.Venue.Api\VenueHosting.Module.Venue.Api.csproj" />
+    <ProjectReference Include="..\VenueHosting.Module.Venue.Consumers\VenueHosting.Module.Venue.Consumers.csproj" />
     <ProjectReference Include="..\VenueHosting.Module.Venue.Infrastructure\VenueHosting.Module.Venue.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

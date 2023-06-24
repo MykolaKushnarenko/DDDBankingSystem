@@ -1,4 +1,4 @@
-namespace VenueHosting.Application.Common.Interfaces;
+namespace VenueHosting.Module.Payment.Application.Common.Interfaces;
 
 public interface IDateTimeProvider
 {

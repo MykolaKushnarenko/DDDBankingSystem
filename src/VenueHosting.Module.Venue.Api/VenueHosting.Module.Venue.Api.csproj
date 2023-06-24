@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\VenueHosting.Module.Venue.Application\VenueHosting.Module.Venue.Application.csproj" />
+      <ProjectReference Include="..\VenueHosting.Module.Venue.Consumers\VenueHosting.Module.Venue.Consumers.csproj" />
       <ProjectReference Include="..\VenueHosting.SharedKernel\VenueHosting.SharedKernel.csproj" />
     </ItemGroup>
 

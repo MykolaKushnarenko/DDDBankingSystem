@@ -1,3 +1,6 @@
+
+using MediatR;
+using MediatR.NotificationPublishers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +12,8 @@ using VenueHosting.Module.Place.Infrastructure;
 using VenueHosting.Module.User.Infrastructure;
 using VenueHosting.Module.Venue.Infrastructure;
 using VenueHosting.Module.Venue.Api;
+using VenueHosting.Module.Venue.Application;
+using VenueHosting.SharedKernel.Behaviours;
 
 namespace VenueHosting.Configuration.Extensions
 {
@@ -22,8 +27,27 @@ namespace VenueHosting.Configuration.Extensions
             // Action<PricingEngineBuilder>? setupAction = null
         )
         {
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssemblies(
+                    typeof(IAssemblyMarker).Assembly,
+                    typeof(Module.Place.Application.IAssemblyMarker).Assembly,
+                    typeof(Module.User.Application.IAssemblyMarker).Assembly,
+                    typeof(Module.Lessee.Application.IAssemblyMarker).Assembly,
+                    typeof(Module.Attendee.Application.IAssemblyMarker).Assembly,
+                    typeof(Module.Payment.Application.IAssemblyMarker).Assembly);
+
+                cfg.NotificationPublisherType = typeof(TaskWhenAllPublisher);
+
+                cfg.Lifetime = ServiceLifetime.Transient;
+            });
+
+
+            services
+                .AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 
             services.AddVenueInfrastructure(builderConfiguration)
+                .AddApplication()
                 .AddVenueControllers();
 
             services.AddUserInfrastructure(builderConfiguration);

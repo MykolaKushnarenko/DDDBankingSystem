@@ -2,8 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using VenueHosting.Module.Attendee.Application;
+using VenueHosting.Module.Attendee.Infrastructure.AtomicScope;
 using VenueHosting.Module.Attendee.Infrastructure.Persistence;
-using VenueHosting.SharedKernel.Persistence.AtomicScope;
 
 namespace VenueHosting.Module.Attendee.Infrastructure;
 

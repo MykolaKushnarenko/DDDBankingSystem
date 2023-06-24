@@ -7,13 +7,12 @@ public abstract class Entity<TId> : IHasDomainEvents, ISupportSpecification, IEq
 {
     public TId Id { get; protected set; }
 
-    private List<IDomainEvent>? _domainEvents;
+    private List<IntegrationEvent>? _domainEvents;
 
-    public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents;
+    public IReadOnlyList<IntegrationEvent> DomainEvents => _domainEvents;
 
     protected Entity()
     {
-
     }
 
     protected Entity(TId id)
@@ -33,7 +32,7 @@ public abstract class Entity<TId> : IHasDomainEvents, ISupportSpecification, IEq
         return !Equals(left, right);
     }
 
-    public bool Equals(Entity<TId> other)
+    public bool Equals(Entity<TId>? other)
     {
         return Equals((object?)other);
     }
@@ -43,9 +42,9 @@ public abstract class Entity<TId> : IHasDomainEvents, ISupportSpecification, IEq
         return Id.GetHashCode();
     }
 
-    public void AddDomainEvent(IDomainEvent eventItem)
+    protected void AddDomainEvent(IntegrationEvent eventItem)
     {
-        _domainEvents ??= new List<IDomainEvent>();
+        _domainEvents ??= new List<IntegrationEvent>();
         _domainEvents.Add(eventItem);
     }
 

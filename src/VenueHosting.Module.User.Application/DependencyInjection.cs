@@ -12,19 +12,6 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection serviceCollection)
     {
-        serviceCollection.AddMediatR(cfg =>
-        {
-            cfg.RegisterServicesFromAssemblyContaining<LoginQuery>();
-
-            cfg.NotificationPublisherType = typeof(TaskWhenAllPublisher);
-
-            cfg.Lifetime = ServiceLifetime.Transient;
-        });
-
-        serviceCollection
-            .AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-
-        serviceCollection.AddValidatorsFromAssemblyContaining<RegistrationResult>();
 
 
         return serviceCollection;

@@ -1,3 +1,5 @@
+
+
 using VenueHosting.SharedKernel.Common.Models;
 
 namespace VenueHosting.Module.Venue.Domain.Venue.ValueObjects;

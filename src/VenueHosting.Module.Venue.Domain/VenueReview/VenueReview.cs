@@ -4,17 +4,16 @@ using VenueHosting.SharedKernel.Common.Models;
 
 namespace VenueHosting.Module.Venue.Domain.VenueReview;
 
-public sealed class VenueReview : AggregateRote<VenueReviewId, Guid>
+public sealed class VenueReview : Entity<VenueReviewId>
 {
     private VenueReview()
     {
     }
 
-    private VenueReview(VenueReviewId id, AttendeeId authorId, VenueId venueId, string comment, float ratingGiven,
+    private VenueReview(VenueReviewId id, AttendeeId authorId, string comment, float ratingGiven,
         DateTime createdDateTime) : base(id)
     {
         AuthorId = authorId;
-        VenueId = venueId;
         Comment = comment;
         RatingGiven = ratingGiven;
         CreatedDateTime = createdDateTime;
@@ -22,17 +21,15 @@ public sealed class VenueReview : AggregateRote<VenueReviewId, Guid>
 
     public AttendeeId AuthorId { get; private set; }
 
-    public VenueId VenueId { get; private set; }
-
     public string Comment { get; private set; }
 
     public float RatingGiven { get; private set; }
 
     public DateTime CreatedDateTime { get; private set; }
 
-    public static VenueReview Create(AttendeeId authorId, VenueId venueId, string comment, float ratingGiven)
+    public static VenueReview Create(AttendeeId authorId, string comment, float ratingGiven)
     {
-        return new VenueReview(VenueReviewId.CreateUnique(), authorId, venueId, comment, ratingGiven,
+        return new VenueReview(VenueReviewId.CreateUnique(), authorId, comment, ratingGiven,
             DateTime.UtcNow);
     }
 }

@@ -7,7 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\VenueHosting.Contracts\VenueHosting.Contracts.csproj" />
       <ProjectReference Include="..\VenueHosting.SharedKernel\VenueHosting.SharedKernel.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Venue\DomainEvents\" />
     </ItemGroup>
 
 </Project>

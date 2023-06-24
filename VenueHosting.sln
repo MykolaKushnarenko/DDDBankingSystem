@@ -78,6 +78,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Configuration"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Contracts", "src\VenueHosting.Contracts\VenueHosting.Contracts.csproj", "{753A9934-1469-4C0E-9BD6-EA4C22F9A37E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenueHosting.Module.Venue.Consumers", "src\VenueHosting.Module.Venue.Consumers\VenueHosting.Module.Venue.Consumers.csproj", "{0F7F5299-51A8-4617-AE24-AA2C57843CD3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -192,6 +194,10 @@ Global
 		{753A9934-1469-4C0E-9BD6-EA4C22F9A37E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{753A9934-1469-4C0E-9BD6-EA4C22F9A37E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{753A9934-1469-4C0E-9BD6-EA4C22F9A37E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F7F5299-51A8-4617-AE24-AA2C57843CD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F7F5299-51A8-4617-AE24-AA2C57843CD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F7F5299-51A8-4617-AE24-AA2C57843CD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F7F5299-51A8-4617-AE24-AA2C57843CD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4CB14973-93E2-4B96-B67A-4E2981CA7F14} = {CAA7ABA9-75AD-4364-9CC3-AC04A8872A82}
@@ -225,5 +231,6 @@ Global
 		{EBCD5B76-20BA-4CD9-B8FC-A7D9522C4C31} = {5359C893-942F-4973-8032-DE3B86A0B0F3}
 		{CA3FA2B0-8C00-4846-ABEA-1BCA0B3D1719} = {5359C893-942F-4973-8032-DE3B86A0B0F3}
 		{AF7E70DC-9037-4B25-AEBB-9A421A4274CF} = {66BCF546-0630-4456-9DD3-4BBF28F58CE3}
+		{0F7F5299-51A8-4617-AE24-AA2C57843CD3} = {D6E5B43C-034B-4DAF-A46A-B41C11C303BD}
 	EndGlobalSection
 EndGlobal

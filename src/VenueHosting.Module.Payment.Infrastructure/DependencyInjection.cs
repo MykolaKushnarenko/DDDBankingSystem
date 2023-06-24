@@ -6,7 +6,7 @@ using VenueHosting.Application.Common.Interfaces;
 using VenueHosting.Module.Payment.Infrastructure.Persistence;
 using VenueHosting.Module.Payment.Infrastructure.Persistence.AtomicScope;
 using VenueHosting.Module.Payment.Infrastructure.Services;
-using VenueHosting.SharedKernel.Persistence.AtomicScope;
+using VenueHosting.Module.Venue.Application;
 
 namespace VenueHosting.Module.Payment.Infrastructure;
 

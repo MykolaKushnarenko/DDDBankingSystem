@@ -9,13 +9,13 @@ using Microsoft.IdentityModel.Tokens;
 using VenueHosting.Application.Common.Interfaces;
 using VenueHosting.Application.Common.Persistence;
 using VenueHosting.Infrastructure.Persistence.Stores;
+using VenueHosting.Module.User.Application;
 using VenueHosting.Module.User.Application.Common.Interfaces;
 using VenueHosting.Module.User.Infrastructure.Authentication;
 using VenueHosting.Module.User.Infrastructure.Configuration;
 using VenueHosting.Module.User.Infrastructure.Persistence;
 using VenueHosting.Module.User.Infrastructure.Persistence.AtomicScope;
 using VenueHosting.Module.User.Infrastructure.Services;
-using VenueHosting.SharedKernel.Persistence.AtomicScope;
 
 namespace VenueHosting.Module.User.Infrastructure;
 

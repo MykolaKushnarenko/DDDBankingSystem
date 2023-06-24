@@ -19,4 +19,9 @@
       <Folder Include="Persistence\Stores\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Persistence\Migrations\20230622164824_MergeVenueBoundedContext.cs" />
+      <Compile Remove="Persistence\Migrations\20230622164824_MergeVenueBoundedContext.Designer.cs" />
+    </ItemGroup>
+
 </Project>

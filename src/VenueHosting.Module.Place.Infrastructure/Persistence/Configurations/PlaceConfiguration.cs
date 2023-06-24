@@ -5,15 +5,15 @@ using VenueHosting.Module.Place.Domain.Place.ValueObjects;
 
 namespace VenueHosting.Module.Place.Infrastructure.Persistence.Configurations;
 
-internal sealed class PlaceConfiguration : IEntityTypeConfiguration<VenueHosting.Domain.Place.Place>
+internal sealed class PlaceConfiguration : IEntityTypeConfiguration<Domain.Place.Place>
 {
-    public void Configure(EntityTypeBuilder<VenueHosting.Domain.Place.Place> builder)
+    public void Configure(EntityTypeBuilder<Domain.Place.Place> builder)
     {
         ConfigurePlaceTable(builder);
         ConfigureFacilityTable(builder);
     }
 
-    private void ConfigureFacilityTable(EntityTypeBuilder<VenueHosting.Domain.Place.Place> builder)
+    private void ConfigureFacilityTable(EntityTypeBuilder<Domain.Place.Place> builder)
     {
         builder.OwnsMany(x => x.Facilities, navigationBuilder =>
         {
@@ -45,11 +45,11 @@ internal sealed class PlaceConfiguration : IEntityTypeConfiguration<VenueHosting
         });
 
         builder.Metadata
-            .FindNavigation(nameof(VenueHosting.Domain.Place.Place.Facilities))!
+            .FindNavigation(nameof(Domain.Place.Place.Facilities))!
             .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 
-    private void ConfigurePlaceTable(EntityTypeBuilder<VenueHosting.Domain.Place.Place> builder)
+    private void ConfigurePlaceTable(EntityTypeBuilder<Domain.Place.Place> builder)
     {
         builder.ToTable("Places");
 

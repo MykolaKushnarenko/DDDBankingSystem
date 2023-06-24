@@ -1,7 +1,7 @@
+using MassTransit;
 using MediatR;
 using VenueHosting.Module.Venue.Application.Common.Persistence;
 using VenueHosting.Module.Venue.Application.Common.Specifications;
-using VenueHosting.SharedKernel.Persistence.AtomicScope;
 
 namespace VenueHosting.Module.Venue.Application.Features.OrganizeVenue;
 
@@ -34,7 +34,7 @@ internal sealed class OrganizeVenueCommandHandler : IRequestHandler<OrganizeVenu
             request.PlaceId,
             request.EventName,
             request.Description,
-            request.IsPublic,
+            request.Visibility,
             request.StartAtDateTime,
             request.EndAtDateTime);
 

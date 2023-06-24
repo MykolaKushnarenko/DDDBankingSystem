@@ -6,4 +6,12 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Commmands\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\VenueHosting.SharedKernel\VenueHosting.SharedKernel.csproj" />
+    </ItemGroup>
+
 </Project>

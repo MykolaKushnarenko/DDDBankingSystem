@@ -3,7 +3,7 @@ using VenueHosting.SharedKernel.Specifications;
 
 namespace VenueHosting.Module.Place.Application.Common.Specifications;
 
-public sealed class FindPlaceByPlaceIdSpecification : BaseSpecification<VenueHosting.Domain.Place.Place>
+public sealed class FindPlaceByPlaceIdSpecification : BaseSpecification<Domain.Place.Place>
 {
     public FindPlaceByPlaceIdSpecification(PlaceId id)
     {

@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\VenueHosting.Module.Payment.Application\VenueHosting.Module.Payment.Application.csproj" />
       <ProjectReference Include="..\VenueHosting.Module.Venue.Application\VenueHosting.Module.Venue.Application.csproj" />
       <ProjectReference Include="..\VenueHosting.SharedKernel\VenueHosting.SharedKernel.csproj" />
 

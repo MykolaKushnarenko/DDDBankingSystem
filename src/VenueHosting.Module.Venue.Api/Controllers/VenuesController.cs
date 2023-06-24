@@ -1,8 +1,10 @@
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VenueHosting.Module.Venue.Application.Features.FindVenuesByLocation;
 using VenueHosting.Module.Venue.Application.Features.OrganizeVenue;
+using VenueHosting.Module.Venue.Consumers.OrganizeVenue;
 using VenueHosting.Module.Venue.Domain.Place.ValueObjects;
 using VenueHosting.Module.Venue.Domain.Venue.ValueObjects;
 using VenueHosting.SharedKernel.Controllers;
@@ -17,10 +19,12 @@ namespace VenueHosting.Module.Venue.Api.Controllers;
 public class VenuesController : ApiController
 {
     private readonly ISender _sender;
+    private readonly IBus _bus;
 
-    public VenuesController(ISender sender)
+    public VenuesController(ISender sender, IBus bus)
     {
         _sender = sender;
+        _bus = bus;
     }
 
     /// <summary>
@@ -39,13 +43,15 @@ public class VenuesController : ApiController
     [HttpPost]
     public async Task<IActionResult> OrganizeAsync([FromBody]OrganizeVenueRequest request)
     {
+        await _bus.Publish(new InitiateVenue(Guid.NewGuid()));
+
         OrganizeVenueCommand command = new OrganizeVenueCommand(
             OwnerId.Create(Guid.Parse(request.OwnerId)),
             LesseeId.Create(Guid.Parse(request.LesseeId)),
             PlaceId.Create(Guid.Parse(request.PlaceId)),
             request.EventName,
             request.Description,
-            request.IsPublic,
+            request.Visibility,
             request.StartAtDateTime,
             request.EndAtDateTime);
 
@@ -81,7 +87,7 @@ public class VenuesController : ApiController
         string PlaceId,
         string EventName,
         string Description,
-        bool IsPublic,
+        Visibility Visibility,
         DateTime StartAtDateTime,
         DateTime EndAtDateTime);
 }

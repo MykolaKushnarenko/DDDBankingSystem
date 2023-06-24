@@ -6,24 +6,20 @@ using ReservationId = VenueHosting.Module.Venue.Domain.Reservation.ValueObjects.
 
 namespace VenueHosting.Module.Venue.Domain.Reservation;
 
-public sealed class Reservation : AggregateRote<ReservationId, Guid>
+public sealed class Reservation : Entity<ReservationId>
 {
     private Reservation() {}
 
-    private Reservation(ReservationId id, AttendeeId attendeeId, VenueId venueId, BillId billId, int amount,
+    private Reservation(ReservationId id, AttendeeId attendeeId, BillId billId, int amount,
         DateTime reservationDateTime) : base(id)
     {
         AttendeeId = attendeeId;
-        VenueId = venueId;
         BillId = billId;
         Amount = amount;
         ReservationDateTime = reservationDateTime;
     }
 
-
     public AttendeeId AttendeeId { get; private set; }
-
-    public VenueId VenueId { get; private set; }
 
     public BillId BillId { get; private set; }
 
@@ -31,9 +27,9 @@ public sealed class Reservation : AggregateRote<ReservationId, Guid>
 
     public DateTime ReservationDateTime { get; private set; }
 
-    public static Reservation Create(AttendeeId attendeeId, VenueId venueId, BillId billId, int amount)
+    public static Reservation Create(AttendeeId attendeeId, BillId billId, int amount)
     {
-        return new Reservation(ReservationId.CreateUnique(), attendeeId, venueId, billId, amount,
+        return new Reservation(ReservationId.CreateUnique(), attendeeId, billId, amount,
             DateTime.UtcNow);
     }
 

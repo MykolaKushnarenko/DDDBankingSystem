@@ -29,7 +29,7 @@ public class PlacesController : ApiController
 
         RegisterNewPlaceCommand command = new RegisterNewPlaceCommand(OwnerId.Create(Guid.Parse(request.OwnerId)), addressCommand, facility);
 
-        VenueHosting.Domain.Place.Place place = await _sender.Send(command);
+        Domain.Place.Place place = await _sender.Send(command);
 
         return Ok(place);
     }

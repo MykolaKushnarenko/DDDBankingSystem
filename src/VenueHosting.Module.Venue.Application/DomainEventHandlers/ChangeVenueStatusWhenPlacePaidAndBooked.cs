@@ -4,7 +4,6 @@ using VenueHosting.Module.Venue.Application.Common.Persistence;
 using VenueHosting.Module.Venue.Application.Common.Specifications;
 using VenueHosting.Module.Venue.Domain.Place.ValueObjects;
 using VenueHosting.Module.Venue.Domain.Venue.ValueObjects;
-using VenueHosting.SharedKernel.Persistence.AtomicScope;
 
 namespace VenueHosting.Module.Venue.Application.DomainEventHandlers;
 
@@ -27,7 +26,7 @@ internal sealed class ChangeVenueStatusWhenPlacePaidAndBooked : INotificationHan
 
         ArgumentNullException.ThrowIfNull(venue);
 
-        venue.Organize();
+        venue.ChangeStatus(VenueStatus.Organized);
 
         await _atomicScope.CommitAsync(cancellationToken);
     }

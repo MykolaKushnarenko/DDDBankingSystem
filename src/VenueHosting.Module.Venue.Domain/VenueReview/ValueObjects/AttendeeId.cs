@@ -7,6 +7,8 @@ public sealed class AttendeeId : ValueObject
 {
     public Guid Value { get; }
 
+    private AttendeeId(){}
+
     private AttendeeId(Guid value)
     {
         Value = value;

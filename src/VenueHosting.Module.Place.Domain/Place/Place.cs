@@ -3,7 +3,7 @@ using VenueHosting.Module.Place.Domain.Place.Entities;
 using VenueHosting.Module.Place.Domain.Place.ValueObjects;
 using VenueHosting.SharedKernel.Common.Models;
 
-namespace VenueHosting.Domain.Place;
+namespace VenueHosting.Module.Place.Domain.Place;
 
 public class Place : AggregateRote<PlaceId, Guid>
 {
