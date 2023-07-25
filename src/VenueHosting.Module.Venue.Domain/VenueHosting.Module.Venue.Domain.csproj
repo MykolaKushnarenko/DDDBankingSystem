@@ -15,4 +15,19 @@
       <Folder Include="Venue\DomainEvents\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <EmbeddedResource Update="VenueErrors.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>VenueErrors.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="VenueErrors.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>VenueErrors.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>

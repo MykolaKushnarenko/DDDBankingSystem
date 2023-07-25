@@ -1,5 +1,5 @@
 using VenueHosting.Module.Place.Application.Common.Specifications;
-using VenueHosting.SharedKernel.Persistence;
+using VenueHosting.SharedKernel.Persistence.Storages;
 
 namespace VenueHosting.Module.Place.Application.Common.Persistence;
 

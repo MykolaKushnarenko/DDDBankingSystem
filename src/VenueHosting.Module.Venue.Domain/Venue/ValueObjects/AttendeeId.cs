@@ -1,7 +1,6 @@
-
 using VenueHosting.SharedKernel.Common.Models;
 
-namespace VenueHosting.Module.Venue.Domain.VenueReview.ValueObjects;
+namespace VenueHosting.Module.Venue.Domain.Venue.ValueObjects;
 
 public sealed class AttendeeId : ValueObject
 {

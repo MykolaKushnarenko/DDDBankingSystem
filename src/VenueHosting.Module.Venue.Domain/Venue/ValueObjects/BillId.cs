@@ -1,6 +1,6 @@
 using VenueHosting.SharedKernel.Common.Models;
 
-namespace VenueHosting.Module.Venue.Domain.Reservation.ValueObjects;
+namespace VenueHosting.Module.Venue.Domain.Venue.ValueObjects;
 
 public sealed class BillId : ValueObject
 {

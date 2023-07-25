@@ -1,11 +1,10 @@
-
 using VenueHosting.SharedKernel.Common.Models;
 
 namespace VenueHosting.Module.Venue.Domain.Place.ValueObjects;
 
-public sealed class PlaceId : ValueObject
+public sealed class PlaceId : AggregateRootId<Guid>
 {
-    public Guid Value { get; }
+    public override Guid Value { get; protected set; }
 
     private PlaceId()
     {

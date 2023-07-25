@@ -1,8 +1,7 @@
 using VenueHosting.Module.Venue.Domain.Venue.ValueObjects;
-using VenueHosting.Module.Venue.Domain.VenueReview.ValueObjects;
 using VenueHosting.SharedKernel.Common.Models;
 
-namespace VenueHosting.Module.Venue.Domain.VenueReview;
+namespace VenueHosting.Module.Venue.Domain.Venue.Entities;
 
 public sealed class VenueReview : Entity<VenueReviewId>
 {

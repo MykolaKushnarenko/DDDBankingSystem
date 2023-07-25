@@ -1,5 +1,6 @@
 using VenueHosting.Contracts.Events;
 using VenueHosting.Module.Venue.Domain.Place.ValueObjects;
+using VenueHosting.Module.Venue.Domain.Venue.BusinessRules;
 using VenueHosting.Module.Venue.Domain.Venue.Entities;
 using VenueHosting.Module.Venue.Domain.Venue.ValueObjects;
 using VenueHosting.SharedKernel.Common.Models;
@@ -8,11 +9,11 @@ namespace VenueHosting.Module.Venue.Domain.Venue;
 
 public sealed class Venue : AggregateRote<VenueId, Guid>
 {
-    private readonly List<Activity> _activities = new();
+    private readonly HashSet<Activity> _activities = new();
 
-    private readonly List<VenueReview.VenueReview> _venueReviews = new();
+    private readonly HashSet<VenueReview> _venueReviews = new();
 
-    private readonly List<Reservation.Reservation> _reservations = new();
+    private readonly HashSet<Reservation> _reservations = new();
 
     private Venue()
     {
@@ -62,9 +63,9 @@ public sealed class Venue : AggregateRote<VenueId, Guid>
 
     public IReadOnlyList<Activity> Activities => _activities.ToList().AsReadOnly();
 
-    public IReadOnlyList<VenueReview.VenueReview> VenueReviews => _venueReviews.ToList().AsReadOnly();
+    public IReadOnlyList<VenueReview> VenueReviews => _venueReviews.ToList().AsReadOnly();
 
-    public IReadOnlyList<Reservation.Reservation> Reservations => _reservations.ToList().AsReadOnly();
+    public IReadOnlyList<Reservation> Reservations => _reservations.ToList().AsReadOnly();
 
     public DateTime StartAtDateTime { get; private set; }
 
@@ -85,8 +86,8 @@ public sealed class Venue : AggregateRote<VenueId, Guid>
         DateTime endAtDateTime)
     {
         VenueId id = VenueId.CreateUnique();
-
-        var venue = new Venue(VenueId.CreateUnique(),
+        Venue venue = new Venue(
+            id,
             ownerId,
             lesseeId,
             placeId,
@@ -98,6 +99,9 @@ public sealed class Venue : AggregateRote<VenueId, Guid>
             DateTime.UtcNow,
             DateTime.UtcNow);
 
+        venue.CheckRule(new VenueEventNameMustNotExceedLengthBusinessRule(venue.EventName));
+        venue.CheckRule(new VenueDescriptionMustNotExceedLengthBusinessRule(venue.Description));
+
         venue.AddDomainEvent(new VenueCreatedIntegrationEvent(id.Value, venue.LesseeId.Value));
 
         return venue;
@@ -105,10 +109,11 @@ public sealed class Venue : AggregateRote<VenueId, Guid>
 
     public void AddActivity(Activity activity)
     {
-        //TODO: validation
+        CheckRule(new VenueActivityMustNotContainDuplicateBusinessRule(_activities, activity));
 
         _activities.Add(activity);
 
+        //Check for internal clock
         UpdatedAtDateTime = DateTime.UtcNow;
     }
 
@@ -117,30 +122,43 @@ public sealed class Venue : AggregateRote<VenueId, Guid>
         Visibility = visibility;
     }
 
-    public void AddReview(VenueReview.VenueReview venueReview)
+    public void AddReview(VenueReview venueReview)
     {
+        CheckRule(new VenueReviewMustNotContainDuplicateBusinessRule(_venueReviews, venueReview));
+
         _venueReviews.Add(venueReview);
     }
 
-    public void RemoveReview(VenueReview.VenueReview venueReview)
+    public void UpdateReview(VenueReview venueReview)
     {
+        CheckRule(new VenueReviewMustExistBusinessRule(_venueReviews, venueReview));
+
+        _venueReviews.RemoveWhere(x => x.Id == venueReview.Id);
+        _venueReviews.Add(venueReview);
+    }
+
+    public void RemoveReview(VenueReview venueReview)
+    {
+        CheckRule(new VenueReviewMustExistBusinessRule(_venueReviews, venueReview));
+
         _venueReviews.Remove(venueReview);
     }
 
     public void UpdateDetails(string eventName, string description)
     {
-        //validation
+        CheckRule(new VenueEventNameMustNotExceedLengthBusinessRule(eventName));
+        CheckRule(new VenueDescriptionMustNotExceedLengthBusinessRule(description));
 
         EventName = eventName;
         Description = description;
     }
 
-    public void Reserve(Reservation.Reservation reservation)
+    public void Reserve(Reservation reservation)
     {
         _reservations.Add(reservation);
     }
 
-    public void CancelReservation(Reservation.Reservation reservation)
+    public void CancelReservation(Reservation reservation)
     {
         _reservations.Remove(reservation);
     }

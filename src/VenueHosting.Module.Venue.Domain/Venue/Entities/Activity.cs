@@ -1,3 +1,4 @@
+using VenueHosting.Module.Venue.Domain.Venue.BusinessRules;
 using VenueHosting.Module.Venue.Domain.Venue.ValueObjects;
 using VenueHosting.SharedKernel.Common.Models;
 
@@ -19,6 +20,11 @@ public class Activity : Entity<ActivityId>
 
     public static Activity Create(string name, string description)
     {
-        return new Activity(ActivityId.CreateUnique(), name, description);
+        Activity activity = new(ActivityId.CreateUnique(), name, description);
+
+        activity.CheckRule(new ActivityNameMustNotExceedLengthBusinessRule(activity.Name));
+        activity.CheckRule(new ActivityDescriptionMustNotExceedLengthBusinessRule(activity.Description));
+
+        return activity;
     }
 }

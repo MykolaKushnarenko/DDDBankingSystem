@@ -1,6 +1,5 @@
-
 using VenueHosting.Module.Venue.Application.Common.Specifications;
-using VenueHosting.SharedKernel.Persistence;
+using VenueHosting.SharedKernel.Persistence.Storages;
 
 namespace VenueHosting.Module.Venue.Application.Common.Persistence;
 

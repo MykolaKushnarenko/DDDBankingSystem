@@ -1,4 +1,3 @@
-using MediatR;
 using VenueHosting.Module.Venue.Application;
 
 namespace VenueHosting.Module.Payment.Infrastructure.Persistence.AtomicScope;
@@ -6,12 +5,10 @@ namespace VenueHosting.Module.Payment.Infrastructure.Persistence.AtomicScope;
 internal sealed class AtomicScope : IAtomicScope
 {
     private readonly PaymentApplicationDbContext _dbContext;
-    private readonly IPublisher _publisher;
 
-    public AtomicScope(PaymentApplicationDbContext dbContext, IPublisher publisher)
+    public AtomicScope(PaymentApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
-        _publisher = publisher;
     }
 
     public async Task CommitAsync(CancellationToken token)

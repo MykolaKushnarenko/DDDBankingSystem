@@ -1,10 +1,8 @@
-using VenueHosting.Module.Venue.Domain.Reservation.ValueObjects;
 using VenueHosting.Module.Venue.Domain.Venue.ValueObjects;
-using VenueHosting.Module.Venue.Domain.VenueReview.ValueObjects;
 using VenueHosting.SharedKernel.Common.Models;
-using ReservationId = VenueHosting.Module.Venue.Domain.Reservation.ValueObjects.ReservationId;
+using ReservationId = VenueHosting.Module.Venue.Domain.Venue.ValueObjects.ReservationId;
 
-namespace VenueHosting.Module.Venue.Domain.Reservation;
+namespace VenueHosting.Module.Venue.Domain.Venue.Entities;
 
 public sealed class Reservation : Entity<ReservationId>
 {
@@ -32,5 +30,4 @@ public sealed class Reservation : Entity<ReservationId>
         return new Reservation(ReservationId.CreateUnique(), attendeeId, billId, amount,
             DateTime.UtcNow);
     }
-
 }

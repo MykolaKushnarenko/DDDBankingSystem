@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using VenueHosting.Module.Venue.Application.Common.Persistence;
 using VenueHosting.Module.Venue.Domain.Venue.ValueObjects;
+using VenueHosting.SharedKernel.Persistence.Specifications;
 using VenueHosting.SharedKernel.Specifications;
 
 namespace VenueHosting.Module.Venue.Infrastructure.Persistence.Stores;

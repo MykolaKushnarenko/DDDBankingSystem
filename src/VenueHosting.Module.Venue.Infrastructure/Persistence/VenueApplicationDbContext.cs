@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using VenueHosting.Module.Venue.Domain.VenueReview;
 
 namespace VenueHosting.Module.Venue.Infrastructure.Persistence;
 
@@ -9,11 +8,9 @@ internal sealed class VenueApplicationDbContext : DbContext
     {
     }
 
-    public DbSet<Domain.Venue.Venue> Venues { get; set; } = null!;
+    public DbSet<Domain.Venue.Venue> Venues { get; } = null!;
 
-    public DbSet<VenueReview> VenueReview { get; set; }
-
-    public DbSet<Domain.Place.Place> Places { get; set; }
+    public DbSet<Domain.Place.Place> Places { get; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

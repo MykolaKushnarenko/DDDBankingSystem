@@ -1,11 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using VenueHosting.Module.Venue.Domain.Place.ValueObjects;
-using VenueHosting.Module.Venue.Domain.Reservation;
-using VenueHosting.Module.Venue.Domain.Reservation.ValueObjects;
-using VenueHosting.Module.Venue.Domain.Venue.ValueObjects;
-using VenueHosting.Module.Venue.Domain.VenueReview.ValueObjects;
-using ReservationId = VenueHosting.Module.Venue.Domain.Reservation.ValueObjects.ReservationId;
 
 namespace VenueHosting.Module.Venue.Infrastructure.Persistence.Configurations;
 

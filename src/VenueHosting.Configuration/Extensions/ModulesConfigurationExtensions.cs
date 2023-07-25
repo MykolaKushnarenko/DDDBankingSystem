@@ -1,7 +1,5 @@
-
 using MediatR;
 using MediatR.NotificationPublishers;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VenueHosting.Module.Attendee.Infrastructure;
@@ -41,7 +39,6 @@ namespace VenueHosting.Configuration.Extensions
 
                 cfg.Lifetime = ServiceLifetime.Transient;
             });
-
 
             services
                 .AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));

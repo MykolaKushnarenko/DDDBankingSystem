@@ -1,10 +1,10 @@
 using VenueHosting.SharedKernel.Common.Models;
 
-namespace VenueHosting.Module.Venue.Domain.VenueReview.ValueObjects;
+namespace VenueHosting.Module.Venue.Domain.Venue.ValueObjects;
 
-public sealed class VenueReviewId : AggregateRootId<Guid>
+public sealed class VenueReviewId : ValueObject
 {
-    public override Guid Value { get; protected set; }
+    public Guid Value { get; protected set; }
 
     private VenueReviewId()
     {

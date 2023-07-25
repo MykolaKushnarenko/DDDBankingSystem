@@ -3,13 +3,12 @@ using VenueHosting.SharedKernel.Common.Models;
 
 namespace VenueHosting.Module.Venue.Domain.Place;
 
-public class Place : Entity<PlaceId>
+public class Place : AggregateRote<PlaceId, Guid>
 {
     private Place(){}
 
-    private Place(PlaceId placeId, string country, string city, string street)
+    private Place(PlaceId placeId, string country, string city, string street) : base(placeId)
     {
-        Id = placeId;
         Country = country;
         City = city;
         Street = street;

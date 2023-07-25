@@ -1,7 +1,7 @@
-using MassTransit;
 using MediatR;
 using VenueHosting.Module.Venue.Application.Common.Persistence;
 using VenueHosting.Module.Venue.Application.Common.Specifications;
+using VenueHosting.Module.Venue.Domain.Exceptions;
 
 namespace VenueHosting.Module.Venue.Application.Features.OrganizeVenue;
 
@@ -11,7 +11,10 @@ internal sealed class OrganizeVenueCommandHandler : IRequestHandler<OrganizeVenu
     private readonly IPlaceStore _placeStore;
     private readonly IAtomicScope _atomicScope;
 
-    public OrganizeVenueCommandHandler(IVenueStore venueStore, IAtomicScope atomicScope, IPlaceStore placeStore)
+    public OrganizeVenueCommandHandler(
+        IVenueStore venueStore,
+        IAtomicScope atomicScope,
+        IPlaceStore placeStore)
     {
         _venueStore = venueStore;
         _atomicScope = atomicScope;
@@ -25,7 +28,7 @@ internal sealed class OrganizeVenueCommandHandler : IRequestHandler<OrganizeVenu
 
         if (!placeExist)
         {
-            throw new ArgumentException("Place doesn't exist.");
+            throw new PlaceNotFoundException();
         }
 
         Domain.Venue.Venue venue = Domain.Venue.Venue.Create(

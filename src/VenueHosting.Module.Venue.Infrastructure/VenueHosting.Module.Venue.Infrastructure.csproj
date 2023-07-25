@@ -17,4 +17,8 @@
       <ProjectReference Include="..\VenueHosting.Module.Venue.Domain\VenueHosting.Module.Venue.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Persistence\Outbox\" />
+    </ItemGroup>
+
 </Project>

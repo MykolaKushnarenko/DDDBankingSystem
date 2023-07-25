@@ -1,3 +1,4 @@
+using VenueHosting.SharedKernel.BLSpecifications;
 using VenueHosting.SharedKernel.Common.DomainEvents;
 using VenueHosting.SharedKernel.Specifications;
 
@@ -9,7 +10,7 @@ public abstract class Entity<TId> : IHasDomainEvents, ISupportSpecification, IEq
 
     private List<IntegrationEvent>? _domainEvents;
 
-    public IReadOnlyList<IntegrationEvent> DomainEvents => _domainEvents;
+    public IReadOnlyList<IntegrationEvent>? DomainEvents => _domainEvents;
 
     protected Entity()
     {
@@ -51,5 +52,10 @@ public abstract class Entity<TId> : IHasDomainEvents, ISupportSpecification, IEq
     public void ClearDomainEvents()
     {
         _domainEvents?.Clear();
+    }
+
+    protected void CheckRule(IBusinessRule rule)
+    {
+        rule.CheckIfSatisfied();
     }
 }

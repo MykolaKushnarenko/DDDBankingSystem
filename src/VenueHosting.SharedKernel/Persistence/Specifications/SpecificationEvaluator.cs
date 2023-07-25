@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using VenueHosting.SharedKernel.Persistence.Specifications;
 
 namespace VenueHosting.SharedKernel.Specifications;
 

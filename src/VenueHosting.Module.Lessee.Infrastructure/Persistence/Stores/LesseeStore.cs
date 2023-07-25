@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using VenueHosting.Module.Lessee.Application.Common.Persistence;
+using VenueHosting.SharedKernel.Persistence.Specifications;
 using VenueHosting.SharedKernel.Specifications;
 
 namespace VenueHosting.Module.Lessee.Infrastructure.Persistence.Stores;
