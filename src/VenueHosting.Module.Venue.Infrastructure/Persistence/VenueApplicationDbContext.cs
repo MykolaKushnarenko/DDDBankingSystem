@@ -8,9 +8,11 @@ internal sealed class VenueApplicationDbContext : DbContext
     {
     }
 
-    public DbSet<Domain.Venue.Venue> Venues { get; } = null!;
+    public DbSet<Domain.Venue.Venue> Venues { get; set; }
 
-    public DbSet<Domain.Place.Place> Places { get; } = null!;
+    public DbSet<Domain.Place.Place> Places { get; set; }
+
+    public DbSet<Outbox.OutboxIntegrationEvent> OutboxIntegrationEvents { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

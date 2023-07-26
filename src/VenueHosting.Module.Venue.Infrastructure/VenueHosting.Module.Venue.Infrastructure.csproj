@@ -9,16 +9,13 @@
     <ItemGroup>
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.4" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.4" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\VenueHosting.Module.User.Application\VenueHosting.Module.User.Application.csproj" />
       <ProjectReference Include="..\VenueHosting.Module.Venue.Application\VenueHosting.Module.Venue.Application.csproj" />
       <ProjectReference Include="..\VenueHosting.Module.Venue.Domain\VenueHosting.Module.Venue.Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Persistence\Outbox\" />
     </ItemGroup>
 
 </Project>

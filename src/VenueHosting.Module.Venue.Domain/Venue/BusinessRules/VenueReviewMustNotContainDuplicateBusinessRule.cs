@@ -6,11 +6,11 @@ namespace VenueHosting.Module.Venue.Domain.Venue.BusinessRules;
 
 internal sealed class VenueReviewMustNotContainDuplicateBusinessRule : IBusinessRule
 {
-    private readonly HashSet<VenueReview> _allReviews;
+    private readonly IList<VenueReview> _allReviews;
 
     private readonly VenueReview _addingReview;
 
-    public VenueReviewMustNotContainDuplicateBusinessRule(HashSet<VenueReview> allReviews,
+    public VenueReviewMustNotContainDuplicateBusinessRule(IList<VenueReview> allReviews,
         VenueReview addingReview)
     {
         _allReviews = allReviews;

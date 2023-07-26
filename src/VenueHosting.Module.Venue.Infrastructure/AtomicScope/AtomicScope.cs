@@ -1,8 +1,8 @@
 using MassTransit;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using VenueHosting.Module.Venue.Application;
 using VenueHosting.Module.Venue.Infrastructure.Persistence;
+using VenueHosting.Module.Venue.Infrastructure.Persistence.Outbox;
 using VenueHosting.SharedKernel.Common.DomainEvents;
 
 namespace VenueHosting.Module.Venue.Infrastructure.AtomicScope;
@@ -10,26 +10,24 @@ namespace VenueHosting.Module.Venue.Infrastructure.AtomicScope;
 internal sealed class AtomicScope : IAtomicScope
 {
     private readonly VenueApplicationDbContext _dbContext;
-    private readonly IBus _bus;
 
     public AtomicScope(VenueApplicationDbContext dbContext, IBus bus)
     {
         _dbContext = dbContext;
-        _bus = bus;
     }
 
     public async Task CommitAsync(CancellationToken token)
     {
         //Dispatch all domain events before commiting a transaction.
-        await _bus.DispatchEventsAsync(_dbContext);
+        await _dbContext.DispatchEventsAsync();
 
         await _dbContext.SaveChangesAsync(token);
     }
 }
 
-internal static class BusExtensions
+internal static class DbExtensions
 {
-    public static async Task DispatchEventsAsync(this IBus bus, DbContext context)
+    public static async Task DispatchEventsAsync(this VenueApplicationDbContext context)
     {
         List<IHasDomainEvents> aggregateRoots = context.ChangeTracker
             .Entries<IHasDomainEvents>()
@@ -41,7 +39,15 @@ internal static class BusExtensions
             .SelectMany(x => x.DomainEvents)
             .ToList();
 
-        await bus.DispatchDomainEventsAsync(domainEvents);
+        OutboxIntegrationEvent[] outboxIntegrationEvents = domainEvents
+            .Select(x => new OutboxIntegrationEvent
+            {
+                Type = x.GetType().FullName!,
+                Data = JsonConvert.SerializeObject(x)
+            })
+            .ToArray();
+
+        await context.OutboxIntegrationEvents.AddRangeAsync(outboxIntegrationEvents);
 
         ClearDomainEvents(aggregateRoots);
     }

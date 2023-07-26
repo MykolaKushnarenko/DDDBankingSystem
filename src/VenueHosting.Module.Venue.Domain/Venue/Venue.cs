@@ -9,11 +9,11 @@ namespace VenueHosting.Module.Venue.Domain.Venue;
 
 public sealed class Venue : AggregateRote<VenueId, Guid>
 {
-    private readonly HashSet<Activity> _activities = new();
+    private readonly List<Activity> _activities = new();
 
-    private readonly HashSet<VenueReview> _venueReviews = new();
+    private readonly List<VenueReview> _venueReviews = new();
 
-    private readonly HashSet<Reservation> _reservations = new();
+    private readonly List<Reservation> _reservations = new();
 
     private Venue()
     {
@@ -133,7 +133,9 @@ public sealed class Venue : AggregateRote<VenueId, Guid>
     {
         CheckRule(new VenueReviewMustExistBusinessRule(_venueReviews, venueReview));
 
-        _venueReviews.RemoveWhere(x => x.Id == venueReview.Id);
+        VenueReview oldVenueReview = _venueReviews.Find(x => x.Id == venueReview.Id)!;
+        _venueReviews.Remove(oldVenueReview);
+
         _venueReviews.Add(venueReview);
     }
 

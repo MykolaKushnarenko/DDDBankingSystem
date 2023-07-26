@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VenueHosting.Application.Common.Interfaces;
 using VenueHosting.Module.Payment.Infrastructure.Persistence;
-using VenueHosting.Module.Payment.Infrastructure.Persistence.AtomicScope;
+//using VenueHosting.Module.Payment.Infrastructure.Persistence.AtomicScope;
 using VenueHosting.Module.Payment.Infrastructure.Services;
 using VenueHosting.Module.Venue.Application;
 
@@ -17,7 +17,7 @@ public static class DependencyInjection
     {
         serviceCollection.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
-        serviceCollection.AddScoped<IAtomicScope, AtomicScope>();
+        //serviceCollection.AddScoped<IAtomicScope, AtomicScope>();
 
         serviceCollection.AddPersistence();
 

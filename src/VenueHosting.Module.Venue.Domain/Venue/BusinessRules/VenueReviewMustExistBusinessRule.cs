@@ -6,11 +6,11 @@ namespace VenueHosting.Module.Venue.Domain.Venue.BusinessRules;
 
 internal sealed class VenueReviewMustExistBusinessRule : IBusinessRule
 {
-    private readonly HashSet<VenueReview> _allReviews;
+    private readonly IList<VenueReview> _allReviews;
 
     private readonly VenueReview _reviewToRemove;
 
-    public VenueReviewMustExistBusinessRule(HashSet<VenueReview> allReviews,
+    public VenueReviewMustExistBusinessRule(IList<VenueReview> allReviews,
         VenueReview reviewToRemove)
     {
         _allReviews = allReviews;

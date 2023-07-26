@@ -6,11 +6,11 @@ namespace VenueHosting.Module.Venue.Domain.Venue.BusinessRules;
 
 internal sealed class VenueActivityMustNotContainDuplicateBusinessRule : IBusinessRule
 {
-    private readonly HashSet<Activity> _currentActivities;
+    private readonly IList<Activity> _currentActivities;
 
     private readonly Activity _addingActivity;
 
-    public VenueActivityMustNotContainDuplicateBusinessRule(HashSet<Activity> currentActivities, Activity addingActivity)
+    public VenueActivityMustNotContainDuplicateBusinessRule(IList<Activity> currentActivities, Activity addingActivity)
     {
         _currentActivities = currentActivities;
         _addingActivity = addingActivity;
