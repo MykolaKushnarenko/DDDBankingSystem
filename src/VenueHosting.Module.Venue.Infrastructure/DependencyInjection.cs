@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VenueHosting.Module.Venue.Application;
 using VenueHosting.Module.Venue.Application.Common.Persistence;
-using VenueHosting.Module.Venue.Infrastructure.AtomicScope;
+using VenueHosting.Module.Venue.Infrastructure.Jobs;
 using VenueHosting.Module.Venue.Infrastructure.Persistence;
 using VenueHosting.Module.Venue.Infrastructure.Persistence.Stores;
 
@@ -18,12 +18,15 @@ public static class DependencyInjection
 
         serviceCollection.AddScoped<IPlaceStore, PlaceStore>();
         serviceCollection.AddScoped<IVenueStore, VenueStore>();
+        serviceCollection.AddScoped<IOutboxMessageStore, OutboxMessageStore>();
 
         //serviceCollection.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
         serviceCollection.AddScoped<IAtomicScope, AtomicScope.AtomicScope>();
 
         serviceCollection.AddPersistence();
+
+        serviceCollection.AddHostedService<OutboxMessageBackgroundJob>();
 
         return serviceCollection;
     }
