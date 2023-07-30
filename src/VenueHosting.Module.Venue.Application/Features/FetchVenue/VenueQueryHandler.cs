@@ -14,7 +14,7 @@ internal sealed class VenueQueryHandler : IRequestHandler<VenueQuery, Domain.Ven
 
     public async Task<Domain.Venue.Venue?> Handle(VenueQuery request, CancellationToken cancellationToken)
     {
-        Domain.Venue.Venue? venue = await _venue.FetchVenueByIdAsync(request.VenueId);
+        Domain.Venue.Venue? venue = await _venue.FetchVenueByIdAsync(request.VenueId, cancellationToken);
 
         return venue;
     }

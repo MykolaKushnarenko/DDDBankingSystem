@@ -23,6 +23,7 @@ internal sealed class FindVenuesByLocationQueryHandler :
         FindPlacesByLocationDetailsSpecification findPlacesByLocationDetailsSpecification =
             new(request.Country, request.City, request.Street);
 
+        //Implement the nearest search.
         IReadOnlyList<Domain.Place.Place> nearbyPlaces =
             await _placeStore.FetchAllBySpecificationAsync(findPlacesByLocationDetailsSpecification, cancellationToken);
 

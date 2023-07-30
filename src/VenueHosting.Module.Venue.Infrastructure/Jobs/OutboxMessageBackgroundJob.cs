@@ -14,6 +14,7 @@ internal sealed class OutboxMessageBackgroundJob : BackgroundService
 {
     private readonly IBus _bus;
     private readonly IOutboxMessageStore _outboxMessageStore;
+    private const int DelayInSeconds = 5;
 
     public OutboxMessageBackgroundJob(IBus bus,
         IServiceScopeFactory serviceScopeFactory)
@@ -38,6 +39,8 @@ internal sealed class OutboxMessageBackgroundJob : BackgroundService
 
                  await _bus.Publish(@event, stoppingToken);
             }
+
+            await Task.Delay(TimeSpan.FromSeconds(DelayInSeconds), stoppingToken);
         }
     }
 }

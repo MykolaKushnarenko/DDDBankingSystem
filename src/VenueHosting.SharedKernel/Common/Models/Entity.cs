@@ -8,9 +8,9 @@ public abstract class Entity<TId> : IHasDomainEvents, ISupportSpecification, IEq
 {
     public TId Id { get; protected set; }
 
-    private List<IntegrationEvent>? _domainEvents;
+    private List<IIntegrationEvent>? _domainEvents;
 
-    public IReadOnlyList<IntegrationEvent>? DomainEvents => _domainEvents;
+    public IReadOnlyList<IIntegrationEvent>? DomainEvents => _domainEvents;
 
     protected Entity()
     {
@@ -43,9 +43,9 @@ public abstract class Entity<TId> : IHasDomainEvents, ISupportSpecification, IEq
         return Id.GetHashCode();
     }
 
-    protected void AddDomainEvent(IntegrationEvent eventItem)
+    protected void AddDomainEvent(IIntegrationEvent eventItem)
     {
-        _domainEvents ??= new List<IntegrationEvent>();
+        _domainEvents ??= new List<IIntegrationEvent>();
         _domainEvents.Add(eventItem);
     }
 

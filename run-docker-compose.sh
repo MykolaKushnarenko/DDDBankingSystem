@@ -1,2 +1,2 @@
-docker-compose -f docker-compose-build-local.yml pull
-docker-compose -f docker-compose-build-local.yml up
+docker-compose -f docker-compose.yml pull
+docker-compose -f docker-compose.yml up

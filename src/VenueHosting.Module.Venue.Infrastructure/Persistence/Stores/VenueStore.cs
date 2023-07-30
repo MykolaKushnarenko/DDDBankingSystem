@@ -15,9 +15,9 @@ internal sealed class VenueStore : IVenueStore
         _dbContext = dbContext;
     }
 
-    public Task<Domain.Venue.Venue?> FetchVenueByIdAsync(VenueId venueId)
+    public Task<Domain.Venue.Venue?> FetchVenueByIdAsync(VenueId venueId, CancellationToken token)
     {
-        return _dbContext.Venues.Where(x => x.Id == venueId).SingleOrDefaultAsync();
+        return _dbContext.Venues.Where(x => x.Id == venueId).SingleOrDefaultAsync(token);
     }
 
     public async Task AddAsync(Domain.Venue.Venue venue)

@@ -12,10 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Venue\DomainEvents\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <EmbeddedResource Update="VenueErrors.resx">
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>VenueErrors.Designer.cs</LastGenOutput>

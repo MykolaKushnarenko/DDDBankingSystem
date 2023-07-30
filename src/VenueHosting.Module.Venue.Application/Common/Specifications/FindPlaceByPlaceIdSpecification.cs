@@ -1,4 +1,3 @@
-
 using VenueHosting.Module.Venue.Domain.Place.ValueObjects;
 using VenueHosting.SharedKernel.Specifications;
 

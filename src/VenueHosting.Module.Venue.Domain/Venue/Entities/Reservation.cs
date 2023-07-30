@@ -25,9 +25,9 @@ public sealed class Reservation : Entity<ReservationId>
 
     public DateTime ReservationDateTime { get; private set; }
 
-    public static Reservation Create(AttendeeId attendeeId, BillId billId, int amount)
+    public static Reservation Create(AttendeeId attendeeId, BillId billId, int amount, DateTime reservationDateTime)
     {
         return new Reservation(ReservationId.CreateUnique(), attendeeId, billId, amount,
-            DateTime.UtcNow);
+            reservationDateTime);
     }
 }

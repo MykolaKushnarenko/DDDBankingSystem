@@ -35,7 +35,7 @@ internal static class DbExtensions
             .Select(e => e.Entity)
             .ToList();
 
-        List<IntegrationEvent> domainEvents = aggregateRoots
+        List<IIntegrationEvent> domainEvents = aggregateRoots
             .SelectMany(x => x.DomainEvents)
             .ToList();
 
@@ -52,9 +52,9 @@ internal static class DbExtensions
         ClearDomainEvents(aggregateRoots);
     }
 
-    private static async Task DispatchDomainEventsAsync(this IBus bus, List<IntegrationEvent> domainEvents)
+    private static async Task DispatchDomainEventsAsync(this IBus bus, List<IIntegrationEvent> domainEvents)
     {
-        foreach (IntegrationEvent domainEvent in domainEvents)
+        foreach (IIntegrationEvent domainEvent in domainEvents)
         {
             await bus.Publish(domainEvent);
         }

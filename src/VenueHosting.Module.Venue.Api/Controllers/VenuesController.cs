@@ -1,8 +1,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using VenueHosting.Module.Venue.Api.Requests;
 using VenueHosting.Module.Venue.Application.Features.FindVenuesByLocation;
 using VenueHosting.Module.Venue.Application.Features.OrganizeVenue;
+using VenueHosting.Module.Venue.Application.Features.ReserveAttendance;
 using VenueHosting.Module.Venue.Domain.Place.ValueObjects;
 using VenueHosting.Module.Venue.Domain.Venue.ValueObjects;
 using VenueHosting.SharedKernel.Controllers;
@@ -37,7 +39,7 @@ public class VenuesController : ApiController
     /// </remarks>
     /// <returns></returns>
     [HttpPost]
-    public async Task<IActionResult> OrganizeAsync([FromBody]OrganizeVenueRequest request)
+    public async Task<IActionResult> OrganizeAsync([FromBody] OrganizeVenueRequest request)
     {
         OrganizeVenueCommand command = new OrganizeVenueCommand(
             OwnerId.Create(Guid.Parse(request.OwnerId)),
@@ -56,6 +58,36 @@ public class VenuesController : ApiController
     }
 
     /// <summary>
+    /// Reserve event
+    /// </summary>
+    /// <remarks>
+    /// Request example:
+    /// <code>
+    /// POST <![CDATA[/venues/{venueId}/reserve]]>
+    /// {
+    ///
+    /// }
+    /// </code>
+    /// </remarks>
+    /// <returns></returns>
+    [HttpPost("{venueId}/reserve")]
+    public async Task<IActionResult> ReserveAsync(string venueId, [FromBody] ReserveRequest request)
+    {
+        ReserveAttendanceCommand reserveCommand = new()
+        {
+            VenueId = VenueId.Create(Guid.Parse(venueId)),
+            AttendeeId = AttendeeId.Create(Guid.Parse(request.AttendeeId!)),
+            BillId = BillId.Create(Guid.Parse(request.BillId!)),
+            Amount = request.Amount,
+            ReservationDateTime = request.ReservationDateTime
+        };
+
+        await _sender.Send(reserveCommand);
+
+        return Ok();
+    }
+
+    /// <summary>
     /// Get the closest event
     /// </summary>
     /// <remarks>
@@ -68,20 +100,11 @@ public class VenuesController : ApiController
     /// </code>
     /// </remarks>
     /// <returns></returns>
-    [HttpGet]
+    [HttpGet("/nearest")]
     public async Task<IActionResult> FindClosestVenues([FromQuery]FindVenuesByLocationQuery request)
     {
         IReadOnlyList<Domain.Venue.Venue> venue = await _sender.Send(request);
 
         return Ok(venue);
     }
-
-    public record OrganizeVenueRequest(string OwnerId,
-        string LesseeId,
-        string PlaceId,
-        string EventName,
-        string Description,
-        Visibility Visibility,
-        DateTime StartAtDateTime,
-        DateTime EndAtDateTime);
 }
