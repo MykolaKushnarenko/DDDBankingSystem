@@ -26,9 +26,9 @@ public sealed class VenueReview : Entity<VenueReviewId>
 
     public DateTime CreatedDateTime { get; private set; }
 
-    public static VenueReview Create(AttendeeId authorId, string comment, float ratingGiven)
+    public static VenueReview Create(AttendeeId authorId, string comment, float ratingGiven, DateTime createdDateTime)
     {
         return new VenueReview(VenueReviewId.CreateUnique(), authorId, comment, ratingGiven,
-            DateTime.UtcNow);
+            createdDateTime);
     }
 }
