@@ -1,4 +1,5 @@
 using VenueHosting.Contracts.Events;
+using VenueHosting.Module.Venue.Domain.Exceptions;
 using VenueHosting.Module.Venue.Domain.Place.ValueObjects;
 using VenueHosting.Module.Venue.Domain.Venue.BusinessRules;
 using VenueHosting.Module.Venue.Domain.Venue.Entities;
@@ -122,6 +123,11 @@ public sealed class Venue : AggregateRote<VenueId, Guid>
         Visibility = visibility;
     }
 
+    public void ChangeStatus(VenueStatus status)
+    {
+        Status = status;
+    }
+
     public void AddReview(VenueReview venueReview)
     {
         CheckRule(new VenueReviewMustNotContainDuplicateBusinessRule(_venueReviews, venueReview));
@@ -157,16 +163,20 @@ public sealed class Venue : AggregateRote<VenueId, Guid>
 
     public void Reserve(Reservation reservation)
     {
+        CheckRule(new VenueReservationMustNotAlreadyExistBusinessRule(_reservations, reservation));
+
         _reservations.Add(reservation);
     }
 
-    public void CancelReservation(Reservation reservation)
+    public void CancelReservation(ReservationId reservationId)
     {
-        _reservations.Remove(reservation);
-    }
+        Reservation? soughtReservation = _reservations.Find(x => x.Id == reservationId);
 
-    public void ChangeStatus(VenueStatus status)
-    {
-        Status = status;
+        if (soughtReservation is null)
+        {
+            throw new VenueReservationNotFoundException();
+        }
+
+        _reservations.Remove(soughtReservation);
     }
 }

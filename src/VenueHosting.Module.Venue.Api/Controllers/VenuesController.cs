@@ -2,6 +2,9 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VenueHosting.Module.Venue.Api.Requests;
+using VenueHosting.Module.Venue.Application.Features.AddActivities;
+using VenueHosting.Module.Venue.Application.Features.CancelReservation;
+using VenueHosting.Module.Venue.Application.Features.ChangeVisibility;
 using VenueHosting.Module.Venue.Application.Features.FindVenuesByLocation;
 using VenueHosting.Module.Venue.Application.Features.OrganizeVenue;
 using VenueHosting.Module.Venue.Application.Features.ReserveAttendance;
@@ -58,6 +61,64 @@ public class VenuesController : ApiController
     }
 
     /// <summary>
+    /// Add activity(ies) to the event
+    /// </summary>
+    /// <remarks>
+    /// Request example:
+    /// <code>
+    /// POST <![CDATA[/venues]]>
+    /// {
+    ///
+    /// }
+    /// </code>
+    /// </remarks>
+    /// <returns></returns>
+    [HttpPost("{venueId}/activities")]
+    public async Task<IActionResult> AddActivitiesAsync(string venueId, [FromBody] ActivitiesRequest request)
+    {
+        AddActivitiesCommand command = new()
+        {
+            VenueId = VenueId.Create(Guid.Parse(venueId)),
+            Activities = request.Activity.Select(x => new ActivityCommand
+            {
+                Name = x.Name,
+                Description = x.Description
+            }).ToArray()
+        };
+
+        await _sender.Send(command);
+
+        return Ok();
+    }
+
+    /// <summary>
+    /// Change status of the event
+    /// </summary>
+    /// <remarks>
+    /// Request example:
+    /// <code>
+    /// PUT <![CDATA[/venues]]>
+    /// {
+    ///
+    /// }
+    /// </code>
+    /// </remarks>
+    /// <returns></returns>
+    [HttpPut("{venueId}/visibility")]
+    public async Task<IActionResult> ChangeVisibilityAsync(string venueId, [FromBody] ChangeVisibilityRequest request)
+    {
+        var command = new ChangeVisibilityCommand
+        {
+            VenueId = VenueId.Create(Guid.Parse(venueId)),
+            Visibility = request.Visibility
+        };
+
+        await _sender.Send(command);
+
+        return Ok();
+    }
+
+    /// <summary>
     /// Reserve event
     /// </summary>
     /// <remarks>
@@ -70,7 +131,7 @@ public class VenuesController : ApiController
     /// </code>
     /// </remarks>
     /// <returns></returns>
-    [HttpPost("{venueId}/reserve")]
+    [HttpPost("{venueId}/reservation")]
     public async Task<IActionResult> ReserveAsync(string venueId, [FromBody] ReserveRequest request)
     {
         ReserveAttendanceCommand reserveCommand = new()
@@ -83,6 +144,33 @@ public class VenuesController : ApiController
         };
 
         await _sender.Send(reserveCommand);
+
+        return Ok();
+    }
+
+    /// <summary>
+    /// Cancel reservation
+    /// </summary>
+    /// <remarks>
+    /// Request example:
+    /// <code>
+    /// POST <![CDATA[/venues/{venueId}/reservation/{reservationId}/cancel]]>
+    /// {
+    ///
+    /// }
+    /// </code>
+    /// </remarks>
+    /// <returns></returns>
+    [HttpPost("{venueId}/reservation/{reservationId}/cancel")]
+    public async Task<IActionResult> CancelReservationAsync(string venueId, string reservationId)
+    {
+        CancelReservationCommand command = new()
+        {
+            VenueId = VenueId.Create(Guid.Parse(venueId)),
+            ReservationId = ReservationId.Create(Guid.Parse(reservationId)),
+        };
+
+        await _sender.Send(command);
 
         return Ok();
     }

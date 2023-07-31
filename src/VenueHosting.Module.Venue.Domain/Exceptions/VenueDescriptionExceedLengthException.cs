@@ -3,7 +3,7 @@ using VenueHosting.SharedKernel.Exceptions;
 
 namespace VenueHosting.Module.Venue.Domain.Exceptions;
 
-internal class VenueDescriptionExceedLengthException : VenueHostingCoreException
+internal sealed class VenueDescriptionExceedLengthException : VenueHostingCoreException
 {
     public VenueDescriptionExceedLengthException() : base(VenueErrors.VenueDescriptionExceedLength)
     {
