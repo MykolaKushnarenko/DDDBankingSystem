@@ -1,4 +1,5 @@
 using VenueHosting.Module.Place.Domain.Owner.ValueObjects;
+using VenueHosting.Module.Place.Domain.Place.BusinessRules;
 using VenueHosting.Module.Place.Domain.Place.Entities;
 using VenueHosting.Module.Place.Domain.Place.ValueObjects;
 using VenueHosting.SharedKernel.Common.Models;
@@ -30,19 +31,18 @@ public class Place : AggregateRote<PlaceId, Guid>
         return new Place(PlaceId.CreateUnique(), ownerId, address);
     }
 
-    public void AddExistingFacilities(IEnumerable<Facility> facility)
+    public void AddFacilities(IList<Facility> facilities)
     {
-        //TODO: validation
-        _facilities.AddRange(facility);
+        CheckRule(new FacilityMustNotExistBusinessRule(_facilities, facilities));
+
+        _facilities.AddRange(facilities);
     }
 
-    public void ProvideAddressInformation(Address address)
+    public void ProvideAddressInformation(string country, string city, string street, int number)
     {
-        ArgumentException.ThrowIfNullOrEmpty(address.City);
-        ArgumentException.ThrowIfNullOrEmpty(address.Country);
-        ArgumentException.ThrowIfNullOrEmpty(address.Street);
-        if (Address.Number <= 0)
-            throw new ArgumentException(nameof(Address.Number));
+        Address address = new(country, city, street, number);
+
+        CheckRule(new AddressMustBeValidBusinessRule(address));
 
         Address = address;
     }

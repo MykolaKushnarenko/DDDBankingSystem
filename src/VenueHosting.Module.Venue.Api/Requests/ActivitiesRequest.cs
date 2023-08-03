@@ -2,5 +2,5 @@ namespace VenueHosting.Module.Venue.Api.Requests;
 
 public class ActivitiesRequest
 {
-    public IList<ActivityRequest> Activity { get; init; }
+    public List<ActivityRequest> Activity { get; init; }
 }

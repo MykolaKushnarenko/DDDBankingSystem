@@ -6,7 +6,7 @@ namespace VenueHosting.Module.Place.Domain.Owner;
 
 public class Owner : AggregateRote<OwnerId, Guid>
 {
-    private List<PlaceId> _placeIds = new();
+    private readonly List<PlaceId> _placeIds = new();
 
     private Owner()
     {

@@ -79,7 +79,7 @@ public class VenuesController : ApiController
         AddActivitiesCommand command = new()
         {
             VenueId = VenueId.Create(Guid.Parse(venueId)),
-            Activities = request.Activity.Select(x => new ActivityCommand
+            Activities = request.Activity.ConvertAll(x => new ActivityCommand
             {
                 Name = x.Name,
                 Description = x.Description

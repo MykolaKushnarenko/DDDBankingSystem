@@ -25,7 +25,7 @@ internal sealed class RegisterNewPlaceCommandHandler : IRequestHandler<RegisterN
         List<Facility> facility =
             request.FacilityCommand.ConvertAll(x => Facility.Create(x.Name, x.Description, x.Quantity));
 
-        place.AddExistingFacilities(facility);
+        place.AddFacilities(facility);
 
         await _placeStore.AddAsync(place, cancellationToken);
         await _atomicScope.CommitAsync(cancellationToken);
