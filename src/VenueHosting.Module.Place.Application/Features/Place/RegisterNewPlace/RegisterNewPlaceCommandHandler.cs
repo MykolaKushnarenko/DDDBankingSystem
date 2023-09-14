@@ -1,4 +1,5 @@
 using MediatR;
+using VenueHosting.Module.Place.Application.Common.Interfaces;
 using VenueHosting.Module.Place.Application.Common.Persistence;
 using VenueHosting.Module.Place.Domain.Place.Entities;
 using VenueHosting.Module.Place.Domain.Place.ValueObjects;
@@ -8,17 +9,19 @@ namespace VenueHosting.Module.Place.Application.Features.Place.RegisterNewPlace;
 internal sealed class RegisterNewPlaceCommandHandler : IRequestHandler<RegisterNewPlaceCommand, Domain.Place.Place>
 {
     private readonly IPlaceStore _placeStore;
-    private readonly IAtomicScope _atomicScope;
+    private readonly IAtomicScopeFactory _atomicScopeFactory;
 
-    public RegisterNewPlaceCommandHandler(IPlaceStore placeStore, IAtomicScope atomicScope)
+    public RegisterNewPlaceCommandHandler(IPlaceStore placeStore, IAtomicScopeFactory atomicScopeFactory)
     {
         _placeStore = placeStore;
-        _atomicScope = atomicScope;
+        _atomicScopeFactory = atomicScopeFactory;
     }
 
     public async Task<Domain.Place.Place> Handle(RegisterNewPlaceCommand request, CancellationToken cancellationToken)
     {
-        var place = Domain.Place.Place.Create(request.OwnerId,
+        await using IAtomicScope atomicScope = _atomicScopeFactory.CreateScope();
+
+        Domain.Place.Place place = Domain.Place.Place.Create(request.OwnerId,
             new Address(request.AddressCommand.Country, request.AddressCommand.City, request.AddressCommand.Street,
                 request.AddressCommand.Number));
 
@@ -27,8 +30,8 @@ internal sealed class RegisterNewPlaceCommandHandler : IRequestHandler<RegisterN
 
         place.AddFacilities(facility);
 
-        await _placeStore.AddAsync(place, cancellationToken);
-        await _atomicScope.CommitAsync(cancellationToken);
+        await _placeStore.AddAsync(place, atomicScope);
+        await atomicScope.CommitAsync(cancellationToken);
 
         return place;
     }

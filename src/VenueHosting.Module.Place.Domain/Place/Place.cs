@@ -2,11 +2,10 @@ using VenueHosting.Module.Place.Domain.Owner.ValueObjects;
 using VenueHosting.Module.Place.Domain.Place.BusinessRules;
 using VenueHosting.Module.Place.Domain.Place.Entities;
 using VenueHosting.Module.Place.Domain.Place.ValueObjects;
-using VenueHosting.SharedKernel.Common.Models;
 
 namespace VenueHosting.Module.Place.Domain.Place;
 
-public class Place : AggregateRote<PlaceId, Guid>
+public class Place : AggregateRote<PlaceId>
 {
     private readonly List<Facility> _facilities = new();
 
@@ -36,6 +35,13 @@ public class Place : AggregateRote<PlaceId, Guid>
         CheckRule(new FacilityMustNotExistBusinessRule(_facilities, facilities));
 
         _facilities.AddRange(facilities);
+    }
+
+    public void AddFacility(Facility facility)
+    {
+        //CheckRule(new FacilityMustNotExistBusinessRule(_facilities, facilities));
+
+        _facilities.Add(facility);
     }
 
     public void ProvideAddressInformation(string country, string city, string street, int number)

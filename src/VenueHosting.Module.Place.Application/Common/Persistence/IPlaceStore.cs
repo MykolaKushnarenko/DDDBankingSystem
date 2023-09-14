@@ -1,15 +1,16 @@
-using VenueHosting.Module.Place.Application.Common.Specifications;
-using VenueHosting.SharedKernel.Persistence.Storages;
+using VenueHosting.Module.Place.Domain.Place.ValueObjects;
 
 namespace VenueHosting.Module.Place.Application.Common.Persistence;
 
-public interface IPlaceStore : IStorageSpecification<Domain.Place.Place>
+public interface IPlaceStore
 {
-    Task<bool> CheckIfPlaceExistAsync(FindPlaceByPlaceIdSpecification specification, CancellationToken token);
+    Task<bool> CheckIfPlaceExistAsync(PlaceId id, IAtomicScope atomicScope);
 
-    Task<IReadOnlyList<Domain.Place.Place>> FetchAllAsync(CancellationToken token);
+    Task<IReadOnlyList<Domain.Place.Place>> FetchAllAsync(IAtomicScope atomicScope);
 
-    Task AddAsync(Domain.Place.Place place, CancellationToken token);
+    Task<Domain.Place.Place> FetchAsync(PlaceId placeId, IAtomicScope atomicScope);
 
-    Task UpdateAsync(Domain.Place.Place place);
+    Task<PlaceId> AddAsync(Domain.Place.Place place, IAtomicScope atomicScope);
+
+    Task UpdateAsync(Domain.Place.Place place, IAtomicScope atomicScope);
 }

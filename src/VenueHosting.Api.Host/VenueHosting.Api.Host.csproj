@@ -32,4 +32,8 @@
       <ProjectReference Include="..\VenueHosting.Module.User.Infrastructure\VenueHosting.Module.User.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="wwwroot\js\" />
+    </ItemGroup>
+
 </Project>

@@ -21,7 +21,9 @@ var app = builder.Build();
 
     app.UseHttpsRedirection();
 
+    app.UseRouting();
     app.MapControllers();
+    app.UseVenueModule();
 
     app.Run();
 }

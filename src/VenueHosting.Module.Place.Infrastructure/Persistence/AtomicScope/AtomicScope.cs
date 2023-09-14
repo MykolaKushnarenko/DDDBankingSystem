@@ -1,24 +1,56 @@
-using MediatR;
+using System.Data.Common;
 using VenueHosting.Module.Place.Application;
+using IsolationLevel = System.Data.IsolationLevel;
 
 namespace VenueHosting.Module.Place.Infrastructure.Persistence.AtomicScope;
 
-internal sealed class AtomicScope : IAtomicScope
+internal sealed class AtomicScope : ISqlServerAtomicScope, IAtomicScope
 {
-    private readonly PlaceApplicationDbContext _dbContext;
-    private readonly IPublisher _publisher;
+    private bool _processed;
 
-    public AtomicScope(PlaceApplicationDbContext dbContext, IPublisher publisher)
+    public DbConnection Connection { get; }
+
+    public DbTransaction Transaction { get; }
+
+    public AtomicScope(DbConnection connection)
     {
-        _dbContext = dbContext;
-        _publisher = publisher;
+        Connection = connection;
+        Connection.Open();
+
+        Transaction = Connection.BeginTransaction(IsolationLevel.RepeatableRead);
     }
 
-    public async Task CommitAsync(CancellationToken token)
+    public async ValueTask CommitAsync(CancellationToken token)
     {
-        //Dispatch all domain events before commiting a transaction.
-        //await _publisher.DispatchEventsAsync(_dbContext);
+        if (_processed)
+        {
+            return;
+        }
 
-        await _dbContext.SaveChangesAsync(token);
+        await Transaction.CommitAsync(token);
+
+        _processed = true;
+    }
+
+    public void Dispose()
+    {
+        if (!_processed)
+        {
+            Transaction.Rollback();
+        }
+
+        Connection.Dispose();
+        Transaction.Dispose();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (!_processed)
+        {
+            await Transaction.RollbackAsync();
+        }
+
+        await Connection.DisposeAsync();
+        await Transaction.DisposeAsync();
     }
 }

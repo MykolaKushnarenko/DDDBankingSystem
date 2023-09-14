@@ -1,53 +1,116 @@
-using Microsoft.EntityFrameworkCore;
+using Dapper;
+using VenueHosting.Module.Place.Application;
 using VenueHosting.Module.Place.Application.Common.Persistence;
-using VenueHosting.Module.Place.Application.Common.Specifications;
-using VenueHosting.SharedKernel.Persistence.Specifications;
-using VenueHosting.SharedKernel.Specifications;
+using VenueHosting.Module.Place.Domain.Place.Entities;
+using VenueHosting.Module.Place.Domain.Place.ValueObjects;
+using VenueHosting.Module.Place.Infrastructure.Persistence.AtomicScope;
+using VenueHosting.Module.Place.Infrastructure.Persistence.Constants;
 
 namespace VenueHosting.Module.Place.Infrastructure.Persistence.Stores;
 
-internal sealed class PlaceStore : IPlaceStore
+internal sealed class PlaceStore : BaseContext, IPlaceStore
 {
-    private readonly PlaceApplicationDbContext _dbContext;
-
-    public PlaceStore(PlaceApplicationDbContext dbContext)
+    public async Task<bool> CheckIfPlaceExistAsync(PlaceId id, IAtomicScope atomicScope)
     {
-        _dbContext = dbContext;
+        bool result = await InternalFetchFirstAsync<bool>(PlaceSql.Exists, new
+        {
+            PlaceId = id.Value
+        }, atomicScope);
+
+        return result;
     }
 
-    public async Task<bool> CheckIfPlaceExistAsync(FindPlaceByPlaceIdSpecification specification,
-        CancellationToken token)
-    {
-        return await SpecificationEvaluator<Domain.Place.Place>.GetQuery(_dbContext.Places, specification).AnyAsync(token);
-    }
-
-    public async Task<IReadOnlyList<Domain.Place.Place>> FetchAllAsync(CancellationToken token)
+    public async Task<IReadOnlyList<Domain.Place.Place>> FetchAllAsync(IAtomicScope atomicScope)
     {
         //TODO: That's critical, add with cursor paging.
-        return await _dbContext.Places.ToListAsync(token);
+        IEnumerable<Domain.Place.Place> result =
+            await InternalFetchAsync<Domain.Place.Place>(PlaceSql.FetchAll,
+                atomicScope);
+
+        return result.ToList();
     }
 
-
-    public async Task AddAsync(Domain.Place.Place place, CancellationToken token)
+    public async Task<Domain.Place.Place> FetchAsync(PlaceId placeId, IAtomicScope atomicScope)
     {
+        Domain.Place.Place? result = await InternalFetchAsync(async (connection, transaction) =>
+            {
+                Dictionary<PlaceId, Domain.Place.Place> places = new();
 
-        await _dbContext.Places.AddAsync(place, token);
+                IEnumerable<Domain.Place.Place>? result =
+                    await connection.QueryAsync<Domain.Place.Place, Facility, Domain.Place.Place>(PlaceSql.Fetch,
+                        (place, facility) =>
+                        {
+                            if (places.TryGetValue(place.Id, out var existingPlace))
+                            {
+                                place = existingPlace;
+                            }
+                            else
+                            {
+                                places.Add(placeId, place);
+                            }
+
+                            place.AddFacility(facility);
+
+                            return place;
+                        },
+                        new { PlaceId = placeId.Value },
+                        splitOn: "FacilityId",
+                        transaction: transaction);
+
+                var place = result.First();
+
+                return place;
+
+            },
+            atomicScope);
+
+        return result;
     }
 
-    public Task UpdateAsync(Domain.Place.Place place)
+    public async Task<PlaceId> AddAsync(Domain.Place.Place place, IAtomicScope atomicScope)
     {
-        _dbContext.Places.Update(place);
+        Guid placeId = await InternalExecuteScalarAsync<Guid>(PlaceSql.Insert, new
+        {
+            PlaceId = place.Id.Value,
+            place.Status,
+            OwnerId = place.OwnerId.Value,
+            Address_Country = place.Address.Country,
+            Address_City = place.Address.City,
+            Address_Street = place.Address.Street,
+            Address_Number = place.Address.Number
+        }, atomicScope);
 
-        return Task.CompletedTask;
+        await AddFacilitiesAsync(placeId, place.Facilities, atomicScope);
+
+        return PlaceId.Create(placeId);
     }
 
-    public async Task<Domain.Place.Place?> FetchBySpecification(ISpecification<Domain.Place.Place> specification, CancellationToken token)
+    public async Task UpdateAsync(Domain.Place.Place place, IAtomicScope atomicScope)
     {
-        return await SpecificationEvaluator<Domain.Place.Place>.GetQuery(_dbContext.Places, specification).FirstOrDefaultAsync(token);
+        await InternalExecuteAsync(PlaceSql.Update, new
+        {
+            PlaceId = place.Id.Value,
+            place.Status,
+            OwnerId = place.OwnerId.Value,
+            Address_Country = place.Address.Country,
+            Address_City = place.Address.City,
+            Address_Street = place.Address.Street,
+            Address_Number = place.Address.Number
+        }, atomicScope);
     }
 
-    public async Task<IReadOnlyList<Domain.Place.Place>> FetchAllBySpecificationAsync(ISpecification<Domain.Place.Place> specification, CancellationToken token)
+    private async Task AddFacilitiesAsync(Guid placeId, IReadOnlyCollection<Facility> facilities, IAtomicScope atomicScope)
     {
-        return await SpecificationEvaluator<Domain.Place.Place>.GetQuery(_dbContext.Places, specification).ToListAsync(token);
+        foreach (var facility in facilities)
+        {
+            await InternalExecuteAsync(PlaceSql.InsertFacility, new
+            {
+                FacilityId = facility.Id.Value,
+                facility.Description,
+                facility.Name,
+                facility.Quantity,
+                PlaceId = placeId
+            }, atomicScope);
+        }
     }
 }

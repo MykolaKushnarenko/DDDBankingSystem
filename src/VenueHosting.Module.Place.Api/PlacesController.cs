@@ -1,8 +1,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using VenueHosting.Module.Place.Application.Features.Place.GetPlace;
 using VenueHosting.Module.Place.Application.Features.Place.RegisterNewPlace;
 using VenueHosting.Module.Place.Domain.Owner.ValueObjects;
+using VenueHosting.Module.Place.Domain.Place.ValueObjects;
 using VenueHosting.SharedKernel.Controllers;
 
 namespace VenueHosting.Module.Place.Api;
@@ -34,9 +36,24 @@ public class PlacesController : ApiController
         return Ok(place);
     }
 
+    [HttpGet("{placeId}")]
+    public async Task<IActionResult> GetAsync([FromRoute] string placeId)
+    {
+        GetPlaceQuery command = new GetPlaceQuery
+        {
+            PlaceId = PlaceId.Create(Guid.Parse(placeId))
+        };
+
+        Domain.Place.Place place = await _sender.Send(command);
+
+        return Ok(place);
+    }
+
 
     public record RegisterNewPlaceRequest(string OwnerId, AddressRequest AddressCommand,
         List<FacilityRequest> FacilityCommand);
+
+    public record GetPlaceRequest(string OwnerId);
 
     public record AddressRequest(string Country, string City, string Street, int Number);
 

@@ -1,6 +1,6 @@
 namespace VenueHosting.Module.Place.Application;
 
-public interface IAtomicScope
+public interface IAtomicScope : IAsyncDisposable, IDisposable
 {
-    Task CommitAsync(CancellationToken token);
+    ValueTask CommitAsync(CancellationToken token);
 }

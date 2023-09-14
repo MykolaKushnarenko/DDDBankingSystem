@@ -10,7 +10,7 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace VenueHosting.Module.Venue.Infrastructure.Jobs;
 
-internal sealed class OutboxMessageBackgroundJob : BackgroundService
+sealed class OutboxMessageBackgroundJob : BackgroundService
 {
     private readonly IBus _bus;
     private readonly IOutboxMessageStore _outboxMessageStore;
@@ -26,7 +26,9 @@ internal sealed class OutboxMessageBackgroundJob : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        while (!stoppingToken.IsCancellationRequested)
+        using PeriodicTimer timer = new(TimeSpan.FromSeconds(DelayInSeconds));
+
+        while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(stoppingToken))
         {
             IReadOnlyList<OutboxIntegrationEvent> batch = await _outboxMessageStore.FetchBatchAsync();
             foreach (OutboxIntegrationEvent outboxIntegrationEvent in batch)
@@ -39,8 +41,6 @@ internal sealed class OutboxMessageBackgroundJob : BackgroundService
 
                  await _bus.Publish(@event, stoppingToken);
             }
-
-            await Task.Delay(TimeSpan.FromSeconds(DelayInSeconds), stoppingToken);
         }
     }
 }

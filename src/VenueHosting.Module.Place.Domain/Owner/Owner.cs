@@ -4,7 +4,7 @@ using VenueHosting.SharedKernel.Common.Models;
 
 namespace VenueHosting.Module.Place.Domain.Owner;
 
-public class Owner : AggregateRote<OwnerId, Guid>
+public class Owner : AggregateRote<OwnerId>
 {
     private readonly List<PlaceId> _placeIds = new();
 

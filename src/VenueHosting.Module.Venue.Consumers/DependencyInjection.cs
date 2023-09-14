@@ -1,8 +1,8 @@
-
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using VenueHosting.Module.Venue.Consumers.Consts;
 using VenueHosting.Module.Venue.Consumers.OrganizeVenue;
+using VenueHosting.SharedKernel.Common.DomainEvents;
 
 namespace VenueHosting.Module.Venue.Consumers;
 
@@ -12,9 +12,10 @@ public static class DependencyInjection
     {
         serviceCollection.AddMassTransit(x =>
         {
-            x.AddSagaStateMachine<OrganizeVenueSaga, VenueState>().InMemoryRepository();
+            //x.AddSagaStateMachine<OrganizeVenueSaga, VenueState>().InMemoryRepository();
 
             x.AddConsumer<BookVenueConsumer>();
+            x.AddConsumer<VenueCreatedIntegrationEventConsumer>();
 
             x.UsingRabbitMq((context, configurator) =>
             {
@@ -24,10 +25,7 @@ public static class DependencyInjection
                     h.Password("guest");
                 });
 
-                configurator.ReceiveEndpoint(EventBusConstants.BookVenueQueue, e =>
-                {
-                    e.ConfigureConsumer<BookVenueConsumer>(context);
-                });
+                configurator.Publish<IIntegrationEvent>(p => p.Exclude = true);
 
                 configurator.ConfigureEndpoints(context);
             });

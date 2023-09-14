@@ -11,4 +11,5 @@
       <ProjectReference Include="..\VenueHosting.Module.Place.Domain\VenueHosting.Module.Place.Domain.csproj" />
     </ItemGroup>
 
+
 </Project>

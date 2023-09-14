@@ -1,5 +1,7 @@
 using MediatR;
 using MediatR.NotificationPublishers;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VenueHosting.Module.Attendee.Infrastructure;
@@ -59,6 +61,18 @@ namespace VenueHosting.Configuration.Extensions
             services.AddAttendeeInfrastructure(builderConfiguration);
 
             return services;
+
+        }
+
+        public static IEndpointRouteBuilder UseVenueModule
+        (
+            this IEndpointRouteBuilder builderConfiguration
+        )
+        {
+
+            builderConfiguration.UseVenuePlaceSignalR();
+
+            return builderConfiguration;
 
         }
     }

@@ -7,10 +7,10 @@ services:
     entrypoint: tail -f /dev/null
     ports:
       - 1433:1433     # sql port
-      - 15672:15672   # rabbitmq
-      - 15671:15671   # rabbitmq
-      - 5671:5671     # rabbitmq
-      - 5672:5672     # rabbitmq
+#      - 15672:15672   # rabbitmq
+#      - 15671:15671   # rabbitmq
+#      - 5671:5671     # rabbitmq
+#      - 5672:5672     # rabbitmq
       - 6379:6379     # redis
       - 15341:80      # seq
       - 27017:27017   # mongodb
