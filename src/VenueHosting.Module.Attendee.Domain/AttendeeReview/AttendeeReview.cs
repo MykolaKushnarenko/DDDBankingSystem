@@ -10,8 +10,13 @@ public sealed class AttendeeReview : AggregateRote<AttendeeReviewId, Guid>
     {
     }
 
-    private AttendeeReview(AttendeeReviewId id, AttendeeId attendeeId, VenueId venueId, LesseeId authorId,
-        string comment, float ratingGiven,
+    private AttendeeReview(
+        AttendeeReviewId id,
+        AttendeeId attendeeId,
+        VenueId venueId,
+        LesseeId authorId,
+        string comment,
+        float ratingGiven,
         DateTime createdDateTime) : base(id)
     {
         AttendeeId = attendeeId;
@@ -34,7 +39,11 @@ public sealed class AttendeeReview : AggregateRote<AttendeeReviewId, Guid>
 
     public DateTime CreatedDateTime { get; private set; }
 
-    public static AttendeeReview Create(AttendeeId attendeeId, VenueId venueId, LesseeId authorId, string comment,
+    public static AttendeeReview Create(
+        AttendeeId attendeeId,
+        VenueId venueId,
+        LesseeId authorId,
+        string comment,
         float ratingGiven)
     {
         return new AttendeeReview(AttendeeReviewId.CreateUnique(), attendeeId, venueId, authorId, comment, ratingGiven,
