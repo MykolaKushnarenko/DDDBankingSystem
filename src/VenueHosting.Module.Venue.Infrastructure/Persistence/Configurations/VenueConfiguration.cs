@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using VenueHosting.Module.Venue.Domain.Place.ValueObjects;
-using VenueHosting.Module.Venue.Domain.Venue.ValueObjects;
+using VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
+using VenueHosting.Module.Venue.Domain.Replicas.Place.ValueObjects;
 
 namespace VenueHosting.Module.Venue.Infrastructure.Persistence.Configurations;
 
-internal sealed class VenueConfiguration : IEntityTypeConfiguration<Domain.Venue.Venue>
+internal sealed class VenueConfiguration : IEntityTypeConfiguration<Domain.Aggregates.Venue.Venue>
 {
-    public void Configure(EntityTypeBuilder<Domain.Venue.Venue> builder)
+    public void Configure(EntityTypeBuilder<Domain.Aggregates.Venue.Venue> builder)
     {
         ConfigureVenueTable(builder);
         ConfigureVenueActivityTable(builder);
@@ -15,7 +15,7 @@ internal sealed class VenueConfiguration : IEntityTypeConfiguration<Domain.Venue
         ConfigureVenueReviewsTable(builder);
     }
 
-    private void ConfigureVenueReviewsTable(EntityTypeBuilder<Domain.Venue.Venue> builder)
+    private void ConfigureVenueReviewsTable(EntityTypeBuilder<Domain.Aggregates.Venue.Venue> builder)
     {
         builder.OwnsMany(x => x.VenueReviews, navigationBuilder =>
         {
@@ -36,7 +36,7 @@ internal sealed class VenueConfiguration : IEntityTypeConfiguration<Domain.Venue
                 .Property(x => x.AuthorId)
                 .HasConversion(
                     id => id.Value,
-                    value => AttendeeId.Create(value));
+                    value => UserId.Create(value));
 
             navigationBuilder
                 .Property(x => x.Comment)
@@ -53,11 +53,11 @@ internal sealed class VenueConfiguration : IEntityTypeConfiguration<Domain.Venue
         });
 
         builder.Metadata
-            .FindNavigation(nameof(Domain.Venue.Venue.VenueReviews))!
+            .FindNavigation(nameof(Domain.Aggregates.Venue.Venue.VenueReviews))!
             .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 
-    private void ConfigureReservationsTable(EntityTypeBuilder<Domain.Venue.Venue> builder)
+    private void ConfigureReservationsTable(EntityTypeBuilder<Domain.Aggregates.Venue.Venue> builder)
     {
         builder.OwnsMany(x => x.Reservations, navigationBuilder =>
         {
@@ -75,11 +75,11 @@ internal sealed class VenueConfiguration : IEntityTypeConfiguration<Domain.Venue
                     value => ReservationId.Create(value));
 
             navigationBuilder
-                .Property(x => x.AttendeeId)
-                .HasColumnName("AttendeeId")
+                .Property(x => x.UserId)
+                .HasColumnName("UserId")
                 .HasConversion(
                     id => id.Value,
-                    value => AttendeeId.Create(value));
+                    value => UserId.Create(value));
 
             navigationBuilder
                 .Property(x => x.BillId)
@@ -98,11 +98,11 @@ internal sealed class VenueConfiguration : IEntityTypeConfiguration<Domain.Venue
         });
 
         builder.Metadata
-            .FindNavigation(nameof(Domain.Venue.Venue.Reservations))!
+            .FindNavigation(nameof(Domain.Aggregates.Venue.Venue.Reservations))!
             .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 
-    private void ConfigureVenueActivityTable(EntityTypeBuilder<Domain.Venue.Venue> builder)
+    private void ConfigureVenueActivityTable(EntityTypeBuilder<Domain.Aggregates.Venue.Venue> builder)
     {
         builder.OwnsMany(x => x.Activities, ownedNavigationBuilder =>
         {
@@ -127,11 +127,11 @@ internal sealed class VenueConfiguration : IEntityTypeConfiguration<Domain.Venue
         });
 
         builder.Metadata
-            .FindNavigation(nameof(Domain.Venue.Venue.Activities))!
+            .FindNavigation(nameof(Domain.Aggregates.Venue.Venue.Activities))!
             .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 
-    private void ConfigureVenueTable(EntityTypeBuilder<Domain.Venue.Venue> builder)
+    private void ConfigureVenueTable(EntityTypeBuilder<Domain.Aggregates.Venue.Venue> builder)
     {
         builder.ToTable("Venues");
         builder.HasKey("Id");

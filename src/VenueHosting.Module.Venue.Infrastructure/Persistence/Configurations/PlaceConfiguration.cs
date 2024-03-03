@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using VenueHosting.Module.Venue.Domain.Place.ValueObjects;
+using VenueHosting.Module.Venue.Domain.Replicas.Place.ValueObjects;
 
 namespace VenueHosting.Module.Venue.Infrastructure.Persistence.Configurations;
 
-internal sealed class PlaceConfiguration : IEntityTypeConfiguration<Domain.Place.Place>
+internal sealed class PlaceConfiguration : IEntityTypeConfiguration<Domain.Replicas.Place.Place>
 {
-    public void Configure(EntityTypeBuilder<Domain.Place.Place> builder)
+    public void Configure(EntityTypeBuilder<Domain.Replicas.Place.Place> builder)
     {
         builder.ToTable("Places");
 

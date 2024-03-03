@@ -5,7 +5,7 @@ using VenueHosting.Module.Venue.Domain.Exceptions;
 
 namespace VenueHosting.Module.Venue.Application.Features.OrganizeVenue;
 
-internal sealed class OrganizeVenueCommandHandler : IRequestHandler<OrganizeVenueCommand, Domain.Venue.Venue>
+internal sealed class OrganizeVenueCommandHandler : IRequestHandler<OrganizeVenueCommand, Domain.Aggregates.Venue.Venue>
 {
     private readonly IVenueStore _venueStore;
     private readonly IPlaceStore _placeStore;
@@ -21,7 +21,7 @@ internal sealed class OrganizeVenueCommandHandler : IRequestHandler<OrganizeVenu
         _placeStore = placeStore;
     }
 
-    public async Task<Domain.Venue.Venue> Handle(OrganizeVenueCommand request, CancellationToken cancellationToken)
+    public async Task<Domain.Aggregates.Venue.Venue> Handle(OrganizeVenueCommand request, CancellationToken cancellationToken)
     {
         bool placeExist = await _placeStore.CheckIfPlaceExistAsync(new FindPlaceByPlaceIdSpecification(request.PlaceId),
             cancellationToken);
@@ -31,7 +31,7 @@ internal sealed class OrganizeVenueCommandHandler : IRequestHandler<OrganizeVenu
             throw new PlaceNotFoundException();
         }
 
-        Domain.Venue.Venue venue = Domain.Venue.Venue.Create(
+        var venue = Domain.Aggregates.Venue.Venue.Create(
             request.OwnerId,
             request.LesseeId,
             request.PlaceId,

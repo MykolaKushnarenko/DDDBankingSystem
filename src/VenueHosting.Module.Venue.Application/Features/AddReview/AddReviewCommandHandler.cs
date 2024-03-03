@@ -1,8 +1,8 @@
 using MediatR;
 using VenueHosting.Application.Common.Interfaces;
 using VenueHosting.Module.Venue.Application.Common.Persistence;
+using VenueHosting.Module.Venue.Domain.Aggregates.Venue.Entities;
 using VenueHosting.Module.Venue.Domain.Exceptions;
-using VenueHosting.Module.Venue.Domain.Venue.Entities;
 
 namespace VenueHosting.Module.Venue.Application.Features.AddReview;
 
@@ -21,7 +21,7 @@ internal sealed class AddReviewCommandHandler : IRequestHandler<AddReviewCommand
 
     public async Task<Unit> Handle(AddReviewCommand request, CancellationToken cancellationToken)
     {
-        Domain.Venue.Venue? venue = await _venueStore.FetchVenueByIdAsync(request.VenueId, cancellationToken);
+        Domain.Aggregates.Venue.Venue? venue = await _venueStore.FetchVenueByIdAsync(request.VenueId, cancellationToken);
 
         if (venue is null)
         {

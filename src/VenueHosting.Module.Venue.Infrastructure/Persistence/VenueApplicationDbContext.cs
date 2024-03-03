@@ -8,9 +8,9 @@ internal sealed class VenueApplicationDbContext : DbContext
     {
     }
 
-    public DbSet<Domain.Venue.Venue> Venues { get; set; }
+    public DbSet<Domain.Aggregates.Venue.Venue> Venues { get; set; }
 
-    public DbSet<Domain.Place.Place> Places { get; set; }
+    public DbSet<Domain.Replicas.Place.Place> Places { get; set; }
 
     public DbSet<Outbox.OutboxIntegrationEvent> OutboxIntegrationEvents { get; set; }
 

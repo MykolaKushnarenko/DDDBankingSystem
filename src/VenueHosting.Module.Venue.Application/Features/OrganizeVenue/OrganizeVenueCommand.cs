@@ -1,6 +1,6 @@
 using MediatR;
-using VenueHosting.Module.Venue.Domain.Place.ValueObjects;
-using VenueHosting.Module.Venue.Domain.Venue.ValueObjects;
+using VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
+using VenueHosting.Module.Venue.Domain.Replicas.Place.ValueObjects;
 
 namespace VenueHosting.Module.Venue.Application.Features.OrganizeVenue;
 
@@ -12,4 +12,4 @@ public record OrganizeVenueCommand(
     string Description,
     Visibility Visibility,
     DateTime StartAtDateTime,
-    DateTime EndAtDateTime) : IRequest<Domain.Venue.Venue>;
+    DateTime EndAtDateTime) : IRequest<Domain.Aggregates.Venue.Venue>;

@@ -1,11 +1,8 @@
 using MediatR;
 using MediatR.NotificationPublishers;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using VenueHosting.Module.Attendee.Infrastructure;
-using VenueHosting.Module.Lessee.Infrastructure;
 using VenueHosting.Module.Payment.Infrastructure;
 using VenueHosting.Module.Place.Api;
 using VenueHosting.Module.Place.Infrastructure;
@@ -33,8 +30,6 @@ namespace VenueHosting.Configuration.Extensions
                     typeof(IAssemblyMarker).Assembly,
                     typeof(Module.Place.Application.IAssemblyMarker).Assembly,
                     typeof(Module.User.Application.IAssemblyMarker).Assembly,
-                    typeof(Module.Lessee.Application.IAssemblyMarker).Assembly,
-                    typeof(Module.Attendee.Application.IAssemblyMarker).Assembly,
                     typeof(Module.Payment.Application.IAssemblyMarker).Assembly);
 
                 cfg.NotificationPublisherType = typeof(TaskWhenAllPublisher);
@@ -56,24 +51,15 @@ namespace VenueHosting.Configuration.Extensions
 
             services.AddPaymentInfrastructure(builderConfiguration);
 
-            services.AddLesseeInfrastructure(builderConfiguration);
-
-            services.AddAttendeeInfrastructure(builderConfiguration);
-
             return services;
 
         }
 
-        public static IEndpointRouteBuilder UseVenueModule
-        (
-            this IEndpointRouteBuilder builderConfiguration
-        )
+        public static IEndpointRouteBuilder UseVenueModule(this IEndpointRouteBuilder builderConfiguration)
         {
-
             builderConfiguration.UseVenuePlaceSignalR();
 
             return builderConfiguration;
-
         }
     }
 }

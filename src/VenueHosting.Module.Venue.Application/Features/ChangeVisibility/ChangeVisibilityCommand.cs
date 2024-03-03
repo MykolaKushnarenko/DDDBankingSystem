@@ -1,5 +1,5 @@
 using MediatR;
-using VenueHosting.Module.Venue.Domain.Venue.ValueObjects;
+using VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
 
 namespace VenueHosting.Module.Venue.Application.Features.ChangeVisibility;
 

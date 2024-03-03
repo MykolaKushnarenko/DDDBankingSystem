@@ -35,7 +35,7 @@ public class ValidationBehaviour<TRequest, TResponse> :
             return (dynamic)errors;
         }
 
-        TResponse result = await next();
+        var result = await next();
 
         return result;
     }

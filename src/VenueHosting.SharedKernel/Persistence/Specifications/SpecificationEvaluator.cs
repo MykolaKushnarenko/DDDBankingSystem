@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using VenueHosting.SharedKernel.Persistence.Specifications;
+using VenueHosting.SharedKernel.Specifications;
 
-namespace VenueHosting.SharedKernel.Specifications;
+namespace VenueHosting.SharedKernel.Persistence.Specifications;
 
 public static class SpecificationEvaluator<TSupportSpecification> where TSupportSpecification : class, ISupportSpecification
 {

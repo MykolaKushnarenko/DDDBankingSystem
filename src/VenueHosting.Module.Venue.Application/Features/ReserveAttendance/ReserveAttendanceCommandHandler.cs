@@ -1,7 +1,7 @@
 using MediatR;
 using VenueHosting.Module.Venue.Application.Common.Persistence;
+using VenueHosting.Module.Venue.Domain.Aggregates.Venue.Entities;
 using VenueHosting.Module.Venue.Domain.Exceptions;
-using VenueHosting.Module.Venue.Domain.Venue.Entities;
 
 namespace VenueHosting.Module.Venue.Application.Features.ReserveAttendance;
 
@@ -18,17 +18,17 @@ internal sealed class ReserveAttendanceCommandHandler : IRequestHandler<ReserveA
 
     public async Task<Unit> Handle(ReserveAttendanceCommand request, CancellationToken cancellationToken)
     {
-        Domain.Venue.Venue? venue = await _venueStore.FetchVenueByIdAsync(request.VenueId, cancellationToken);
+        var venue = await _venueStore.FetchVenueByIdAsync(request.VenueId, cancellationToken);
 
         if (venue is null)
         {
             throw new VenueNotFoundException();
         }
 
-        Reservation reservation = Reservation.Create(request.AttendeeId, request.BillId, request.Amount,
+        Reservation reservation = Reservation.Create(request.UserId, request.BillId, request.Amount,
             request.ReservationDateTime);
 
-        venue.Reserve(reservation);
+        venue.ReserveSpot(reservation);
 
         await _atomicScope.CommitAsync(cancellationToken);
 

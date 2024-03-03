@@ -17,7 +17,7 @@ internal sealed class ChangeVisibilityCommandHandler : IRequestHandler<ChangeVis
 
     public async Task<Unit> Handle(ChangeVisibilityCommand request, CancellationToken cancellationToken)
     {
-        Domain.Venue.Venue? venue = await _venueStore.FetchVenueByIdAsync(request.VenueId, cancellationToken);
+        var venue = await _venueStore.FetchVenueByIdAsync(request.VenueId, cancellationToken);
 
         if (venue is null)
         {

@@ -8,8 +8,8 @@ using VenueHosting.Module.Venue.Application.Features.ChangeVisibility;
 using VenueHosting.Module.Venue.Application.Features.FindVenuesByLocation;
 using VenueHosting.Module.Venue.Application.Features.OrganizeVenue;
 using VenueHosting.Module.Venue.Application.Features.ReserveAttendance;
-using VenueHosting.Module.Venue.Domain.Place.ValueObjects;
-using VenueHosting.Module.Venue.Domain.Venue.ValueObjects;
+using VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
+using VenueHosting.Module.Venue.Domain.Replicas.Place.ValueObjects;
 using VenueHosting.SharedKernel.Controllers;
 
 namespace VenueHosting.Module.Venue.Api.Controllers;
@@ -54,7 +54,7 @@ public class VenuesController : ApiController
             request.StartAtDateTime,
             request.EndAtDateTime);
 
-        Domain.Venue.Venue venue = await _sender.Send(command);
+        var venue = await _sender.Send(command);
         //Map into response
 
         return Ok(venue);
@@ -137,7 +137,7 @@ public class VenuesController : ApiController
         ReserveAttendanceCommand reserveCommand = new()
         {
             VenueId = VenueId.Create(Guid.Parse(venueId)),
-            AttendeeId = AttendeeId.Create(Guid.Parse(request.AttendeeId!)),
+            UserId = UserId.Create(Guid.Parse(request.AttendeeId!)),
             BillId = BillId.Create(Guid.Parse(request.BillId!)),
             Amount = request.Amount,
             ReservationDateTime = request.ReservationDateTime
@@ -191,7 +191,7 @@ public class VenuesController : ApiController
     [HttpGet("/nearest")]
     public async Task<IActionResult> FindClosestVenues([FromQuery]FindVenuesByLocationQuery request)
     {
-        IReadOnlyList<Domain.Venue.Venue> venue = await _sender.Send(request);
+        var venue = await _sender.Send(request);
 
         return Ok(venue);
     }

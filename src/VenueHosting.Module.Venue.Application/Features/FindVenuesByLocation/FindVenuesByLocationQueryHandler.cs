@@ -1,12 +1,12 @@
 using MediatR;
 using VenueHosting.Module.Venue.Application.Common.Persistence;
 using VenueHosting.Module.Venue.Application.Common.Specifications;
-using VenueHosting.Module.Venue.Domain.Place.ValueObjects;
+using VenueHosting.Module.Venue.Domain.Replicas.Place.ValueObjects;
 
 namespace VenueHosting.Module.Venue.Application.Features.FindVenuesByLocation;
 
 internal sealed class FindVenuesByLocationQueryHandler :
-    IRequestHandler<FindVenuesByLocationQuery, IReadOnlyList<Domain.Venue.Venue>>
+    IRequestHandler<FindVenuesByLocationQuery, IReadOnlyList<Domain.Aggregates.Venue.Venue>>
 {
     private readonly IPlaceStore _placeStore;
     private readonly IVenueStore _venueStore;
@@ -17,21 +17,21 @@ internal sealed class FindVenuesByLocationQueryHandler :
         _venueStore = venueStore;
     }
 
-    public async Task<IReadOnlyList<Domain.Venue.Venue>> Handle(FindVenuesByLocationQuery request,
+    public async Task<IReadOnlyList<Domain.Aggregates.Venue.Venue>> Handle(FindVenuesByLocationQuery request,
         CancellationToken cancellationToken)
     {
         FindPlacesByLocationDetailsSpecification findPlacesByLocationDetailsSpecification =
             new(request.Country, request.City, request.Street);
 
         //Implement the nearest search.
-        IReadOnlyList<Domain.Place.Place> nearbyPlaces =
+        var nearbyPlaces =
             await _placeStore.FetchAllBySpecificationAsync(findPlacesByLocationDetailsSpecification, cancellationToken);
 
-        FindUpcomingVenuesByPlaceIdsSpecification findUpcomingVenuesByPlaceIdsSpec =
+        var findUpcomingVenuesByPlaceIdsSpec =
             new FindUpcomingVenuesByPlaceIdsSpecification(nearbyPlaces.Select(x => PlaceId.Create(x.Id.Value))
                 .ToList());
 
-        IReadOnlyList<Domain.Venue.Venue> nearbyVenues =
+        var nearbyVenues =
             await _venueStore.FetchAllBySpecificationAsync(findUpcomingVenuesByPlaceIdsSpec, cancellationToken);
 
         return nearbyVenues;

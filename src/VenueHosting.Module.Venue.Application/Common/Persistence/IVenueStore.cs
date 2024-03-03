@@ -1,11 +1,11 @@
-using VenueHosting.Module.Venue.Domain.Venue.ValueObjects;
+using VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
 using VenueHosting.SharedKernel.Persistence.Storages;
 
 namespace VenueHosting.Module.Venue.Application.Common.Persistence;
 
-public interface IVenueStore : IStorageSpecification<Domain.Venue.Venue>
+public interface IVenueStore : IStorageSpecification<Domain.Aggregates.Venue.Venue>
 {
-    Task<Domain.Venue.Venue?> FetchVenueByIdAsync(VenueId venueId, CancellationToken token);
+    Task<Domain.Aggregates.Venue.Venue?> FetchVenueByIdAsync(VenueId venueId, CancellationToken token);
 
-    Task AddAsync(Domain.Venue.Venue venue);
+    Task AddAsync(Domain.Aggregates.Venue.Venue venue);
 }

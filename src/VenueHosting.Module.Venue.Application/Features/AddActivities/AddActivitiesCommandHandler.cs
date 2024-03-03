@@ -1,7 +1,7 @@
 using MediatR;
 using VenueHosting.Module.Venue.Application.Common.Persistence;
+using VenueHosting.Module.Venue.Domain.Aggregates.Venue.Entities;
 using VenueHosting.Module.Venue.Domain.Exceptions;
-using VenueHosting.Module.Venue.Domain.Venue.Entities;
 
 namespace VenueHosting.Module.Venue.Application.Features.AddActivities;
 
@@ -18,7 +18,7 @@ internal sealed class AddActivitiesCommandHandler : IRequestHandler<AddActivitie
 
     public async Task<Unit> Handle(AddActivitiesCommand request, CancellationToken cancellationToken)
     {
-        Domain.Venue.Venue? venue = await _venueStore.FetchVenueByIdAsync(request.VenueId, cancellationToken);
+        Domain.Aggregates.Venue.Venue? venue = await _venueStore.FetchVenueByIdAsync(request.VenueId, cancellationToken);
 
         if (venue is null)
         {
