@@ -1,21 +1,24 @@
 using MediatR;
 using VenueHosting.Module.Venue.Application.Common.Persistence;
 using VenueHosting.Module.Venue.Domain.Exceptions;
+using VenueHosting.Module.Venue.Domain.Services;
 
-namespace VenueHosting.Module.Venue.Application.Features.ChangeVisibility;
+namespace VenueHosting.Module.Venue.Application.Features.MarkAsPublic;
 
-internal sealed class ChangeVisibilityCommandHandler : IRequestHandler<ChangeVisibilityCommand, Unit>
+internal sealed class MarkAsPublicCommandHandler : IRequestHandler<MarkAsPublicCommand, Unit>
 {
     private readonly IVenueStore _venueStore;
     private readonly IAtomicScope _atomicScope;
+    private readonly VenueDomainService _venueDomainService;
 
-    public ChangeVisibilityCommandHandler(IVenueStore venueStore, IAtomicScope atomicScope)
+    public MarkAsPublicCommandHandler(IVenueStore venueStore, IAtomicScope atomicScope, VenueDomainService venueDomainService)
     {
         _venueStore = venueStore;
         _atomicScope = atomicScope;
+        _venueDomainService = venueDomainService;
     }
 
-    public async Task<Unit> Handle(ChangeVisibilityCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(MarkAsPublicCommand request, CancellationToken cancellationToken)
     {
         var venue = await _venueStore.FetchVenueByIdAsync(request.VenueId, cancellationToken);
 
@@ -24,7 +27,7 @@ internal sealed class ChangeVisibilityCommandHandler : IRequestHandler<ChangeVis
             throw new VenueNotFoundException();
         }
 
-        venue.ChangeVisibility(request.Visibility);
+        _venueDomainService.MarkAsPublic(venue);
 
         await _atomicScope.CommitAsync(cancellationToken);
 

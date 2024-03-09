@@ -2,6 +2,9 @@ using MediatR;
 using VenueHosting.Module.Venue.Application.Common.Persistence;
 using VenueHosting.Module.Venue.Application.Common.Specifications;
 using VenueHosting.Module.Venue.Domain.Exceptions;
+using VenueHosting.Module.Venue.Domain.Services;
+using VenueHosting.SharedKernel.Common.Services;
+using VenueHosting.SharedKernel.Domain;
 
 namespace VenueHosting.Module.Venue.Application.Features.OrganizeVenue;
 
@@ -10,15 +13,17 @@ internal sealed class OrganizeVenueCommandHandler : IRequestHandler<OrganizeVenu
     private readonly IVenueStore _venueStore;
     private readonly IPlaceStore _placeStore;
     private readonly IAtomicScope _atomicScope;
+    private readonly VenueDomainService _venueDomainService;
 
     public OrganizeVenueCommandHandler(
         IVenueStore venueStore,
         IAtomicScope atomicScope,
-        IPlaceStore placeStore)
+        IPlaceStore placeStore, VenueDomainService venueDomainService)
     {
         _venueStore = venueStore;
         _atomicScope = atomicScope;
         _placeStore = placeStore;
+        _venueDomainService = venueDomainService;
     }
 
     public async Task<Domain.Aggregates.Venue.Venue> Handle(OrganizeVenueCommand request, CancellationToken cancellationToken)
@@ -31,15 +36,9 @@ internal sealed class OrganizeVenueCommandHandler : IRequestHandler<OrganizeVenu
             throw new PlaceNotFoundException();
         }
 
-        var venue = Domain.Aggregates.Venue.Venue.Create(
-            request.OwnerId,
-            request.LesseeId,
-            request.PlaceId,
+        var venue = _venueDomainService.Create(Id<Domain.Aggregates.Venue.Venue>.CreateUnique(), request.HostId, request.PlaceId,
             request.EventName,
-            request.Description,
-            request.Visibility,
-            request.StartAtDateTime,
-            request.EndAtDateTime);
+            request.Description, request.Capacity, request.Visibility, request.StartAtDateTime, request.EndAtDateTime);
 
         await _venueStore.AddAsync(venue);
 

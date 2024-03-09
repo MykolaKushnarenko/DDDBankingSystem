@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using VenueHosting.Module.Venue.Api.Requests;
 using VenueHosting.Module.Venue.Application.Features.AddActivities;
 using VenueHosting.Module.Venue.Application.Features.CancelReservation;
-using VenueHosting.Module.Venue.Application.Features.ChangeVisibility;
 using VenueHosting.Module.Venue.Application.Features.FindVenuesByLocation;
+using VenueHosting.Module.Venue.Application.Features.MarkAsPublic;
 using VenueHosting.Module.Venue.Application.Features.OrganizeVenue;
 using VenueHosting.Module.Venue.Application.Features.ReserveAttendance;
 using VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
@@ -107,7 +107,7 @@ public class VenuesController : ApiController
     [HttpPut("{venueId}/visibility")]
     public async Task<IActionResult> ChangeVisibilityAsync(string venueId, [FromBody] ChangeVisibilityRequest request)
     {
-        var command = new ChangeVisibilityCommand
+        var command = new MarkAsPublicCommand
         {
             VenueId = VenueId.Create(Guid.Parse(venueId)),
             Visibility = request.Visibility

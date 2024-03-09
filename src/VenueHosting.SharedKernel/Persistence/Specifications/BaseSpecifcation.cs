@@ -1,9 +1,8 @@
 using System.Linq.Expressions;
-using VenueHosting.SharedKernel.Persistence.Specifications;
 
-namespace VenueHosting.SharedKernel.Specifications;
+namespace VenueHosting.SharedKernel.Persistence.Specifications;
 
-public abstract class BaseSpecification<T> : ISpecification<T> where T : ISupportSpecification
+public abstract class BaseSpecification<T> : ISpecification<T>
 {
     public Expression<Func<T, bool>> Criteria { get; private set; }
 

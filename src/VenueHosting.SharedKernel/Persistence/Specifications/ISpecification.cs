@@ -3,7 +3,7 @@ using VenueHosting.SharedKernel.Specifications;
 
 namespace VenueHosting.SharedKernel.Persistence.Specifications;
 
-public interface ISpecification<T> where T : ISupportSpecification
+public interface ISpecification<T>
 {
     Expression<Func<T, bool>> Criteria { get; }
 

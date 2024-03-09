@@ -1,14 +1,16 @@
 using VenueHosting.Module.Venue.Domain.Aggregates.Venue.BusinessRules;
 using VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
 using VenueHosting.SharedKernel.Common.Models;
+using VenueHosting.SharedKernel.Domain;
 
 namespace VenueHosting.Module.Venue.Domain.Aggregates.Venue.Entities;
 
-public class Activity : Entity<ActivityId>
+public class Activity : Entity<Activity>
 {
     private Activity(){}
 
-    private Activity(ActivityId id, string name, string description) : base(id)
+    internal Activity(string name, string description, Id<Activity>? id = null)
+        : base(id ?? Id<Activity>.CreateUnique())
     {
         Name = name;
         Description = description;
@@ -18,13 +20,13 @@ public class Activity : Entity<ActivityId>
 
     public string Description { get; private set; }
 
-    public static Activity Create(string name, string description)
+    internal void ChangeName(string name)
     {
-        Activity activity = new(ActivityId.CreateUnique(), name, description);
+        Name = name;
+    }
 
-        activity.CheckRule(new ActivityNameMustNotExceedLengthBusinessRule(activity.Name));
-        activity.CheckRule(new ActivityDescriptionMustNotExceedLengthBusinessRule(activity.Description));
-
-        return activity;
+    internal void ChangeDescription(string description)
+    {
+        Description = description;
     }
 }

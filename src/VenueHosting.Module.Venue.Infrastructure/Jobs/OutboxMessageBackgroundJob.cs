@@ -33,7 +33,7 @@ sealed class OutboxMessageBackgroundJob : BackgroundService
             IReadOnlyList<OutboxIntegrationEvent> batch = await _outboxMessageStore.FetchBatchAsync();
             foreach (OutboxIntegrationEvent outboxIntegrationEvent in batch)
             {
-                Type type = Assembly.GetAssembly(typeof(VenueCreatedIntegrationEvent))!
+                Type type = Assembly.GetAssembly(typeof(VenueCreatedDomainEvent))!
                     .GetType(outboxIntegrationEvent.Type)!;
 
                 object @event = JsonSerializer.Deserialize(outboxIntegrationEvent.Data, type,

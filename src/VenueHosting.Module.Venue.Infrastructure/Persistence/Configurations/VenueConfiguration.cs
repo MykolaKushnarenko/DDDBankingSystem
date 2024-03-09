@@ -161,7 +161,7 @@ internal sealed class VenueConfiguration : IEntityTypeConfiguration<Domain.Aggre
                 id => id.Value,
                 value => OwnerId.Create(value));
 
-        builder.Property(x => x.Status)
+        builder.Property(x => x.VenueStatus)
             .HasColumnName("Status")
             .HasConversion(status => status.ToString(),
                 value => (VenueStatus)Enum.Parse(typeof(VenueStatus), value));

@@ -25,7 +25,7 @@ public static class DependencyInjection
                     h.Password("guest");
                 });
 
-                configurator.Publish<IIntegrationEvent>(p => p.Exclude = true);
+                configurator.Publish<IDomainEvent>(p => p.Exclude = true);
 
                 configurator.ConfigureEndpoints(context);
             });

@@ -1,39 +1,36 @@
 using VenueHosting.SharedKernel.BLSpecifications;
 using VenueHosting.SharedKernel.Common.DomainEvents;
+using VenueHosting.SharedKernel.Domain;
 using VenueHosting.SharedKernel.Specifications;
 
 namespace VenueHosting.SharedKernel.Common.Models;
 
-public abstract class Entity<TId> : IHasDomainEvents, ISupportSpecification, IEquatable<Entity<TId>> where TId: notnull
+public abstract class Entity<T> : IEquatable<Entity<T>> where T: notnull
 {
-    public TId Id { get; protected set; }
-
-    private List<IIntegrationEvent>? _domainEvents;
-
-    public IReadOnlyList<IIntegrationEvent>? DomainEvents => _domainEvents;
+    public Id<T> Id { get; protected set; }
 
     protected Entity()
     {
     }
 
-    protected Entity(TId id)
+    protected Entity(Id<T> id)
     {
         Id = id;
     }
 
-    public override bool Equals(object? obj) => obj is Entity<TId> entity && Id.Equals(entity.Id);
+    public override bool Equals(object? obj) => obj is Entity<T> entity && Id.Equals(entity.Id);
 
-    public static bool operator ==(Entity<TId> left, Entity<TId> right)
+    public static bool operator ==(Entity<T> left, Entity<T> right)
     {
         return Equals(left, right);
     }
 
-    public static bool operator !=(Entity<TId> left, Entity<TId> right)
+    public static bool operator !=(Entity<T> left, Entity<T> right)
     {
         return !Equals(left, right);
     }
 
-    public bool Equals(Entity<TId>? other)
+    public bool Equals(Entity<T>? other)
     {
         return Equals((object?)other);
     }
@@ -41,21 +38,5 @@ public abstract class Entity<TId> : IHasDomainEvents, ISupportSpecification, IEq
     public override int GetHashCode()
     {
         return Id.GetHashCode();
-    }
-
-    protected void AddDomainEvent(IIntegrationEvent eventItem)
-    {
-        _domainEvents ??= new List<IIntegrationEvent>();
-        _domainEvents.Add(eventItem);
-    }
-
-    public void ClearDomainEvents()
-    {
-        _domainEvents?.Clear();
-    }
-
-    protected void CheckRule(IBusinessRule rule)
-    {
-        rule.CheckIfSatisfied();
     }
 }

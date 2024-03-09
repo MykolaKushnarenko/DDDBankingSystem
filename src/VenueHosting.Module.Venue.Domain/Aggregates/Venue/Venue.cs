@@ -1,58 +1,49 @@
-using VenueHosting.Contracts.Events;
 using VenueHosting.Module.Venue.Domain.Aggregates.Venue.BusinessRules;
 using VenueHosting.Module.Venue.Domain.Aggregates.Venue.Entities;
 using VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
-using VenueHosting.Module.Venue.Domain.Exceptions;
-using VenueHosting.Module.Venue.Domain.Replicas.Place.ValueObjects;
+using VenueHosting.Module.Venue.Domain.Replicas.Place;
+using VenueHosting.Module.Venue.Domain.Replicas.User;
 using VenueHosting.SharedKernel.Common.Models;
+using VenueHosting.SharedKernel.Domain;
 
 namespace VenueHosting.Module.Venue.Domain.Aggregates.Venue;
 
-public sealed class Venue : AggregateRote<VenueId, Guid>
+public sealed class Venue : AggregateRote<Venue>
 {
-    private readonly List<Activity> _activities = new();
-
-    private readonly List<VenueReview> _venueReviews = new();
-
-    private readonly List<Reservation> _reservations = new();
+    private readonly HashSet<Activity> _activities = new();
+    private readonly HashSet<Partner.Partner> _partners = new ();
 
     private Venue()
     {
     }
 
-    private Venue(
-        VenueId venueId,
-        OwnerId ownerId,
-        LesseeId lesseeId,
-        PlaceId placeId,
+    internal Venue(
+        Id<User> hostId,
+        Id<Place> placeId,
         string eventName,
         string description,
+        int capacity,
         Visibility visibility,
         DateTime startAtDateTime,
         DateTime endAtDateTime,
-        DateTime createdAtDateTime,
-        DateTime updatedAtDateTime) : base(venueId)
+        Id<Venue>? venueId = null) : base(venueId ?? Id<Venue>.CreateUnique())
     {
-        OwnerId = ownerId;
-        LesseeId = lesseeId;
         PlaceId = placeId;
+        HostId = hostId;
         EventName = eventName;
         Description = description;
         Visibility = visibility;
         StartAtDateTime = startAtDateTime;
         EndAtDateTime = endAtDateTime;
-        CreatedAtDateTime = createdAtDateTime;
-        UpdatedAtDateTime = updatedAtDateTime;
-        Status = VenueStatus.InPayment;
+        VenueStatus = VenueStatus.Organized;
+        Capacity = capacity;
     }
 
-    public OwnerId OwnerId { get; private set; }
+    public Id<User> HostId { get; private set; }
 
-    public LesseeId LesseeId { get; private set; }
+    public Id<Place> PlaceId { get; private set; }
 
-    public PlaceId PlaceId { get; private set; }
-
-    //TODO: Add partners
+    public Schedule Schedule { get; private set; }
 
     public string Description { get; private set; }
 
@@ -60,123 +51,53 @@ public sealed class Venue : AggregateRote<VenueId, Guid>
 
     public Visibility Visibility { get; private set; }
 
-    public VenueStatus Status { get; private set; }
+    public VenueStatus VenueStatus { get; private set; }
 
     public IReadOnlyList<Activity> Activities => _activities.ToList().AsReadOnly();
+    public IReadOnlyList<Partner.Partner> Partners => _partners.ToList().AsReadOnly();
 
-    public IReadOnlyList<VenueReview> VenueReviews => _venueReviews.ToList().AsReadOnly();
-
-    public IReadOnlyList<Reservation> Reservations => _reservations.ToList().AsReadOnly();
+    public int Capacity { get; private set; }
 
     public DateTime StartAtDateTime { get; private set; }
 
     public DateTime EndAtDateTime { get; private set; }
 
-    public DateTime CreatedAtDateTime { get; private set; }
-
-    public DateTime UpdatedAtDateTime { get; private set; }
-
-    public static Venue Create(
-        OwnerId ownerId,
-        LesseeId lesseeId,
-        PlaceId placeId,
-        string eventName,
-        string description,
-        Visibility visibility,
-        DateTime startAtDateTime,
-        DateTime endAtDateTime)
+    internal void AddActivity(Activity activity)
     {
-        var id = VenueId.CreateUnique();
-        var venue = new Venue(
-            id,
-            ownerId,
-            lesseeId,
-            placeId,
-            eventName,
-            description,
-            visibility,
-            startAtDateTime,
-            endAtDateTime,
-            DateTime.UtcNow,
-            DateTime.UtcNow);
-
-        venue.CheckRule(new VenueEventNameMustNotExceedLengthBusinessRule(venue.EventName));
-        venue.CheckRule(new VenueDescriptionMustNotExceedLengthBusinessRule(venue.Description));
-
-        venue.AddDomainEvent(new VenueCreatedIntegrationEvent(id.Value, venue.LesseeId.Value));
-
-        return venue;
-    }
-
-    public void AddActivity(Activity activity)
-    {
-        CheckRule(new VenueActivityMustNotContainDuplicateBusinessRule(_activities, activity));
-
         _activities.Add(activity);
-
-        //Check for internal clock
-        UpdatedAtDateTime = DateTime.UtcNow;
     }
 
-    public void ChangeVisibility(Visibility visibility)
+    internal void MakePublic()
     {
-        Visibility = visibility;
+        Visibility = Visibility.Public;
     }
 
-    public void ChangeStatus(VenueStatus status)
+    internal void MakePrivate()
     {
-        Status = status;
+        Visibility = Visibility.Public;
     }
 
-    public void AddReview(VenueReview venueReview)
+    internal void Start()
     {
-        CheckRule(new VenueReviewMustNotContainDuplicateBusinessRule(_venueReviews, venueReview));
-
-        _venueReviews.Add(venueReview);
+        VenueStatus = VenueStatus.Started;
     }
 
-    public void UpdateReview(VenueReview venueReview)
+    internal void Cancel()
     {
-        CheckRule(new VenueReviewMustExistBusinessRule(_venueReviews, venueReview));
-
-        VenueReview oldVenueReview = _venueReviews.Find(x => x.Id == venueReview.Id)!;
-        _venueReviews.Remove(oldVenueReview);
-
-        _venueReviews.Add(venueReview);
+        VenueStatus = VenueStatus.Cancelled;
     }
 
-    public void RemoveReview(VenueReview venueReview)
+    internal void Finish()
     {
-        CheckRule(new VenueReviewMustExistBusinessRule(_venueReviews, venueReview));
-
-        _venueReviews.Remove(venueReview);
+        VenueStatus = VenueStatus.Finished;
     }
 
-    public void UpdateDetails(string eventName, string description)
+    internal void UpdateDetails(string eventName, string description)
     {
-        CheckRule(new VenueEventNameMustNotExceedLengthBusinessRule(eventName));
-        CheckRule(new VenueDescriptionMustNotExceedLengthBusinessRule(description));
+        // CheckRule(new VenueEventNameMustNotExceedLengthBusinessRule(eventName));
+        // CheckRule(new VenueDescriptionMustNotExceedLengthBusinessRule(description));
 
         EventName = eventName;
         Description = description;
-    }
-
-    public void ReserveSpot(Reservation reservation)
-    {
-        CheckRule(new VenueReservationMustNotAlreadyExistBusinessRule(_reservations, reservation));
-
-        _reservations.Add(reservation);
-    }
-
-    public void CancelReservation(ReservationId reservationId)
-    {
-        var soughtReservation = _reservations.Find(x => x.Id == reservationId);
-
-        if (soughtReservation is null)
-        {
-            throw new VenueReservationNotFoundException();
-        }
-
-        _reservations.Remove(soughtReservation);
     }
 }

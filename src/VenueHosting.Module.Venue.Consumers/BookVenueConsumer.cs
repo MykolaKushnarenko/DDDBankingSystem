@@ -22,7 +22,7 @@ public class BookVenueConsumer : IConsumer<BookVenueCommand>
     }
 }
 
-public class VenueCreatedIntegrationEventConsumer : IConsumer<VenueCreatedIntegrationEvent>
+public class VenueCreatedIntegrationEventConsumer : IConsumer<VenueCreatedDomainEvent>
 {
     private readonly ILogger<VenueCreatedIntegrationEventConsumer> _logger;
 
@@ -31,7 +31,7 @@ public class VenueCreatedIntegrationEventConsumer : IConsumer<VenueCreatedIntegr
         _logger = logger;
     }
 
-    public Task Consume(ConsumeContext<VenueCreatedIntegrationEvent> context)
+    public Task Consume(ConsumeContext<VenueCreatedDomainEvent> context)
     {
         var c = 12;
         _logger.LogWarning("Here we go 123!");

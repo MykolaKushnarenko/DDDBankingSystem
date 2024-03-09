@@ -23,7 +23,7 @@ public class OrganizeVenueSaga :
 
         Initially(
             When(CreateVenue)
-                .SendAsync<VenueState, VenueCreatedIntegrationEvent, BookVenueCommand>(new Uri("queue:book.venue"),
+                .SendAsync<VenueState, VenueCreatedDomainEvent, BookVenueCommand>(new Uri("queue:book.venue"),
                     context => Task.FromResult(new BookVenueCommand(context.Message.VenueId)))
                 .TransitionTo(Initiated));
 
@@ -36,7 +36,7 @@ public class OrganizeVenueSaga :
         SetCompletedWhenFinalized();
     }
 
-    public Event<VenueCreatedIntegrationEvent> CreateVenue { get; private set; }
+    public Event<VenueCreatedDomainEvent> CreateVenue { get; private set; }
     public Event<VenueBooked> VenueBooked { get; private set; }
     public Event<VenuePayed> VenuePaid { get; private set; }
 }
