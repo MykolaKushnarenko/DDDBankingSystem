@@ -19,7 +19,7 @@ using VenueHosting.Module.User.Infrastructure.Services;
 
 namespace VenueHosting.Module.User.Infrastructure;
 
-public static class DependencyInjection
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddUserInfrastructure(this IServiceCollection serviceCollection,
         IConfiguration builderConfiguration)

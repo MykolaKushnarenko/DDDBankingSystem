@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace VenueHosting.Module.Venue.Api;
 
-public static class DependencyInjection
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddVenueControllers(this IServiceCollection serviceCollection)
     {

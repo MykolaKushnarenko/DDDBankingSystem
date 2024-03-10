@@ -4,12 +4,12 @@ using VenueHosting.SharedKernel.Common.DomainEvents;
 
 namespace Component.Persistence.SqlServer.AtomicScope;
 
-internal class AtomicFactory<TDbContext> : IAtomicFactory where  TDbContext : DbContext
+internal class AtomicScopeFactory<TDbContext> : IAtomicScopeFactory where  TDbContext : DbContext
 {
     private readonly TDbContext _dbContext;
     private readonly DomainEventCollector _domainEventCollector;
 
-    public AtomicFactory(
+    public AtomicScopeFactory(
         TDbContext dbContext,
         DomainEventCollector domainEventCollector)
     {

@@ -1,4 +1,5 @@
 using Component.Domain.Models;
+using Component.Persistence.SqlServer.AtomicScope;
 
 namespace VenueHosting.Module.Place.Application.Common.Persistence;
 

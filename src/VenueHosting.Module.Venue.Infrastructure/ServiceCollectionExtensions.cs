@@ -8,7 +8,7 @@ using VenueHosting.Module.Venue.Infrastructure.Persistence.Stores;
 
 namespace VenueHosting.Module.Venue.Infrastructure;
 
-public static class DependencyInjection
+public static class ServiceCollectionExtensions
 {
     private const string Scheme = "Venue";
 

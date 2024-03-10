@@ -18,7 +18,7 @@ public static class ServiceCollectionExtensions
     {
         var connectionString = configuration.GetConnectionString("SqlServerConnectionString");
 
-        serviceCollection.TryAddSingleton<IAtomicFactory, AtomicFactory<TDbContext>>();
+        serviceCollection.TryAddSingleton<IAtomicScopeFactory, AtomicScopeFactory<TDbContext>>();
 
         serviceCollection.AddDbContext<TDbContext>(x => x.UseSqlServer(connectionString,
             builder => builder.MigrationsHistoryTable(HistoryRepository.DefaultTableName, scheme)));

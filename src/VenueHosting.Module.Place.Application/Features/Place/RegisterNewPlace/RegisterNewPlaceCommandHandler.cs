@@ -1,5 +1,5 @@
+using Component.Persistence.SqlServer.AtomicScope;
 using MediatR;
-using VenueHosting.Module.Place.Application.Common.Interfaces;
 using VenueHosting.Module.Place.Application.Common.Persistence;
 using VenueHosting.Module.Place.Domain.Place.Entities;
 using VenueHosting.Module.Place.Domain.Place.ValueObjects;
@@ -19,7 +19,7 @@ internal sealed class RegisterNewPlaceCommandHandler : IRequestHandler<RegisterN
 
     public async Task<Domain.Place.Place> Handle(RegisterNewPlaceCommand request, CancellationToken cancellationToken)
     {
-        await using IAtomicScope atomicScope = _atomicScopeFactory.CreateScope();
+        await using IAtomicScope atomicScope = _atomicScopeFactory.CreateAtomicScope();
 
         Domain.Place.Place place = Domain.Place.Place.Create(request.OwnerId,
             new Address(request.AddressCommand.Country, request.AddressCommand.City, request.AddressCommand.Street,

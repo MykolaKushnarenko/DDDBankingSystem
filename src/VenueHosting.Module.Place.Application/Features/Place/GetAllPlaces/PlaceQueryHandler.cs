@@ -1,5 +1,5 @@
+using Component.Persistence.SqlServer.AtomicScope;
 using MediatR;
-using VenueHosting.Module.Place.Application.Common.Interfaces;
 using VenueHosting.Module.Place.Application.Common.Persistence;
 
 namespace VenueHosting.Module.Place.Application.Features.Place.GetAllPlaces;
@@ -17,7 +17,7 @@ internal sealed class PlaceQueryHandler : IRequestHandler<PlaceQuery, IReadOnlyL
 
     public async Task<IReadOnlyList<Domain.Place.Place>> Handle(PlaceQuery request, CancellationToken cancellationToken)
     {
-        await using IAtomicScope atomicScope = _atomicScopeFactory.CreateScope();
+        await using IAtomicScope atomicScope = _atomicScopeFactory.CreateAtomicScope();
         IReadOnlyList<Domain.Place.Place> places = await _placeStore.FetchAllAsync(atomicScope);
 
         await atomicScope.CommitAsync(cancellationToken);
