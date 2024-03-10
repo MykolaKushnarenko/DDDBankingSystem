@@ -1,8 +1,8 @@
+using Component.Domain.Models;
 using Dapper;
 using VenueHosting.Module.Place.Application;
 using VenueHosting.Module.Place.Application.Common.Persistence;
 using VenueHosting.Module.Place.Domain.Place.Entities;
-using VenueHosting.Module.Place.Domain.Place.ValueObjects;
 using VenueHosting.Module.Place.Infrastructure.Persistence.AtomicScope;
 using VenueHosting.Module.Place.Infrastructure.Persistence.Constants;
 
@@ -10,7 +10,7 @@ namespace VenueHosting.Module.Place.Infrastructure.Persistence.Stores;
 
 internal sealed class PlaceStore : BaseContext, IPlaceStore
 {
-    public async Task<bool> CheckIfPlaceExistAsync(PlaceId id, IAtomicScope atomicScope)
+    public async Task<bool> CheckIfPlaceExistAsync(Id<Domain.Place.Place> id, IAtomicScope atomicScope)
     {
         bool result = await InternalFetchFirstAsync<bool>(PlaceSql.Exists, new
         {
@@ -30,11 +30,11 @@ internal sealed class PlaceStore : BaseContext, IPlaceStore
         return result.ToList();
     }
 
-    public async Task<Domain.Place.Place> FetchAsync(PlaceId placeId, IAtomicScope atomicScope)
+    public async Task<Domain.Place.Place> FetchAsync(Id<Domain.Place.Place> placeId, IAtomicScope atomicScope)
     {
         Domain.Place.Place? result = await InternalFetchAsync(async (connection, transaction) =>
             {
-                Dictionary<PlaceId, Domain.Place.Place> places = new();
+                Dictionary<Id<Domain.Place.Place>, Domain.Place.Place> places = new();
 
                 IEnumerable<Domain.Place.Place>? result =
                     await connection.QueryAsync<Domain.Place.Place, Facility, Domain.Place.Place>(PlaceSql.Fetch,
@@ -67,7 +67,7 @@ internal sealed class PlaceStore : BaseContext, IPlaceStore
         return result;
     }
 
-    public async Task<PlaceId> AddAsync(Domain.Place.Place place, IAtomicScope atomicScope)
+    public async Task<Id<Domain.Place.Place>> AddAsync(Domain.Place.Place place, IAtomicScope atomicScope)
     {
         Guid placeId = await InternalExecuteScalarAsync<Guid>(PlaceSql.Insert, new
         {
@@ -82,7 +82,7 @@ internal sealed class PlaceStore : BaseContext, IPlaceStore
 
         await AddFacilitiesAsync(placeId, place.Facilities, atomicScope);
 
-        return PlaceId.Create(placeId);
+        return new Id<Domain.Place.Place>(placeId);
     }
 
     public async Task UpdateAsync(Domain.Place.Place place, IAtomicScope atomicScope)

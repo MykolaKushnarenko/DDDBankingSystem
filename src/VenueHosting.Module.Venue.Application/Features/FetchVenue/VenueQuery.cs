@@ -1,6 +1,5 @@
+using Component.Domain.Models;
 using MediatR;
-using VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
-using VenueHosting.SharedKernel.Domain;
 
 namespace VenueHosting.Module.Venue.Application.Features.FetchVenue;
 

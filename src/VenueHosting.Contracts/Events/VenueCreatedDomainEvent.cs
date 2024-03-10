@@ -1,4 +1,4 @@
-using VenueHosting.SharedKernel.Common.DomainEvents;
+using Component.Domain.DomainEvents;
 
 namespace VenueHosting.Contracts.Events;
 

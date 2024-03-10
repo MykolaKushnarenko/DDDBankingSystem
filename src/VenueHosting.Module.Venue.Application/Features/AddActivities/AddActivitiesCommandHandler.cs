@@ -1,6 +1,6 @@
+using Component.Persistence.SqlServer.AtomicScope;
 using MediatR;
 using VenueHosting.Module.Venue.Application.Common.Persistence;
-using VenueHosting.Module.Venue.Domain.Aggregates.Venue.Entities;
 using VenueHosting.Module.Venue.Domain.Exceptions;
 using VenueHosting.Module.Venue.Domain.Services;
 

@@ -1,4 +1,4 @@
-using VenueHosting.SharedKernel.Common.Models;
+using Component.Domain.Models;
 
 namespace VenueHosting.Module.Place.Domain.Owner.ValueObjects;
 

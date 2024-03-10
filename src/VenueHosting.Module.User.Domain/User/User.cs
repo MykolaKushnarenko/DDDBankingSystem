@@ -1,13 +1,12 @@
-using VenueHosting.Module.User.Domain.User.ValueObjects;
-using VenueHosting.SharedKernel.Common.Models;
+using Component.Domain.Models;
 
 namespace VenueHosting.Module.User.Domain.User;
 
-public sealed class User : AggregateRote<UserId, Guid>
+public sealed class User : AggregateRote<User>
 {
     private User(){}
 
-    private User(UserId id, string firstName, string lastName, string email, string password, DateTime createdDateTime,
+    private User(Id<User> id, string firstName, string lastName, string email, string password, DateTime createdDateTime,
         DateTime updatedDateTime) : base(id)
     {
         FirstName = firstName;
@@ -33,6 +32,6 @@ public sealed class User : AggregateRote<UserId, Guid>
 
     public static User Create(string firstName, string lastName, string email, string password)
     {
-        return new User(UserId.CreateUnique(), firstName, lastName, email, password, DateTime.UtcNow, DateTime.UtcNow);
+        return new User(Id<User>.CreateUnique(), firstName, lastName, email, password, DateTime.UtcNow, DateTime.UtcNow);
     }
 }

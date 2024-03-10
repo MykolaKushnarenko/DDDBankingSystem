@@ -1,14 +1,14 @@
+using Component.Domain.Models;
+using Component.Domain.ValueObjects;
 using VenueHosting.Module.Payment.Domain.Bill.ValueObjects;
-using VenueHosting.SharedKernel.Common.Models;
-using VenueHosting.SharedKernel.Common.ValueObjects;
 
 namespace VenueHosting.Module.Payment.Domain.Bill;
 
-public sealed class Bill : AggregateRote<BillId, Guid>
+public sealed class Bill : AggregateRote<Bill>
 {
     private Bill(){}
 
-    private Bill(BillId id, VenueId venueId, AttendeeId attendeeId, LesseeId lesseeId, Price price, DateTime createdDateTime,
+    private Bill(Id<Bill> id, VenueId venueId, AttendeeId attendeeId, LesseeId lesseeId, Price price, DateTime createdDateTime,
         DateTime updatedDateTime) : base(id)
     {
         VenueId = venueId;
@@ -35,6 +35,6 @@ public sealed class Bill : AggregateRote<BillId, Guid>
 
     public static Bill Pay(VenueId venueId, AttendeeId attendeeId, LesseeId lesseeId, Price price)
     {
-        return new Bill(BillId.CreateUnique(), venueId, attendeeId, lesseeId, price, DateTime.UtcNow, DateTime.UtcNow);
+        return new Bill(Id<Bill>.CreateUnique(), venueId, attendeeId, lesseeId, price, DateTime.UtcNow, DateTime.UtcNow);
     }
 }

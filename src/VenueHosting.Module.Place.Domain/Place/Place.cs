@@ -1,3 +1,4 @@
+using Component.Domain.Models;
 using VenueHosting.Module.Place.Domain.Owner.ValueObjects;
 using VenueHosting.Module.Place.Domain.Place.BusinessRules;
 using VenueHosting.Module.Place.Domain.Place.Entities;
@@ -5,13 +6,13 @@ using VenueHosting.Module.Place.Domain.Place.ValueObjects;
 
 namespace VenueHosting.Module.Place.Domain.Place;
 
-public class Place : AggregateRote<PlaceId>
+public class Place : AggregateRote<Place>
 {
     private readonly List<Facility> _facilities = new();
 
     private Place(){}
 
-    private Place(PlaceId value, OwnerId ownerId, Address address) : base(value)
+    private Place(Id<Place> value, OwnerId ownerId, Address address) : base(value)
     {
         OwnerId = ownerId;
         Address = address;
@@ -27,12 +28,12 @@ public class Place : AggregateRote<PlaceId>
 
     public static Place Create(OwnerId ownerId, Address address)
     {
-        return new Place(PlaceId.CreateUnique(), ownerId, address);
+        return new Place(Id<Place>.CreateUnique(), ownerId, address);
     }
 
     public void AddFacilities(IList<Facility> facilities)
     {
-        CheckRule(new FacilityMustNotExistBusinessRule(_facilities, facilities));
+        //CheckRule(new FacilityMustNotExistBusinessRule(_facilities, facilities));
 
         _facilities.AddRange(facilities);
     }
@@ -48,7 +49,7 @@ public class Place : AggregateRote<PlaceId>
     {
         Address address = new(country, city, street, number);
 
-        CheckRule(new AddressMustBeValidBusinessRule(address));
+        //CheckRule(new AddressMustBeValidBusinessRule(address));
 
         Address = address;
     }

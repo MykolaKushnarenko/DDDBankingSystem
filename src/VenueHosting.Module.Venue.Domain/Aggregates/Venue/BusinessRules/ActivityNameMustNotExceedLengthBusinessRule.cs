@@ -1,4 +1,5 @@
-using VenueHosting.SharedKernel.BLSpecifications;
+
+using Component.Domain.BLSpecifications;
 
 namespace VenueHosting.Module.Venue.Domain.Aggregates.Venue.BusinessRules;
 

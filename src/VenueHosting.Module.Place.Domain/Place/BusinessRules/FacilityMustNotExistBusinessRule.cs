@@ -1,6 +1,6 @@
+using Component.Domain.BLSpecifications;
 using VenueHosting.Module.Place.Domain.Place.Entities;
 using VenueHosting.Module.Place.Domain.Place.Exceptions;
-using VenueHosting.SharedKernel.BLSpecifications;
 
 namespace VenueHosting.Module.Place.Domain.Place.BusinessRules;
 

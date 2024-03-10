@@ -1,6 +1,5 @@
+using Component.Domain.Models;
 using VenueHosting.Module.Venue.Domain.Replicas.User;
-using VenueHosting.SharedKernel.Common.Models;
-using VenueHosting.SharedKernel.Domain;
 
 namespace VenueHosting.Module.Venue.Domain.Aggregates.Partner;
 

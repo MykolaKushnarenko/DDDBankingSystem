@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using VenueHosting.SharedKernel.Persistence.Specifications;
+using Component.Persistence.SqlServer.Specifications;
 
 namespace VenueHosting.Module.Venue.Application.Common.Specifications;
 

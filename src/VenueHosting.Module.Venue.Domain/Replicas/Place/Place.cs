@@ -1,5 +1,4 @@
-using VenueHosting.SharedKernel.Common.Models;
-using VenueHosting.SharedKernel.Domain;
+using Component.Domain.Models;
 
 namespace VenueHosting.Module.Venue.Domain.Replicas.Place;
 

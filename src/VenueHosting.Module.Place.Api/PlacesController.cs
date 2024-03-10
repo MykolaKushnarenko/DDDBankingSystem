@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using VenueHosting.Module.Place.Application.Features.Place.GetPlace;
 using VenueHosting.Module.Place.Application.Features.Place.RegisterNewPlace;
 using VenueHosting.Module.Place.Domain.Owner.ValueObjects;
-using VenueHosting.Module.Place.Domain.Place.ValueObjects;
 using VenueHosting.SharedKernel.Controllers;
 
 namespace VenueHosting.Module.Place.Api;
@@ -37,12 +36,9 @@ public class PlacesController : ApiController
     }
 
     [HttpGet("{placeId}")]
-    public async Task<IActionResult> GetAsync([FromRoute] string placeId)
+    public async Task<IActionResult> GetAsync([FromRoute] Guid placeId)
     {
-        GetPlaceQuery command = new GetPlaceQuery
-        {
-            PlaceId = PlaceId.Create(Guid.Parse(placeId))
-        };
+        GetPlaceQuery command = new GetPlaceQuery(placeId);
 
         Domain.Place.Place place = await _sender.Send(command);
 

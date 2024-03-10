@@ -1,8 +1,7 @@
+using Component.Domain.Models;
+using Component.Persistence.SqlServer.Specifications;
 using Microsoft.EntityFrameworkCore;
 using VenueHosting.Module.Venue.Application.Common.Persistence;
-using VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
-using VenueHosting.SharedKernel.Persistence.Specifications;
-using VenueHosting.SharedKernel.Specifications;
 
 namespace VenueHosting.Module.Venue.Infrastructure.Persistence.Stores;
 
@@ -15,7 +14,8 @@ internal sealed class VenueStore : IVenueStore
         _dbContext = dbContext;
     }
 
-    public Task<Domain.Aggregates.Venue.Venue?> FetchVenueByIdAsync(VenueId venueId, CancellationToken token)
+    public Task<Domain.Aggregates.Venue.Venue?> FetchVenueByIdAsync(Id<Domain.Aggregates.Venue.Venue> venueId,
+        CancellationToken token)
     {
         return _dbContext.Venues.Where(x => x.Id == venueId).SingleOrDefaultAsync(token);
     }
@@ -25,17 +25,20 @@ internal sealed class VenueStore : IVenueStore
         await _dbContext.Venues.AddAsync(venue);
     }
 
-    public async Task<Domain.Aggregates.Venue.Venue?> FetchBySpecification(ISpecification<Domain.Aggregates.Venue.Venue> specification,
+    public async Task<Domain.Aggregates.Venue.Venue?> FetchBySpecification(
+        ISpecification<Domain.Aggregates.Venue.Venue> specification,
         CancellationToken token)
     {
-        return await SpecificationEvaluator<Domain.Aggregates.Venue.Venue>.GetQuery(_dbContext.Venues, specification)
+        return await SpecificationEvaluator<Domain.Aggregates.Venue.Venue>
+            .GetQuery(_dbContext.Venues, specification)
             .FirstOrDefaultAsync(token);
     }
 
     public async Task<IReadOnlyList<Domain.Aggregates.Venue.Venue>> FetchAllBySpecificationAsync(
         ISpecification<Domain.Aggregates.Venue.Venue> specification, CancellationToken token)
     {
-        return await SpecificationEvaluator<Domain.Aggregates.Venue.Venue>.GetQuery(_dbContext.Venues, specification)
+        return await SpecificationEvaluator<Domain.Aggregates.Venue.Venue>
+            .GetQuery(_dbContext.Venues, specification)
             .ToListAsync(token);
     }
 }

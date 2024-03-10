@@ -1,10 +1,10 @@
+using Component.Domain.Models;
+using Component.Persistence.SqlServer.AtomicScope;
 using MediatR;
 using VenueHosting.Module.Venue.Application.Common.Persistence;
 using VenueHosting.Module.Venue.Application.Common.Specifications;
 using VenueHosting.Module.Venue.Domain.Exceptions;
 using VenueHosting.Module.Venue.Domain.Services;
-using VenueHosting.SharedKernel.Common.Services;
-using VenueHosting.SharedKernel.Domain;
 
 namespace VenueHosting.Module.Venue.Application.Features.OrganizeVenue;
 

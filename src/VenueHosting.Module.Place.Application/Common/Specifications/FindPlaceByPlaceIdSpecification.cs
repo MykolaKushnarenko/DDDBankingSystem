@@ -1,12 +1,11 @@
-using VenueHosting.Module.Place.Domain.Place.ValueObjects;
-using VenueHosting.SharedKernel.Persistence.Specifications;
-using VenueHosting.SharedKernel.Specifications;
+using Component.Domain.Models;
+using Component.Persistence.SqlServer.Specifications;
 
 namespace VenueHosting.Module.Place.Application.Common.Specifications;
 
 public sealed class FindPlaceByPlaceIdSpecification : BaseSpecification<Domain.Place.Place>
 {
-    public FindPlaceByPlaceIdSpecification(PlaceId id)
+    public FindPlaceByPlaceIdSpecification(Id<Domain.Place.Place> id)
     {
         AddCriteria(x => x.Id == id);
     }

@@ -1,5 +1,5 @@
+using Component.Domain.BLSpecifications;
 using VenueHosting.Module.Venue.Domain.Exceptions;
-using VenueHosting.SharedKernel.BLSpecifications;
 
 namespace VenueHosting.Module.Venue.Domain.Aggregates.Venue.BusinessRules;
 

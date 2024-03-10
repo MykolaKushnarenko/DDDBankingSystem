@@ -3,13 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VenueHosting.Module.Venue.Api.Requests;
 using VenueHosting.Module.Venue.Application.Features.AddActivities;
-using VenueHosting.Module.Venue.Application.Features.CancelReservation;
 using VenueHosting.Module.Venue.Application.Features.FindVenuesByLocation;
 using VenueHosting.Module.Venue.Application.Features.MarkAsPublic;
 using VenueHosting.Module.Venue.Application.Features.OrganizeVenue;
-using VenueHosting.Module.Venue.Application.Features.ReserveAttendance;
-using VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
-using VenueHosting.Module.Venue.Domain.Replicas.Place.ValueObjects;
 using VenueHosting.SharedKernel.Controllers;
 
 namespace VenueHosting.Module.Venue.Api.Controllers;
@@ -45,11 +41,11 @@ public class VenuesController : ApiController
     public async Task<IActionResult> OrganizeAsync([FromBody] OrganizeVenueRequest request)
     {
         OrganizeVenueCommand command = new OrganizeVenueCommand(
-            OwnerId.Create(Guid.Parse(request.OwnerId)),
-            LesseeId.Create(Guid.Parse(request.LesseeId)),
-            PlaceId.Create(Guid.Parse(request.PlaceId)),
+            request.HostId,
+            request.PlaceId,
             request.EventName,
             request.Description,
+            request.Capacity,
             request.Visibility,
             request.StartAtDateTime,
             request.EndAtDateTime);
@@ -74,17 +70,13 @@ public class VenuesController : ApiController
     /// </remarks>
     /// <returns></returns>
     [HttpPost("{venueId}/activities")]
-    public async Task<IActionResult> AddActivitiesAsync(string venueId, [FromBody] ActivitiesRequest request)
+    public async Task<IActionResult> AddActivitiesAsync(Guid venueId, [FromBody] ActivitiesRequest request)
     {
-        AddActivitiesCommand command = new()
+        AddActivitiesCommand command = new(venueId, request.Activity.ConvertAll(x => new ActivityCommand
         {
-            VenueId = VenueId.Create(Guid.Parse(venueId)),
-            Activities = request.Activity.ConvertAll(x => new ActivityCommand
-            {
-                Name = x.Name,
-                Description = x.Description
-            }).ToArray()
-        };
+            Name = x.Name,
+            Description = x.Description
+        }).ToArray());
 
         await _sender.Send(command);
 
@@ -94,81 +86,11 @@ public class VenuesController : ApiController
     /// <summary>
     /// Change status of the event
     /// </summary>
-    /// <remarks>
-    /// Request example:
-    /// <code>
-    /// PUT <![CDATA[/venues]]>
-    /// {
-    ///
-    /// }
-    /// </code>
-    /// </remarks>
     /// <returns></returns>
     [HttpPut("{venueId}/visibility")]
-    public async Task<IActionResult> ChangeVisibilityAsync(string venueId, [FromBody] ChangeVisibilityRequest request)
+    public async Task<IActionResult> ChangeVisibilityAsync(Guid venueId)
     {
-        var command = new MarkAsPublicCommand
-        {
-            VenueId = VenueId.Create(Guid.Parse(venueId)),
-            Visibility = request.Visibility
-        };
-
-        await _sender.Send(command);
-
-        return Ok();
-    }
-
-    /// <summary>
-    /// Reserve event
-    /// </summary>
-    /// <remarks>
-    /// Request example:
-    /// <code>
-    /// POST <![CDATA[/venues/{venueId}/reserve]]>
-    /// {
-    ///
-    /// }
-    /// </code>
-    /// </remarks>
-    /// <returns></returns>
-    [HttpPost("{venueId}/reservation")]
-    public async Task<IActionResult> ReserveAsync(string venueId, [FromBody] ReserveRequest request)
-    {
-        ReserveAttendanceCommand reserveCommand = new()
-        {
-            VenueId = VenueId.Create(Guid.Parse(venueId)),
-            UserId = UserId.Create(Guid.Parse(request.AttendeeId!)),
-            BillId = BillId.Create(Guid.Parse(request.BillId!)),
-            Amount = request.Amount,
-            ReservationDateTime = request.ReservationDateTime
-        };
-
-        await _sender.Send(reserveCommand);
-
-        return Ok();
-    }
-
-    /// <summary>
-    /// Cancel reservation
-    /// </summary>
-    /// <remarks>
-    /// Request example:
-    /// <code>
-    /// POST <![CDATA[/venues/{venueId}/reservation/{reservationId}/cancel]]>
-    /// {
-    ///
-    /// }
-    /// </code>
-    /// </remarks>
-    /// <returns></returns>
-    [HttpPost("{venueId}/reservation/{reservationId}/cancel")]
-    public async Task<IActionResult> CancelReservationAsync(string venueId, string reservationId)
-    {
-        CancelReservationCommand command = new()
-        {
-            VenueId = VenueId.Create(Guid.Parse(venueId)),
-            ReservationId = ReservationId.Create(Guid.Parse(reservationId)),
-        };
+        var command = new MarkAsPublicCommand(venueId);
 
         await _sender.Send(command);
 

@@ -1,3 +1,5 @@
+using Component.Domain.Models;
+using Component.Domain.Services;
 using VenueHosting.Contracts.Events;
 using VenueHosting.Module.Venue.Domain.Aggregates.Venue.BusinessRules;
 using VenueHosting.Module.Venue.Domain.Aggregates.Venue.Entities;
@@ -5,8 +7,6 @@ using VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
 using VenueHosting.Module.Venue.Domain.Replicas.Place;
 using VenueHosting.Module.Venue.Domain.Replicas.User;
 using VenueHosting.SharedKernel.Common.DomainEvents;
-using VenueHosting.SharedKernel.Common.Services;
-using VenueHosting.SharedKernel.Domain;
 
 namespace VenueHosting.Module.Venue.Domain.Services;
 

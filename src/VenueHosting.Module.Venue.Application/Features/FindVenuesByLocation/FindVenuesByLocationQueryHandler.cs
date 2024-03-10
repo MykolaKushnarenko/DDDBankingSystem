@@ -1,8 +1,7 @@
+using Component.Domain.Models;
 using MediatR;
 using VenueHosting.Module.Venue.Application.Common.Persistence;
 using VenueHosting.Module.Venue.Application.Common.Specifications;
-using VenueHosting.Module.Venue.Domain.Replicas.Place.ValueObjects;
-using VenueHosting.SharedKernel.Domain;
 
 namespace VenueHosting.Module.Venue.Application.Features.FindVenuesByLocation;
 
@@ -28,7 +27,7 @@ internal sealed class FindVenuesByLocationQueryHandler :
         var nearbyPlaces =
             await _placeStore.FetchAllBySpecificationAsync(findPlacesByLocationDetailsSpecification, cancellationToken);
 
-        List<Id<Domain.Replicas.Place.Place>> placeIds = nearbyPlaces.Select(x => new Id<Domain.Replicas.Place.Place>(x.Id.Value))
+        var placeIds = nearbyPlaces.Select(x => new Id<Domain.Replicas.Place.Place>(x.Id.Value))
             .ToList();
 
         var findUpcomingVenuesByPlaceIdsSpec =

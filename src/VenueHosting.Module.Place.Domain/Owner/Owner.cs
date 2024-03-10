@@ -1,28 +1,27 @@
+using Component.Domain.Models;
 using VenueHosting.Module.Place.Domain.Owner.ValueObjects;
-using VenueHosting.Module.Place.Domain.Place.ValueObjects;
-using VenueHosting.SharedKernel.Common.Models;
 
 namespace VenueHosting.Module.Place.Domain.Owner;
 
-public class Owner : AggregateRote<OwnerId>
+public class Owner : AggregateRote<Owner>
 {
-    private readonly List<PlaceId> _placeIds = new();
+    private readonly List<Id<Place.Place>> _placeIds = new();
 
     private Owner()
     {
     }
 
-    private Owner(OwnerId id, UserId userId) : base(id)
+    private Owner(Id<Owner> id, UserId userId) : base(id)
     {
         UserId = userId;
     }
 
     public UserId UserId { get; private set; }
 
-    public IReadOnlyList<PlaceId> PlaceIds => _placeIds.AsReadOnly();
+    public IReadOnlyList<Id<Place.Place>> PlaceIds => _placeIds.AsReadOnly();
 
     public static Owner Create(UserId userId)
     {
-        return new Owner(OwnerId.CreateUnique(), userId);
+        return new Owner(Id<Owner>.CreateUnique(), userId);
     }
 }

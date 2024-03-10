@@ -1,5 +1,5 @@
-using VenueHosting.SharedKernel.Domain;
-using VenueHosting.SharedKernel.Persistence.Specifications;
+using Component.Domain.Models;
+using Component.Persistence.SqlServer.Specifications;
 
 namespace VenueHosting.Module.Venue.Application.Common.Specifications;
 

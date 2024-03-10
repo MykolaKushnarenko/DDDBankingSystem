@@ -1,3 +1,4 @@
+using Component.Domain.DomainEvents;
 using VenueHosting.SharedKernel.Common.DomainEvents;
 
 namespace VenueHosting.Module.Place.Domain.Place.DomainEvents;

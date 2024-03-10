@@ -1,7 +1,4 @@
-using VenueHosting.Module.Venue.Domain.Aggregates.Venue.BusinessRules;
-using VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
-using VenueHosting.SharedKernel.Common.Models;
-using VenueHosting.SharedKernel.Domain;
+using Component.Domain.Models;
 
 namespace VenueHosting.Module.Venue.Domain.Aggregates.Venue.Entities;
 
