@@ -10,8 +10,6 @@ namespace VenueHosting.Module.Venue.Infrastructure;
 
 public static class ServiceCollectionExtensions
 {
-    private const string Scheme = "Venue";
-
     public static IServiceCollection AddVenueInfrastructure(
         this IServiceCollection serviceCollection,
         IConfiguration configuration)
@@ -20,7 +18,7 @@ public static class ServiceCollectionExtensions
         serviceCollection.AddScoped<IVenueStore, VenueStore>();
         serviceCollection.AddScoped<IOutboxMessageStore, OutboxMessageStore>();
 
-        serviceCollection.AddDbContext<VenueApplicationDbContext>(configuration, Scheme);
+        serviceCollection.AddVhDbContext<VenueApplicationDbContext>(configuration);
 
         serviceCollection.AddHostedService<OutboxMessageBackgroundJob>();
 

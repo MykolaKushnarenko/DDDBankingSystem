@@ -1,5 +1,4 @@
 using Component.Domain.Models;
-using VenueHosting.Module.Venue.Domain.Aggregates.Venue.BusinessRules;
 using VenueHosting.Module.Venue.Domain.Aggregates.Venue.Entities;
 using VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
 using VenueHosting.Module.Venue.Domain.Replicas.Place;
@@ -10,8 +9,9 @@ namespace VenueHosting.Module.Venue.Domain.Aggregates.Venue;
 public sealed class Venue : AggregateRote<Venue>
 {
     private readonly HashSet<Activity> _activities = new();
-    private readonly HashSet<Partner.Partner> _partners = new ();
+    private readonly HashSet<Id<Partner.Partner>> _partners = new();
 
+    // ReSharper disable once UnusedMember.Local
     private Venue()
     {
     }
@@ -53,7 +53,8 @@ public sealed class Venue : AggregateRote<Venue>
     public VenueStatus VenueStatus { get; private set; }
 
     public IReadOnlyList<Activity> Activities => _activities.ToList().AsReadOnly();
-    public IReadOnlyList<Partner.Partner> Partners => _partners.ToList().AsReadOnly();
+
+    public IReadOnlyList<Id<Partner.Partner>> Partners => _partners.ToList().AsReadOnly();
 
     public int Capacity { get; private set; }
 
