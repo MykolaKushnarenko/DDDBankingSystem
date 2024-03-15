@@ -24,9 +24,6 @@ internal class VenueApplicationDesignTimeDbContextFactory : IDesignTimeDbContext
     public VenueApplicationDbContext CreateDbContext(string[] args)
     {
         var context = _serviceProvider.GetRequiredService<VenueApplicationDbContext>();
-
-        context.Database.EnsureCreated();
-
         return context;
     }
 }

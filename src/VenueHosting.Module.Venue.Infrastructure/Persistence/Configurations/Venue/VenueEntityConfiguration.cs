@@ -2,6 +2,7 @@ using Component.Persistence.SqlServer.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using VenueHosting.Module.Venue.Domain.Aggregates.Venue.Entities;
+using VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
 
 namespace VenueHosting.Module.Venue.Infrastructure.Persistence.Configurations.Venue;
 
@@ -56,8 +57,7 @@ public class VenueEntityConfiguration : IEntityTypeConfiguration<Domain.Aggregat
             .Property(x => x.EndAtDateTime)
             .HasColumnName("EndAtDateTime");
 
-        builder.OwnsOne(x => x.Schedule);
-        builder.Navigation(x => x.Schedule).IsRequired();
+        builder.OwnsOne(x => x.Schedule, BuildSchedule);
 
         builder.OwnsMany(x => x.Activities, BuildActivity);
         builder.OwnsMany(x => x.Partners, BuildPartner);
@@ -122,18 +122,18 @@ public class VenueEntityConfiguration : IEntityTypeConfiguration<Domain.Aggregat
             .HasMaxLength(150);
     }
 
-    // private void BuildSchedule(OwnedNavigationBuilder<Domain.Aggregates.Venue.Venue, Schedule> builder)
-    // {
-    //     builder
-    //         .Property(x => x.EndTime)
-    //         .HasColumnName("EndTime");
-    //
-    //     builder
-    //         .Property(x => x.StartTime)
-    //         .HasColumnName("StartTime");
-    //
-    //     builder
-    //         .Property(x => x.IsBooked)
-    //         .HasColumnName("IsBooked");
-    // }
+    private void BuildSchedule(OwnedNavigationBuilder<Domain.Aggregates.Venue.Venue, Schedule> builder)
+    {
+        builder
+            .Property(x => x.EndTime)
+            .HasColumnName("EndTime");
+
+        builder
+            .Property(x => x.StartTime)
+            .HasColumnName("StartTime");
+
+        builder
+            .Property(x => x.IsBooked)
+            .HasColumnName("IsBooked");
+    }
 }
