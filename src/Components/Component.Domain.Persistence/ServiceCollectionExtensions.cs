@@ -9,7 +9,7 @@ namespace Component.Persistence.SqlServer;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddVhDbContext<TDbContext>(this IServiceCollection serviceCollection,
+    public static IServiceCollection AddDomainDbContext<TDbContext>(this IServiceCollection serviceCollection,
         IConfiguration configuration) where TDbContext : DbContext
     {
         var connectionString = configuration.GetConnectionString("SqlServerConnectionString");
@@ -18,6 +18,10 @@ public static class ServiceCollectionExtensions
 
         serviceCollection.AddDbContext<TDbContext>(x => x.UseSqlServer(connectionString,
             builder => builder.MigrationsHistoryTable(HistoryRepository.DefaultTableName)));
+
+        //TODO: Add extension convention for enums to cast them into separate table.
+        //TODO: Add interceptors for auditing.
+        //TODO: Add extend DBContextOptions.
 
         return serviceCollection;
     }

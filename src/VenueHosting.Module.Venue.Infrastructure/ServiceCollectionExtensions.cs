@@ -2,7 +2,6 @@ using Component.Persistence.SqlServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VenueHosting.Module.Venue.Application.Common.Persistence;
-using VenueHosting.Module.Venue.Infrastructure.Jobs;
 using VenueHosting.Module.Venue.Infrastructure.Persistence;
 using VenueHosting.Module.Venue.Infrastructure.Persistence.Stores;
 
@@ -14,13 +13,9 @@ public static class ServiceCollectionExtensions
         this IServiceCollection serviceCollection,
         IConfiguration configuration)
     {
-        serviceCollection.AddScoped<IPlaceStore, PlaceStore>();
         serviceCollection.AddScoped<IVenueStore, VenueStore>();
-        serviceCollection.AddScoped<IOutboxMessageStore, OutboxMessageStore>();
 
-        serviceCollection.AddVhDbContext<VenueApplicationDbContext>(configuration);
-
-        serviceCollection.AddHostedService<OutboxMessageBackgroundJob>();
+        serviceCollection.AddDomainDbContext<VenueApplicationDbContext>(configuration);
 
         return serviceCollection;
     }
