@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 using Component.Domain.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Component.Persistence;
+namespace Component.Persistence.SqlServer.Extensions;
 
 public static class EntityTypeBuilderExtensions
 {
@@ -34,7 +34,7 @@ public static class EntityTypeBuilderExtensions
         var foreignKeyPropertyNames =
             builder.Metadata.PrincipalEntityType.FindPrimaryKey()!
                 .Properties
-                .Select(x => x.Name)
+                .Select(x => $"{x.DeclaringType.ClrType.Name}Id")
                 .ToArray();
 
         return builder.WithOwner().HasForeignKey(foreignKeyPropertyNames);
