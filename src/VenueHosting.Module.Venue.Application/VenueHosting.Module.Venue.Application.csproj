@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Components\Component.Domain.Persistence.SqlServer\Component.Domain.Persistence.SqlServer.csproj" />
+      <ProjectReference Include="..\Components\Component.Domain.Persistence\Component.Domain.Persistence.csproj" />
       <ProjectReference Include="..\Components\Component.Domain\Component.Domain.csproj" />
       <ProjectReference Include="..\VenueHosting.Module.User.Domain\VenueHosting.Module.User.Domain.csproj" />
       <ProjectReference Include="..\VenueHosting.Module.Place.Domain\VenueHosting.Module.Place.Domain.csproj" />

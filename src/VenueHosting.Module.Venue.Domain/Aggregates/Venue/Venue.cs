@@ -9,7 +9,8 @@ namespace VenueHosting.Module.Venue.Domain.Aggregates.Venue;
 public sealed class Venue : AggregateRote<Venue>
 {
     private readonly HashSet<Activity> _activities = new();
-    private readonly HashSet<Id<Partner.Partner>> _partners = new();
+    private readonly HashSet<PartnerReference> _partners = new();
+    private readonly HashSet<Amenity> _amenities = new();
 
     // ReSharper disable once UnusedMember.Local
     private Venue()
@@ -54,7 +55,9 @@ public sealed class Venue : AggregateRote<Venue>
 
     public IReadOnlyList<Activity> Activities => _activities.ToList().AsReadOnly();
 
-    public IReadOnlyList<Id<Partner.Partner>> Partners => _partners.ToList().AsReadOnly();
+    public IReadOnlyList<PartnerReference> Partners => _partners.ToList().AsReadOnly();
+
+    public IReadOnlyList<Amenity> Amenities => _amenities.ToList().AsReadOnly();
 
     public int Capacity { get; private set; }
 

@@ -10,15 +10,10 @@ internal sealed class VenueApplicationDbContext : DbContext
 
     public DbSet<Domain.Aggregates.Venue.Venue> Venues { get; set; }
 
-    public DbSet<Domain.Replicas.Place.Place> Places { get; set; }
-
-    public DbSet<Outbox.OutboxIntegrationEvent> OutboxIntegrationEvents { get; set; }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema("Venue");
-
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(VenueApplicationDbContext).Assembly);
+
         base.OnModelCreating(modelBuilder);
     }
 }
