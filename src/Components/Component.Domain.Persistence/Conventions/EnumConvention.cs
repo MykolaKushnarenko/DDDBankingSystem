@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
+using Components.Validation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -37,17 +38,9 @@ public class EnumConvention : IEntityTypeAddedConvention
         var enumPropertyType = conventionEnumProperty.ClrType;
         var concreteType = typeof(EnumIdNameEntity<>).MakeGenericType(enumPropertyType);
 
-        if (entityTypeBuilder.ModelBuilder is not InternalModelBuilder internalModelBuilder)
-        {
-            throw new ArgumentNullException(
-                nameof(entityTypeBuilder.ModelBuilder),
-                "Could not cast 'entityTypeBuilder.ModelBuilder' to 'InternalModelBuilder'.");
-        }
+        var internalModelBuilder = entityTypeBuilder.ModelBuilder as InternalModelBuilder;
 
-        var internalTypeEntityBuilder = internalModelBuilder.Entity(concreteType, ConfigurationSource.Explicit,
-            shouldBeOwned: false)!;
-
-        ConfigureEnumTable(internalTypeEntityBuilder, enumPropertyType, concreteType);
+        ConfigureEnumTable(internalModelBuilder, enumPropertyType, concreteType);
         ConfigureRelationship(entityTypeBuilder, concreteType, enumPropertyType);
     }
 
@@ -63,10 +56,14 @@ public class EnumConvention : IEntityTypeAddedConvention
             .OnDelete(DeleteBehavior.NoAction);
     }
 
-    private static void ConfigureEnumTable(InternalEntityTypeBuilder internalTypeEntityBuilder,
+    private static void ConfigureEnumTable(InternalModelBuilder? internalModelBuilder,
         Type enumPropertyClrType,
         Type concreteType)
     {
+        Ensure.NotNull(internalModelBuilder, nameof(internalModelBuilder));
+
+        var internalTypeEntityBuilder = internalModelBuilder!.Entity(concreteType, ConfigurationSource.Explicit,
+            shouldBeOwned: false)!;
         var entityBuilder = new EntityTypeBuilder(internalTypeEntityBuilder.Metadata);
 
         entityBuilder.ToTable(Inflector.Pluralize(enumPropertyClrType.Name), Scheme);
@@ -87,9 +84,7 @@ public class EnumConvention : IEntityTypeAddedConvention
         var data = Enum
             .GetValues(enumClrType)
             .Cast<object>()
-            .Select(enumValue => Activator.CreateInstance(concreteType, enumValue) ??
-                                 throw new ArgumentNullException(nameof(enumValue),
-                                     $"Could not create instance of {concreteType} with enum value: {enumValue}"))
+            .Select(enumValue => Ensure.NotNull(Activator.CreateInstance(concreteType, enumValue), nameof(enumValue))!)
             .ToArray();
 
         entityTypeBuilder.HasData(data);
