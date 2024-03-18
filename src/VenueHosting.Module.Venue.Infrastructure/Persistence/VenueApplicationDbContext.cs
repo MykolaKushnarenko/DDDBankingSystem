@@ -16,4 +16,10 @@ internal sealed class VenueApplicationDbContext : DbContext
 
         base.OnModelCreating(modelBuilder);
     }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder.Conventions.Add(_ => new EnumConvention());
+        base.ConfigureConventions(configurationBuilder);
+    }
 }
