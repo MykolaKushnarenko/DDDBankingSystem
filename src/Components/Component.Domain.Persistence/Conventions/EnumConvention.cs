@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -12,6 +13,7 @@ namespace Component.Persistence.SqlServer.Conventions;
 public class EnumConvention : IEntityTypeAddedConvention
 {
     private static readonly Inflector.Inflector Inflector = new(new CultureInfo("en-US"));
+    private const string Scheme = "Lookup";
 
     public void ProcessEntityTypeAdded(IConventionEntityTypeBuilder entityTypeBuilder,
         IConventionContext<IConventionEntityTypeBuilder> context)
@@ -25,94 +27,76 @@ public class EnumConvention : IEntityTypeAddedConvention
             .GetProperties()
             .Where(x => x.ClrType.IsEnum)
             .ToList()
-            .ForEach(x => ConfigureEnumEntity(entityTypeBuilder, x));
+            .ForEach(property => ConfigureEnumEntity(entityTypeBuilder, property));
     }
-
-    private static bool EnumTableHasAlreadyConfigured(Type type) =>
-        type.IsGenericType && type.GetGenericTypeDefinition() == typeof(EnumIdNameEntity<>);
 
     private static void ConfigureEnumEntity(
         IConventionEntityTypeBuilder entityTypeBuilder,
         IReadOnlyPropertyBase conventionEnumProperty)
     {
-        var enumClrType = conventionEnumProperty.ClrType;
-        var concreteType = typeof(EnumIdNameEntity<>).MakeGenericType(enumClrType);
+        var enumPropertyType = conventionEnumProperty.ClrType;
+        var concreteType = typeof(EnumIdNameEntity<>).MakeGenericType(enumPropertyType);
 
-        var enumIdNameEntityBuilder = entityTypeBuilder.ModelBuilder.Entity(concreteType)!;
-        var internalEntityTypeBuilder = enumIdNameEntityBuilder as InternalEntityTypeBuilder ??
-                                        throw new ArgumentNullException(nameof(enumIdNameEntityBuilder),
-                                            "Could not cast to InternalEntityTypeBuilder");
+        if (entityTypeBuilder.ModelBuilder is not InternalModelBuilder internalModelBuilder)
+        {
+            throw new ArgumentNullException(
+                nameof(entityTypeBuilder.ModelBuilder),
+                "Could not cast 'entityTypeBuilder.ModelBuilder' to 'InternalModelBuilder'.");
+        }
 
-        var conventionKeyPropertyBuilder = ConfigureEnumTable(enumIdNameEntityBuilder, enumClrType);
+        var internalTypeEntityBuilder = internalModelBuilder.Entity(concreteType, ConfigurationSource.Explicit,
+            shouldBeOwned: false)!;
 
-        SeedDataForEnumTable(enumClrType, concreteType, internalEntityTypeBuilder);
-
-        var foreignKey = ConfigureRelationship(
-            entityTypeBuilder as InternalEntityTypeBuilder, 
-            conventionEnumProperty,
-            enumIdNameEntityBuilder as InternalEntityTypeBuilder, conventionKeyPropertyBuilder);
-
-        foreignKey.Builder.OnDelete(DeleteBehavior.NoAction, ConfigurationSource.Explicit);
+        ConfigureEnumTable(internalTypeEntityBuilder, enumPropertyType, concreteType);
+        ConfigureRelationship(entityTypeBuilder, concreteType, enumPropertyType);
     }
 
-    private static IConventionPropertyBuilder ConfigureEnumTable(
-        IConventionEntityTypeBuilder conventionEntityTypeBuilder,
-        Type enumClrType)
+    private static void ConfigureRelationship(IConventionEntityTypeBuilder entityTypeBuilder, Type concreteType,
+        MemberInfo navigationalMemberInfo)
     {
-        conventionEntityTypeBuilder.ToTable(Inflector.Pluralize(enumClrType.Name));
+        var entityBuilder = new EntityTypeBuilder((EntityType)entityTypeBuilder.Metadata);
 
-        var conventionKeyPropertyBuilder = conventionEntityTypeBuilder
-            .Property(enumClrType, nameof(EnumIdNameEntity<Enum>.Id))!;
+        entityBuilder.HasOne(concreteType)
+            .WithMany()
+            .HasPrincipalKey(nameof(EnumIdNameEntity<Enum>.Id))
+            .HasForeignKey(navigationalMemberInfo.Name)
+            .OnDelete(DeleteBehavior.NoAction);
+    }
 
-        conventionEntityTypeBuilder
-            .Property(typeof(string), nameof(EnumIdNameEntity<Enum>.Name))!
-            .HasMaxLength(50);
+    private static void ConfigureEnumTable(InternalEntityTypeBuilder internalTypeEntityBuilder,
+        Type enumPropertyClrType,
+        Type concreteType)
+    {
+        var entityBuilder = new EntityTypeBuilder(internalTypeEntityBuilder.Metadata);
 
-        conventionEntityTypeBuilder.HasKey(new[] { conventionKeyPropertyBuilder.Metadata });
-        return conventionKeyPropertyBuilder;
+        entityBuilder.ToTable(Inflector.Pluralize(enumPropertyClrType.Name), Scheme);
+
+        entityBuilder.Property(enumPropertyClrType, nameof(EnumIdNameEntity<Enum>.Id));
+        entityBuilder.Property(typeof(string), nameof(EnumIdNameEntity<Enum>.Name)).HasMaxLength(50);
+
+        entityBuilder.HasKey(nameof(EnumIdNameEntity<Enum>.Id));
+
+        SeedDataForEnumTable(entityBuilder, enumPropertyClrType, concreteType);
     }
 
     private static void SeedDataForEnumTable(
+        EntityTypeBuilder entityTypeBuilder,
         Type enumClrType,
-        Type genericType,
-        InternalEntityTypeBuilder internalEntityTypeBuilder)
+        Type concreteType)
     {
         var data = Enum
             .GetValues(enumClrType)
             .Cast<object>()
-            .Select(enumValue => Activator.CreateInstance(genericType, enumValue) ??
+            .Select(enumValue => Activator.CreateInstance(concreteType, enumValue) ??
                                  throw new ArgumentNullException(nameof(enumValue),
-                                     $"Could not create instance of {genericType} with enum value: {enumValue}"))
+                                     $"Could not create instance of {concreteType} with enum value: {enumValue}"))
             .ToArray();
 
-        internalEntityTypeBuilder.HasData(data, ConfigurationSource.Explicit);
+        entityTypeBuilder.HasData(data);
     }
 
-    private static ForeignKey ConfigureRelationship(
-        InternalEntityTypeBuilder? entityTypeInternalBuilder,
-        IReadOnlyPropertyBase conventionEnumProperty,
-        InternalEntityTypeBuilder? enumIdNameEntityInternalBuilder,
-        IConventionPropertyBuilder keyProperty)
-    {
-        ArgumentNullException.ThrowIfNull(entityTypeInternalBuilder);
-        ArgumentNullException.ThrowIfNull(enumIdNameEntityInternalBuilder);
-
-        var foreignKey = entityTypeInternalBuilder.HasRelationship(
-                enumIdNameEntityInternalBuilder.Metadata,
-                MemberIdentity.None.MemberInfo,
-                ConfigurationSource.Explicit,
-                targetIsPrincipal: null)!
-            .Metadata;
-
-        foreignKey.Builder.HasPrincipalKey(
-            new[] { keyProperty.Metadata.GetIdentifyingMemberInfo() }!, ConfigurationSource.Explicit);
-
-        foreignKey.Builder.HasForeignKey(
-            new[] { conventionEnumProperty.Name }, entityTypeInternalBuilder.Metadata,
-            ConfigurationSource.Explicit);
-
-        return foreignKey;
-    }
+    private static bool EnumTableHasAlreadyConfigured(Type type) =>
+        type.IsGenericType && type.GetGenericTypeDefinition() == typeof(EnumIdNameEntity<>);
 
     private class EnumIdNameEntity<TEnum> where TEnum : Enum
     {
