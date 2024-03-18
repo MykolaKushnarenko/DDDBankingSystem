@@ -1,19 +1,19 @@
-# http://editorconfig.org
-
-root = true
-
 [*]
 charset = utf-8
-trim_trailing_whitespace = true
-indent_style = space
+end_of_line = lf
 indent_size = 4
-
-[*.{csproj,json,config,yml,yaml,props}]
-indent_size = 2
-
-[*.md]
+indent_style = space
 insert_final_newline = false
+max_line_length = 120
+tab_width = 4
 trim_trailing_whitespace = false
+ij_continuation_indent_size = 8
+ij_formatter_off_tag = @formatter:off
+ij_formatter_on_tag = @formatter:on
+ij_formatter_tags_enabled = true
+ij_smart_tabs = false
+ij_visual_guides = 
+ij_wrap_on_typing = false
 
 [*.cs]
 dotnet_diagnostic.CA1724.severity = warning     # Type names should not match namespaces
