@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using VenueHosting.SharedKernel.Common.DomainEvents;
 
 namespace Component.Persistence.SqlServer;
 
@@ -14,12 +15,13 @@ public static class ServiceCollectionExtensions
     {
         var connectionString = configuration.GetConnectionString("SqlServerConnectionString");
 
-        serviceCollection.TryAddSingleton<IAtomicScopeFactory, AtomicScopeFactory<TDbContext>>();
+        serviceCollection.TryAddScoped<DomainEventCollector>();
+        serviceCollection.TryAddScoped<IAtomicScopeFactory, AtomicScopeFactory<TDbContext>>();
 
         serviceCollection.AddDbContext<TDbContext>(x => x.UseSqlServer(connectionString,
-            builder => builder.MigrationsHistoryTable(HistoryRepository.DefaultTableName)));
-
-        //TODO: Add extension convention for enums to cast them into separate table.
+            builder => builder
+                .MigrationsHistoryTable(HistoryRepository.DefaultTableName)));
+        
         //TODO: Add interceptors for auditing.
         //TODO: Add extend DBContextOptions.
 
