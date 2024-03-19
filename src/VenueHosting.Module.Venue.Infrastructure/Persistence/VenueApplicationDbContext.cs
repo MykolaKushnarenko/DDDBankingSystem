@@ -1,25 +1,21 @@
+using Component.Domain.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace VenueHosting.Module.Venue.Infrastructure.Persistence;
 
-internal sealed class VenueApplicationDbContext : DbContext
+internal sealed class VenueApplicationDbContext : VenueHostingDbContext
 {
     public VenueApplicationDbContext(DbContextOptions<VenueApplicationDbContext> options) : base(options)
     {
     }
 
-    public DbSet<Domain.Aggregates.Venue.Venue> Venues { get; set; }
+    public DbSet<Domain.Aggregates.VenueAggregate.Venue> Venues { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        //TODO: Move it to the 'VenueHostingDbContext' 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(VenueApplicationDbContext).Assembly);
-
+        
         base.OnModelCreating(modelBuilder);
-    }
-
-    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
-    {
-        configurationBuilder.Conventions.Add(_ => new EnumConvention());
-        base.ConfigureConventions(configurationBuilder);
     }
 }
