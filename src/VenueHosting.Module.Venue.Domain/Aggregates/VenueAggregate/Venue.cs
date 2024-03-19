@@ -25,8 +25,7 @@ public sealed class Venue : AggregateRote<Venue>
         string description,
         int capacity,
         Visibility visibility,
-        DateTime startAtDateTime,
-        DateTime endAtDateTime,
+        Schedule schedule,
         Id<Venue>? venueId = null) : base(venueId ?? Id<Venue>.CreateUnique())
     {
         PlaceId = placeId;
@@ -34,8 +33,7 @@ public sealed class Venue : AggregateRote<Venue>
         EventName = eventName;
         Description = description;
         Visibility = visibility;
-        StartAtDateTime = startAtDateTime;
-        EndAtDateTime = endAtDateTime;
+        Schedule = schedule;
         VenueStatus = VenueStatus.Organized;
         Capacity = capacity;
     }
@@ -61,10 +59,6 @@ public sealed class Venue : AggregateRote<Venue>
     public IReadOnlyList<Amenity> Amenities => _amenities.ToArray();
 
     public int Capacity { get; private set; }
-
-    public DateTime StartAtDateTime { get; private set; }
-
-    public DateTime EndAtDateTime { get; private set; }
 
     internal void AddActivity(Activity activity)
     {

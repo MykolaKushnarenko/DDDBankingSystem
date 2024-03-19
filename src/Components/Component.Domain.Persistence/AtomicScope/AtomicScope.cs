@@ -35,9 +35,7 @@ internal sealed class AtomicScope<TDbContext> : IAtomicScope where TDbContext : 
                     await action(token);
                 }
 
-                _ = new TransactionScope(TransactionScopeOption.Required,
-                    new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted },
-                    TransactionScopeAsyncFlowOption.Enabled);
+                await _dbContext.Database.BeginTransactionAsync(token);
 
                 await action(token);
                 

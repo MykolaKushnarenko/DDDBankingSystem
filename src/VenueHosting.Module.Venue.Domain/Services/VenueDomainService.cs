@@ -32,7 +32,7 @@ public class VenueDomainService : DomainService
 
         var venue = new Aggregates.VenueAggregate.Venue(
             hostId, placeId, eventName,
-            description, capacity, visibility, startAtDateTime, endAtDateTime);
+            description, capacity, visibility, new Schedule(startAtDateTime, endAtDateTime));
 
         EventCollector.AddDomainEvent(new VenueCreatedDomainEvent(venue.Id.Value, venue.Capacity));
 

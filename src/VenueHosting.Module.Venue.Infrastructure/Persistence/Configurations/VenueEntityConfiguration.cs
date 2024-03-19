@@ -51,14 +51,6 @@ public class VenueEntityConfiguration : IEntityTypeConfiguration<Domain.Aggregat
             .Property(x => x.Capacity)
             .HasColumnName("Capacity");
 
-        builder
-            .Property(x => x.StartAtDateTime)
-            .HasColumnName("StartAtDateTime");
-
-        builder
-            .Property(x => x.EndAtDateTime)
-            .HasColumnName("EndAtDateTime");
-
         builder.OwnsOne(x => x.Schedule, BuildSchedule);
 
         builder.OwnsMany(x => x.Activities, BuildActivity);
@@ -133,9 +125,5 @@ public class VenueEntityConfiguration : IEntityTypeConfiguration<Domain.Aggregat
         builder
             .Property(x => x.StartTime)
             .HasColumnName("StartTime");
-
-        builder
-            .Property(x => x.IsBooked)
-            .HasColumnName("IsBooked");
     }
 }
