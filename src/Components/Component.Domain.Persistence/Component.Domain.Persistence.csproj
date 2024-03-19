@@ -4,15 +4,17 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>Component.Persistence.SqlServer</RootNamespace>
+        <RootNamespace>Component.Domain.Persistence</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Component.Domain\Component.Domain.csproj" />
+      <ProjectReference Include="..\Components.Validation\Components.Validation.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Inflector.NetCore" Version="1.2.3" />
+      <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.2" />
     </ItemGroup>

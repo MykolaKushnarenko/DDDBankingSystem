@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace Component.Persistence.SqlServer.Conventions;
+namespace Component.Domain.Persistence.Conventions;
 
 [SuppressMessage("Usage", "EF1001:Internal EF Core API usage.")]
 public class EnumConvention : IEntityTypeAddedConvention

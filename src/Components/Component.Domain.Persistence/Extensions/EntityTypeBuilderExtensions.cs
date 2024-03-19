@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 using Component.Domain.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Component.Persistence.SqlServer.Extensions;
+namespace Component.Domain.Persistence.Extensions;
 
 public static class EntityTypeBuilderExtensions
 {
