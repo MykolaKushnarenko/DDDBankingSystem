@@ -9,8 +9,6 @@
     <ItemGroup>
       <ProjectReference Include="..\Components\Component.Domain.Persistence\Component.Domain.Persistence.csproj" />
       <ProjectReference Include="..\Components\Component.Domain\Component.Domain.csproj" />
-      <ProjectReference Include="..\VenueHosting.Module.User.Domain\VenueHosting.Module.User.Domain.csproj" />
-      <ProjectReference Include="..\VenueHosting.Module.Place.Domain\VenueHosting.Module.Place.Domain.csproj" />
       <ProjectReference Include="..\VenueHosting.Module.Venue.Consumers\VenueHosting.Module.Venue.Consumers.csproj" />
       <ProjectReference Include="..\VenueHosting.Module.Venue.Domain\VenueHosting.Module.Venue.Domain.csproj" />
       <ProjectReference Include="..\VenueHosting.SharedKernel\VenueHosting.SharedKernel.csproj" />
