@@ -1,4 +1,4 @@
-using Component.Persistence.SqlServer.AtomicScope;
+using Component.Domain.Persistence.AtomicScope;
 using MediatR;
 using VenueHosting.Module.Venue.Application.Common.Persistence;
 using VenueHosting.Module.Venue.Domain.Exceptions;
@@ -12,11 +12,12 @@ internal sealed class MarkAsPublicCommandHandler : IRequestHandler<MarkAsPublicC
     private readonly IAtomicScope _atomicScope;
     private readonly VenueDomainService _venueDomainService;
 
-    public MarkAsPublicCommandHandler(IVenueStore venueStore, IAtomicScope atomicScope, VenueDomainService venueDomainService)
+    public MarkAsPublicCommandHandler(IVenueStore venueStore, VenueDomainService venueDomainService,
+        IAtomicScope atomicScope)
     {
         _venueStore = venueStore;
-        _atomicScope = atomicScope;
         _venueDomainService = venueDomainService;
+        _atomicScope = atomicScope;
     }
 
     public async Task<Unit> Handle(MarkAsPublicCommand request, CancellationToken cancellationToken)

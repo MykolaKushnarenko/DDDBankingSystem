@@ -1,4 +1,4 @@
-using Component.Persistence.SqlServer.AtomicScope;
+using Component.Domain.Persistence.AtomicScope;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using VenueHosting.SharedKernel.Common.DomainEvents;
 
-namespace Component.Persistence.SqlServer;
+namespace Component.Domain.Persistence;
 
 public static class ServiceCollectionExtensions
 {
@@ -16,11 +16,12 @@ public static class ServiceCollectionExtensions
         var connectionString = configuration.GetConnectionString("SqlServerConnectionString");
 
         serviceCollection.TryAddScoped<DomainEventCollector>();
-        serviceCollection.TryAddScoped<IAtomicScopeFactory, AtomicScopeFactory<TDbContext>>();
+        serviceCollection.TryAddScoped<IAtomicScope, AtomicScope<TDbContext>>();
 
         serviceCollection.AddDbContext<TDbContext>(x => x.UseSqlServer(connectionString,
             builder => builder
-                .MigrationsHistoryTable(HistoryRepository.DefaultTableName)));
+                .MigrationsHistoryTable(HistoryRepository.DefaultTableName)
+                .EnableRetryOnFailure()));
         
         //TODO: Add interceptors for auditing.
         //TODO: Add extend DBContextOptions.

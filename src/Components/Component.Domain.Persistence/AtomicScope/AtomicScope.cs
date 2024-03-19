@@ -2,54 +2,50 @@ using System.Transactions;
 using Microsoft.EntityFrameworkCore;
 using VenueHosting.SharedKernel.Common.DomainEvents;
 
-namespace Component.Persistence.SqlServer.AtomicScope;
+namespace Component.Domain.Persistence.AtomicScope;
 
 internal sealed class AtomicScope<TDbContext> : IAtomicScope where TDbContext : DbContext
 {
     private readonly TDbContext _dbContext;
     private readonly DomainEventCollector _domainEventCollector;
-    private readonly TransactionScope? _transactionScope;
-
-    private bool _isCommitted;
-
+    
     public AtomicScope(TDbContext dbContext,
-        DomainEventCollector domainEventCollector,
-        TransactionScope? transactionScope)
+        DomainEventCollector domainEventCollector)
     {
         _dbContext = dbContext;
         _domainEventCollector = domainEventCollector;
-        _transactionScope = transactionScope;
     }
 
-    public async Task CommitAsync(CancellationToken cancellationToken)
+    public Task CommitAsync(Func<CancellationToken, Task> action,
+        CancellationToken cancellationToken) => InternalCommitAsync(action, cancellationToken);
+
+    public Task CommitAsync(CancellationToken cancellationToken) => InternalCommitAsync(
+        delegate { return Task.CompletedTask; }, cancellationToken);
+    
+    private async Task InternalCommitAsync(Func<CancellationToken, Task> action,
+        CancellationToken cancellationToken)
     {
-        await _dbContext.Database
-            .CreateExecutionStrategy()
-            .ExecuteAsync(0,
-                async (_, token) => { await _dbContext.SaveChangesAsync(token); }, cancellationToken);
+        var strategy = _dbContext.Database.CreateExecutionStrategy();
 
-        _isCommitted = true;
-    }
+        await strategy.ExecuteAsync(0,
+            async (state, token) =>
+            {
+                if (Transaction.Current is not null)
+                {
+                    await action(token);
+                }
 
-    public void Dispose()
-    {
-        if (!_isCommitted)
-        {
-            _dbContext.Database.RollbackTransaction();
-            _transactionScope?.Dispose();
-        }
+                _ = new TransactionScope(TransactionScopeOption.Required,
+                    new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted },
+                    TransactionScopeAsyncFlowOption.Enabled);
 
-        _transactionScope?.Complete();
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        if (!_isCommitted)
-        {
-            await _dbContext.Database.RollbackTransactionAsync();
-            _transactionScope?.Dispose();
-        }
-
-        _transactionScope?.Complete();
+                await action(token);
+                
+                await _dbContext.SaveChangesAsync(token);
+                
+                //store domain events;
+                
+                await _dbContext.Database.CommitTransactionAsync(token);
+            }, cancellationToken);
     }
 }

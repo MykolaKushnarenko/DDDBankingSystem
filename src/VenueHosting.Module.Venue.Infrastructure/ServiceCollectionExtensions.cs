@@ -1,3 +1,4 @@
+using Component.Domain.Persistence;
 using Component.Persistence.SqlServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

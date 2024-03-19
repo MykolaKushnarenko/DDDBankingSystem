@@ -1,6 +1,8 @@
-namespace Component.Persistence.SqlServer.AtomicScope;
+namespace Component.Domain.Persistence.AtomicScope;
 
-public interface IAtomicScope : IDisposable, IAsyncDisposable
+public interface IAtomicScope
 {
-    Task CommitAsync(CancellationToken token);
+    Task CommitAsync(Func<CancellationToken, Task> action, CancellationToken token);
+
+    Task CommitAsync(CancellationToken cancellationToken);
 }

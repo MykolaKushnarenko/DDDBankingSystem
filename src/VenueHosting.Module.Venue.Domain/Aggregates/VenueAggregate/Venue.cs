@@ -9,9 +9,9 @@ namespace VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate;
 
 public sealed class Venue : AggregateRote<Venue>
 {
-    private readonly HashSet<Activity> _activities = new();
-    private readonly HashSet<PartnerReference> _partners = new();
-    private readonly HashSet<Amenity> _amenities = new();
+    private readonly List<Activity> _activities = new();
+    private readonly List<PartnerReference> _partners = new();
+    private readonly List<Amenity> _amenities = new();
 
     [UsedImplicitly]
     private Venue()
@@ -54,11 +54,11 @@ public sealed class Venue : AggregateRote<Venue>
 
     public VenueStatus VenueStatus { get; private set; }
 
-    public IReadOnlyList<Activity> Activities => _activities.ToList().AsReadOnly();
+    public IReadOnlyList<Activity> Activities => _activities.ToArray();
 
-    public IReadOnlyList<PartnerReference> Partners => _partners.ToList().AsReadOnly();
+    public IReadOnlyList<PartnerReference> Partners => _partners.ToArray();
 
-    public IReadOnlyList<Amenity> Amenities => _amenities.ToList().AsReadOnly();
+    public IReadOnlyList<Amenity> Amenities => _amenities.ToArray();
 
     public int Capacity { get; private set; }
 

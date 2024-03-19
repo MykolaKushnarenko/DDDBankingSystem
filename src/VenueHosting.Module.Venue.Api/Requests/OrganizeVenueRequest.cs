@@ -1,4 +1,4 @@
-using VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
+using VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.ValueObjects;
 
 namespace VenueHosting.Module.Venue.Api.Requests;
 

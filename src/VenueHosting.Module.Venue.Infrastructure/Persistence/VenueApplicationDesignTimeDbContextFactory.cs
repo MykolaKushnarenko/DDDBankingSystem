@@ -1,4 +1,4 @@
-using Component.Persistence.SqlServer;
+using Component.Domain.Persistence;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -7,8 +7,8 @@ public class MarkAsPublicCommand : IRequest<Unit>
 {
     public MarkAsPublicCommand(Guid venueId)
     {
-        VenueId = new Id<Domain.Aggregates.Venue.Venue>(venueId);
+        VenueId = new Id<Domain.Aggregates.VenueAggregate.Venue>(venueId);
     }
 
-    public Id<Domain.Aggregates.Venue.Venue> VenueId { get; init; }
+    public Id<Domain.Aggregates.VenueAggregate.Venue> VenueId { get; init; }
 }

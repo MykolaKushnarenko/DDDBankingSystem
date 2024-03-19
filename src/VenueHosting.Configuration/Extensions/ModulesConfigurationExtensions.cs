@@ -10,6 +10,7 @@ using VenueHosting.Module.User.Infrastructure;
 using VenueHosting.Module.Venue.Infrastructure;
 using VenueHosting.Module.Venue.Api;
 using VenueHosting.Module.Venue.Application;
+using VenueHosting.Module.Venue.Domain;
 using VenueHosting.SharedKernel.Behaviours;
 
 namespace VenueHosting.Configuration.Extensions
@@ -27,10 +28,7 @@ namespace VenueHosting.Configuration.Extensions
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(
-                    typeof(IAssemblyMarker).Assembly,
-                    typeof(Module.Place.Application.IAssemblyMarker).Assembly,
-                    typeof(Module.User.Application.IAssemblyMarker).Assembly,
-                    typeof(Module.Payment.Application.IAssemblyMarker).Assembly);
+                    typeof(IAssemblyMarker).Assembly);
 
                 cfg.NotificationPublisherType = typeof(TaskWhenAllPublisher);
 
@@ -41,15 +39,9 @@ namespace VenueHosting.Configuration.Extensions
                 .AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 
             services.AddVenueInfrastructure(builderConfiguration)
+                .AddDomainServices()
                 .AddApplication()
                 .AddVenueControllers();
-
-            services.AddUserInfrastructure(builderConfiguration);
-
-            services.AddPlaceInfrastructure(builderConfiguration)
-                .AddPlaceControllers();
-
-            services.AddPaymentInfrastructure(builderConfiguration);
 
             return services;
 

@@ -23,7 +23,6 @@ var app = builder.Build();
 
     app.UseRouting();
     app.MapControllers();
-    app.UseVenueModule();
 
     app.Run();
 }
