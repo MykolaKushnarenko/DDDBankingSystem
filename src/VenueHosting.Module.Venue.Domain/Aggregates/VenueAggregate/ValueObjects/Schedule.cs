@@ -1,6 +1,6 @@
 using Component.Domain.Models;
 
-namespace VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
+namespace VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.ValueObjects;
 
 public class Schedule : ValueObject
 {

@@ -1,12 +1,13 @@
 using Component.Domain.Models;
 using Component.Domain.Services;
 using VenueHosting.Contracts.Events;
-using VenueHosting.Module.Venue.Domain.Aggregates.Venue.BusinessRules;
-using VenueHosting.Module.Venue.Domain.Aggregates.Venue.Entities;
-using VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
-using VenueHosting.Module.Venue.Domain.Replicas.Place;
-using VenueHosting.Module.Venue.Domain.Replicas.User;
+using VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.BusinessRules;
+using VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.Entities;
+using VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.ValueObjects;
+using VenueHosting.Module.Venue.Domain.Replicas.PlaceAggregate;
+using VenueHosting.Module.Venue.Domain.Replicas.UserAggregate;
 using VenueHosting.SharedKernel.Common.DomainEvents;
+using VenueAggregate = VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.Venue;
 
 namespace VenueHosting.Module.Venue.Domain.Services;
 
@@ -16,7 +17,7 @@ public class VenueDomainService : DomainService
     {
     }
 
-    public Aggregates.Venue.Venue Create(Id<Aggregates.Venue.Venue>? venueId,
+    public Aggregates.VenueAggregate.Venue Create(Id<Aggregates.VenueAggregate.Venue>? venueId,
         Id<User> hostId,
         Id<Place> placeId,
         string eventName,
@@ -29,7 +30,7 @@ public class VenueDomainService : DomainService
         CheckRule(new VenueEventNameMustNotExceedLengthBusinessRule(eventName));
         CheckRule(new VenueDescriptionMustNotExceedLengthBusinessRule(description));
 
-        var venue = new Aggregates.Venue.Venue(
+        var venue = new Aggregates.VenueAggregate.Venue(
             hostId, placeId, eventName,
             description, capacity, visibility, startAtDateTime, endAtDateTime);
 
@@ -38,7 +39,7 @@ public class VenueDomainService : DomainService
         return venue;
     }
 
-    public void AddActivity(Aggregates.Venue.Venue venue, string name, string description)
+    public void AddActivity(VenueAggregate venue, string name, string description)
     {
         var activity = new Activity(name, description);
 
@@ -47,7 +48,7 @@ public class VenueDomainService : DomainService
         venue.AddActivity(activity);
     }
 
-    public void MarkAsPublic(Aggregates.Venue.Venue venue)
+    public void MarkAsPublic(VenueAggregate venue)
     {
         venue.MakePublic();
     }

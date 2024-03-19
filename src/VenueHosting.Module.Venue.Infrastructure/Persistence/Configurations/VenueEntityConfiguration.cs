@@ -1,16 +1,16 @@
-using Component.Persistence.SqlServer.Extensions;
+using Component.Domain.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using VenueHosting.Module.Venue.Domain.Aggregates.Venue.Entities;
-using VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
+using VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.Entities;
+using VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.ValueObjects;
 
-namespace VenueHosting.Module.Venue.Infrastructure.Persistence.Configurations.Venue;
+namespace VenueHosting.Module.Venue.Infrastructure.Persistence.Configurations;
 
-public class VenueEntityConfiguration : IEntityTypeConfiguration<Domain.Aggregates.Venue.Venue>
+public class VenueEntityConfiguration : IEntityTypeConfiguration<Domain.Aggregates.VenueAggregate.Venue>
 {
     private const string Scheme = nameof(Venue);
 
-    public void Configure(EntityTypeBuilder<Domain.Aggregates.Venue.Venue> builder)
+    public void Configure(EntityTypeBuilder<Domain.Aggregates.VenueAggregate.Venue> builder)
     {
         builder.ToTable("Venues", Scheme);
 
@@ -64,7 +64,7 @@ public class VenueEntityConfiguration : IEntityTypeConfiguration<Domain.Aggregat
         builder.OwnsMany(x => x.Amenities, BuildAmenity);
     }
 
-    private void BuildAmenity(OwnedNavigationBuilder<Domain.Aggregates.Venue.Venue, Amenity> builder)
+    private void BuildAmenity(OwnedNavigationBuilder<Domain.Aggregates.VenueAggregate.Venue, Amenity> builder)
     {
         builder.ToTable("Amenities", Scheme);
 
@@ -87,7 +87,7 @@ public class VenueEntityConfiguration : IEntityTypeConfiguration<Domain.Aggregat
             .HasColumnName("IsAvailable");
     }
 
-    private void BuildPartner(OwnedNavigationBuilder<Domain.Aggregates.Venue.Venue, PartnerReference> builder)
+    private void BuildPartner(OwnedNavigationBuilder<Domain.Aggregates.VenueAggregate.Venue, PartnerReference> builder)
     {
         builder.ToTable("Partners", Scheme);
 
@@ -101,7 +101,7 @@ public class VenueEntityConfiguration : IEntityTypeConfiguration<Domain.Aggregat
             .HasColumnName("PartnerId");
     }
 
-    private void BuildActivity(OwnedNavigationBuilder<Domain.Aggregates.Venue.Venue, Activity> builder)
+    private void BuildActivity(OwnedNavigationBuilder<Domain.Aggregates.VenueAggregate.Venue, Activity> builder)
     {
         builder.ToTable("Activities", Scheme);
 
@@ -122,7 +122,7 @@ public class VenueEntityConfiguration : IEntityTypeConfiguration<Domain.Aggregat
             .HasMaxLength(150);
     }
 
-    private void BuildSchedule(OwnedNavigationBuilder<Domain.Aggregates.Venue.Venue, Schedule> builder)
+    private void BuildSchedule(OwnedNavigationBuilder<Domain.Aggregates.VenueAggregate.Venue, Schedule> builder)
     {
         builder
             .Property(x => x.EndTime)

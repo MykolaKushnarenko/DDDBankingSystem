@@ -1,6 +1,7 @@
 using Component.Domain.Models;
+using JetBrains.Annotations;
 
-namespace VenueHosting.Module.Venue.Domain.Replicas.Place;
+namespace VenueHosting.Module.Venue.Domain.Replicas.PlaceAggregate;
 
 public class Place : AggregateRote<Place>
 {
@@ -13,11 +14,11 @@ public class Place : AggregateRote<Place>
         Street = street;
     }
 
-    public string Country { get; private set; }
+    public string Country { get; private set; } = null!;
 
-    public string City { get; private set; }
+    public string City { get; private set; } = null!;
 
-    public string Street { get; private set; }
+    public string Street { get; private set; } = null!;
 
     public static Place Create(Id<Place> placeId, string country, string city, string street)
     {

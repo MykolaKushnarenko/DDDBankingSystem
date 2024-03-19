@@ -1,6 +1,6 @@
 using Component.Domain.Models;
 
-namespace VenueHosting.Module.Venue.Domain.Aggregates.Venue.Entities;
+namespace VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.Entities;
 
 public class Activity : Entity<Activity>
 {

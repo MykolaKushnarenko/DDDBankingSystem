@@ -1,7 +1,7 @@
 
 using Component.Domain.BLSpecifications;
 
-namespace VenueHosting.Module.Venue.Domain.Aggregates.Venue.BusinessRules;
+namespace VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.BusinessRules;
 
 internal sealed class ActivityNameMustNotExceedLengthBusinessRule : IBusinessRule
 {

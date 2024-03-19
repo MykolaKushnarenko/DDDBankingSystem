@@ -1,10 +1,11 @@
 using Component.Domain.Models;
-using VenueHosting.Module.Venue.Domain.Aggregates.Venue.Entities;
-using VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
-using VenueHosting.Module.Venue.Domain.Replicas.Place;
-using VenueHosting.Module.Venue.Domain.Replicas.User;
+using JetBrains.Annotations;
+using VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.Entities;
+using VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.ValueObjects;
+using VenueHosting.Module.Venue.Domain.Replicas.PlaceAggregate;
+using VenueHosting.Module.Venue.Domain.Replicas.UserAggregate;
 
-namespace VenueHosting.Module.Venue.Domain.Aggregates.Venue;
+namespace VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate;
 
 public sealed class Venue : AggregateRote<Venue>
 {
@@ -12,7 +13,7 @@ public sealed class Venue : AggregateRote<Venue>
     private readonly HashSet<PartnerReference> _partners = new();
     private readonly HashSet<Amenity> _amenities = new();
 
-    // ReSharper disable once UnusedMember.Local
+    [UsedImplicitly]
     private Venue()
     {
     }
@@ -39,15 +40,15 @@ public sealed class Venue : AggregateRote<Venue>
         Capacity = capacity;
     }
 
-    public Id<User> HostId { get; private set; }
+    public Id<User> HostId { get; private set; } = null!;
 
-    public Id<Place> PlaceId { get; private set; }
+    public Id<Place> PlaceId { get; private set; } = null!;
 
-    public Schedule Schedule { get; private set; }
+    public Schedule Schedule { get; private set; } = null!;
 
-    public string Description { get; private set; }
+    public string Description { get; private set; } = null!;
 
-    public string EventName { get; private set; }
+    public string EventName { get; private set; } = null!;
 
     public Visibility Visibility { get; private set; }
 

@@ -1,4 +1,4 @@
-namespace VenueHosting.Module.Venue.Domain.Aggregates.Venue.ValueObjects;
+namespace VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.ValueObjects;
 
 public enum VenueStatus
 {

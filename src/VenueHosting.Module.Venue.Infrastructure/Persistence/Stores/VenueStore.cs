@@ -14,30 +14,30 @@ internal sealed class VenueStore : IVenueStore
         _dbContext = dbContext;
     }
 
-    public Task<Domain.Aggregates.Venue.Venue?> FetchVenueByIdAsync(Id<Domain.Aggregates.Venue.Venue> venueId,
+    public Task<Domain.Aggregates.VenueAggregate.Venue?> FetchVenueByIdAsync(Id<Domain.Aggregates.VenueAggregate.Venue> venueId,
         CancellationToken token)
     {
         return _dbContext.Venues.Where(x => x.Id == venueId).SingleOrDefaultAsync(token);
     }
 
-    public async Task AddAsync(Domain.Aggregates.Venue.Venue venue)
+    public async Task AddAsync(Domain.Aggregates.VenueAggregate.Venue venue)
     {
         await _dbContext.Venues.AddAsync(venue);
     }
 
-    public async Task<Domain.Aggregates.Venue.Venue?> FetchBySpecification(
-        ISpecification<Domain.Aggregates.Venue.Venue> specification,
+    public async Task<Domain.Aggregates.VenueAggregate.Venue?> FetchBySpecification(
+        ISpecification<Domain.Aggregates.VenueAggregate.Venue> specification,
         CancellationToken token)
     {
-        return await SpecificationEvaluator<Domain.Aggregates.Venue.Venue>
+        return await SpecificationEvaluator<Domain.Aggregates.VenueAggregate.Venue>
             .GetQuery(_dbContext.Venues, specification)
             .FirstOrDefaultAsync(token);
     }
 
-    public async Task<IReadOnlyList<Domain.Aggregates.Venue.Venue>> FetchAllBySpecificationAsync(
-        ISpecification<Domain.Aggregates.Venue.Venue> specification, CancellationToken token)
+    public async Task<IReadOnlyList<Domain.Aggregates.VenueAggregate.Venue>> FetchAllBySpecificationAsync(
+        ISpecification<Domain.Aggregates.VenueAggregate.Venue> specification, CancellationToken token)
     {
-        return await SpecificationEvaluator<Domain.Aggregates.Venue.Venue>
+        return await SpecificationEvaluator<Domain.Aggregates.VenueAggregate.Venue>
             .GetQuery(_dbContext.Venues, specification)
             .ToListAsync(token);
     }

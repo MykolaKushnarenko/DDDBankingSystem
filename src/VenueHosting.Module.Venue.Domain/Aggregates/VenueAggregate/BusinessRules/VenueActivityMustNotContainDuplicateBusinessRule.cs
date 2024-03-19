@@ -1,8 +1,8 @@
 using Component.Domain.BLSpecifications;
-using VenueHosting.Module.Venue.Domain.Aggregates.Venue.Entities;
+using VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.Entities;
 using VenueHosting.Module.Venue.Domain.Exceptions;
 
-namespace VenueHosting.Module.Venue.Domain.Aggregates.Venue.BusinessRules;
+namespace VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.BusinessRules;
 
 internal sealed class VenueActivityMustNotContainDuplicateBusinessRule : IBusinessRule
 {
