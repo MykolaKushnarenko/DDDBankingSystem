@@ -1,3 +1,4 @@
+using System.Globalization;
 using Component.Domain.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -9,10 +10,11 @@ namespace VenueHosting.Module.Venue.Infrastructure.Persistence.Configurations;
 public class VenueEntityConfiguration : IEntityTypeConfiguration<Domain.Aggregates.VenueAggregate.Venue>
 {
     private const string Scheme = nameof(Venue);
+    private static readonly Inflector.Inflector Inflector = new(new CultureInfo("en-US"));
 
     public void Configure(EntityTypeBuilder<Domain.Aggregates.VenueAggregate.Venue> builder)
     {
-        builder.ToTable("Venues", Scheme);
+        builder.ToTable(Inflector.Pluralize(nameof(Venue)), Scheme);
 
         builder.HasKey(x => x.Id);
 
@@ -66,7 +68,7 @@ public class VenueEntityConfiguration : IEntityTypeConfiguration<Domain.Aggregat
 
     private void BuildAmenity(OwnedNavigationBuilder<Domain.Aggregates.VenueAggregate.Venue, Amenity> builder)
     {
-        builder.ToTable("Amenities", Scheme);
+        builder.ToTable(Inflector.Pluralize(nameof(Amenity)), Scheme);
 
         builder.HasForeignKey();
 
@@ -89,7 +91,7 @@ public class VenueEntityConfiguration : IEntityTypeConfiguration<Domain.Aggregat
 
     private void BuildPartner(OwnedNavigationBuilder<Domain.Aggregates.VenueAggregate.Venue, PartnerReference> builder)
     {
-        builder.ToTable("Partners", Scheme);
+        builder.ToTable(Inflector.Pluralize(nameof(PartnerReference)), Scheme);
 
         builder.HasForeignKey();
 
@@ -103,7 +105,7 @@ public class VenueEntityConfiguration : IEntityTypeConfiguration<Domain.Aggregat
 
     private void BuildActivity(OwnedNavigationBuilder<Domain.Aggregates.VenueAggregate.Venue, Activity> builder)
     {
-        builder.ToTable("Activities", Scheme);
+        builder.ToTable(Inflector.Pluralize(nameof(Activity)), Scheme);
 
         builder.HasForeignKey();
 
