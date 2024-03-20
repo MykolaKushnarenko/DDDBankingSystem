@@ -1,5 +1,6 @@
 using MediatR;
-using VenueHosting.Module.Venue.Application.Common.Persistence;
+using VenueHosting.Module.Venue.Domain.Specifications.VenueAggregate;
+using VenueHosting.Module.Venue.Domain.Stores;
 
 namespace VenueHosting.Module.Venue.Application.Features.FetchVenue;
 
@@ -12,9 +13,10 @@ internal sealed class VenueQueryHandler : IRequestHandler<VenueQuery, Domain.Agg
         _venue = venue;
     }
 
-    public async Task<Domain.Aggregates.VenueAggregate.Venue?> Handle(VenueQuery request, CancellationToken cancellationToken)
+    public async Task<Domain.Aggregates.VenueAggregate.Venue?> Handle(VenueQuery request,
+        CancellationToken cancellationToken)
     {
-        var venue = await _venue.FetchVenueByIdAsync(request.VenueId, cancellationToken);
+        var venue = await _venue.FindOneAsync(VenueByVenueIdSpec.Create(request.VenueId), cancellationToken);
 
         return venue;
     }

@@ -2,7 +2,7 @@ using System.Globalization;
 using Component.Domain.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using VenueHosting.Module.Venue.Domain.Replicas.UserAggregate;
+using VenueHosting.Module.Venue.Domain.Aggregates.UserReplica;
 
 namespace VenueHosting.Module.Venue.Infrastructure.Persistence.Configurations;
 

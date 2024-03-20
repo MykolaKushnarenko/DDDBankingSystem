@@ -1,8 +1,8 @@
 using Component.Domain.Models;
 using Component.Domain.Persistence.AtomicScope;
 using MediatR;
-using VenueHosting.Module.Venue.Application.Common.Persistence;
 using VenueHosting.Module.Venue.Domain.Services;
+using VenueHosting.Module.Venue.Domain.Stores;
 
 namespace VenueHosting.Module.Venue.Application.Features.OrganizeVenue;
 
@@ -39,7 +39,7 @@ internal sealed class
             request.EventName,
             request.Description, request.Capacity, request.Visibility, request.StartAtDateTime, request.EndAtDateTime);
 
-        await _venueStore.AddAsync(venue);
+        _venueStore.Add(venue);
 
         await _atomicScope.CommitAsync(cancellationToken);
 

@@ -1,8 +1,8 @@
 using Component.Domain.Models;
 using MediatR;
+using VenueHosting.Module.Venue.Domain.Aggregates.PlaceReplica;
+using VenueHosting.Module.Venue.Domain.Aggregates.UserReplica;
 using VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.ValueObjects;
-using VenueHosting.Module.Venue.Domain.Replicas.PlaceAggregate;
-using VenueHosting.Module.Venue.Domain.Replicas.UserAggregate;
 
 namespace VenueHosting.Module.Venue.Application.Features.OrganizeVenue;
 

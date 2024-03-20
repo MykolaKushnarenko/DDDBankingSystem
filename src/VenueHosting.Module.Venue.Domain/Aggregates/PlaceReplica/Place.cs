@@ -1,7 +1,6 @@
 using Component.Domain.Models;
-using JetBrains.Annotations;
 
-namespace VenueHosting.Module.Venue.Domain.Replicas.PlaceAggregate;
+namespace VenueHosting.Module.Venue.Domain.Aggregates.PlaceReplica;
 
 public class Place : AggregateRote<Place>
 {

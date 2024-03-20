@@ -1,9 +1,9 @@
 using Component.Domain.Models;
 using JetBrains.Annotations;
+using VenueHosting.Module.Venue.Domain.Aggregates.PlaceReplica;
+using VenueHosting.Module.Venue.Domain.Aggregates.UserReplica;
 using VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.Entities;
 using VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.ValueObjects;
-using VenueHosting.Module.Venue.Domain.Replicas.PlaceAggregate;
-using VenueHosting.Module.Venue.Domain.Replicas.UserAggregate;
 
 namespace VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate;
 
@@ -92,9 +92,6 @@ public sealed class Venue : AggregateRote<Venue>
 
     internal void UpdateDetails(string eventName, string description)
     {
-        // CheckRule(new VenueEventNameMustNotExceedLengthBusinessRule(eventName));
-        // CheckRule(new VenueDescriptionMustNotExceedLengthBusinessRule(description));
-
         EventName = eventName;
         Description = description;
     }

@@ -1,8 +1,9 @@
 using Component.Domain.Persistence.AtomicScope;
 using MediatR;
-using VenueHosting.Module.Venue.Application.Common.Persistence;
 using VenueHosting.Module.Venue.Domain.Exceptions;
 using VenueHosting.Module.Venue.Domain.Services;
+using VenueHosting.Module.Venue.Domain.Specifications.VenueAggregate;
+using VenueHosting.Module.Venue.Domain.Stores;
 
 namespace VenueHosting.Module.Venue.Application.Features.AddActivities;
 
@@ -22,7 +23,7 @@ internal sealed class AddActivitiesCommandHandler : IRequestHandler<AddActivitie
 
     public async Task<Unit> Handle(AddActivitiesCommand request, CancellationToken cancellationToken)
     {
-        var venue = await _venueStore.FetchVenueByIdAsync(request.VenueId, cancellationToken);
+        var venue = await _venueStore.FindOneAsync(VenueByVenueIdSpec.Create(request.VenueId), cancellationToken);
 
         if (venue is null)
         {
@@ -31,7 +32,8 @@ internal sealed class AddActivitiesCommandHandler : IRequestHandler<AddActivitie
 
         foreach (var activityCommand in request.Activities)
         {
-            _venueDomainService.AddActivity(venue, activityCommand.Name, activityCommand.Description);
+            var activity = _venueDomainService.CreateActivity(activityCommand.Name, activityCommand.Description);
+            _venueDomainService.AddActivity(venue, activity);
         }
 
         await _atomicScope.CommitAsync(cancellationToken);

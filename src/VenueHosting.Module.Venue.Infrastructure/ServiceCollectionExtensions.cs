@@ -1,8 +1,7 @@
 using Component.Domain.Persistence;
-using Component.Persistence.SqlServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using VenueHosting.Module.Venue.Application.Common.Persistence;
+using VenueHosting.Module.Venue.Domain.Stores;
 using VenueHosting.Module.Venue.Infrastructure.Persistence;
 using VenueHosting.Module.Venue.Infrastructure.Persistence.Stores;
 
@@ -14,7 +13,7 @@ public static class ServiceCollectionExtensions
         this IServiceCollection serviceCollection,
         IConfiguration configuration)
     {
-        serviceCollection.AddScoped<IVenueStore, VenueStore>();
+        serviceCollection.AddScoped<IVenueStore, VenueRepository>();
 
         serviceCollection.AddDomainDbContext<VenueApplicationDbContext>(configuration);
 

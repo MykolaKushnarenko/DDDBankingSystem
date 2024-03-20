@@ -163,7 +163,7 @@ namespace VenueHosting.Module.Venue.Infrastructure.Persistence.Migrations
                     b.ToTable("Venues", "Venue");
                 });
 
-            modelBuilder.Entity("VenueHosting.Module.Venue.Domain.Replicas.PlaceAggregate.Place", b =>
+            modelBuilder.Entity("VenueHosting.Module.Venue.Domain.Aggregates.PlaceReplica.Place", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier")
@@ -192,7 +192,7 @@ namespace VenueHosting.Module.Venue.Infrastructure.Persistence.Migrations
                     b.ToTable("Places", "Replica");
                 });
 
-            modelBuilder.Entity("VenueHosting.Module.Venue.Domain.Replicas.UserAggregate.User", b =>
+            modelBuilder.Entity("VenueHosting.Module.Venue.Domain.Aggregates.UserReplica.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier")

@@ -1,6 +1,6 @@
 using Component.Domain.Models;
 using JetBrains.Annotations;
-using VenueHosting.Module.Venue.Domain.Replicas.UserAggregate;
+using VenueHosting.Module.Venue.Domain.Aggregates.UserReplica;
 
 namespace VenueHosting.Module.Venue.Domain.Aggregates.PartnerAggregate;
 

@@ -2,11 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using VenueHosting.Application.Common.Interfaces;
 using VenueHosting.Module.Payment.Infrastructure.Persistence;
-//using VenueHosting.Module.Payment.Infrastructure.Persistence.AtomicScope;
-using VenueHosting.Module.Payment.Infrastructure.Services;
-using VenueHosting.Module.Venue.Application;
 
 namespace VenueHosting.Module.Payment.Infrastructure;
 
@@ -15,9 +11,6 @@ public static class DependencyInjection
     public static IServiceCollection AddPaymentInfrastructure(this IServiceCollection serviceCollection,
         IConfiguration builderConfiguration)
     {
-        serviceCollection.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-
-        //serviceCollection.AddScoped<IAtomicScope, AtomicScope>();
 
         serviceCollection.AddPersistence();
 

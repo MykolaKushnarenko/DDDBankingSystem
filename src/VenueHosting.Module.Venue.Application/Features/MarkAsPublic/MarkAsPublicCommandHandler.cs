@@ -1,8 +1,9 @@
 using Component.Domain.Persistence.AtomicScope;
 using MediatR;
-using VenueHosting.Module.Venue.Application.Common.Persistence;
 using VenueHosting.Module.Venue.Domain.Exceptions;
 using VenueHosting.Module.Venue.Domain.Services;
+using VenueHosting.Module.Venue.Domain.Specifications.VenueAggregate;
+using VenueHosting.Module.Venue.Domain.Stores;
 
 namespace VenueHosting.Module.Venue.Application.Features.MarkAsPublic;
 
@@ -22,7 +23,7 @@ internal sealed class MarkAsPublicCommandHandler : IRequestHandler<MarkAsPublicC
 
     public async Task<Unit> Handle(MarkAsPublicCommand request, CancellationToken cancellationToken)
     {
-        var venue = await _venueStore.FetchVenueByIdAsync(request.VenueId, cancellationToken);
+        var venue = await _venueStore.FindOneAsync(VenueByVenueIdSpec.Create(request.VenueId), cancellationToken);
 
         if (venue is null)
         {

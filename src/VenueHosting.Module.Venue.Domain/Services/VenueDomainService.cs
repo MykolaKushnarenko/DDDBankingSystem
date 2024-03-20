@@ -1,11 +1,11 @@
 using Component.Domain.Models;
 using Component.Domain.Services;
 using VenueHosting.Contracts.Events;
+using VenueHosting.Module.Venue.Domain.Aggregates.PlaceReplica;
+using VenueHosting.Module.Venue.Domain.Aggregates.UserReplica;
 using VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.BusinessRules;
 using VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.Entities;
 using VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.ValueObjects;
-using VenueHosting.Module.Venue.Domain.Replicas.PlaceAggregate;
-using VenueHosting.Module.Venue.Domain.Replicas.UserAggregate;
 using VenueHosting.SharedKernel.Common.DomainEvents;
 using VenueAggregate = VenueHosting.Module.Venue.Domain.Aggregates.VenueAggregate.Venue;
 
@@ -32,17 +32,21 @@ public class VenueDomainService : DomainService
 
         var venue = new Aggregates.VenueAggregate.Venue(
             hostId, placeId, eventName,
-            description, capacity, visibility, new Schedule(startAtDateTime, endAtDateTime));
+            description, capacity, visibility, 
+            new Schedule(startAtDateTime, endAtDateTime));
 
         EventCollector.AddDomainEvent(new VenueCreatedDomainEvent(venue.Id.Value, venue.Capacity));
 
         return venue;
     }
 
-    public void AddActivity(VenueAggregate venue, string name, string description)
+    public Activity CreateActivity(string name, string description)
     {
-        var activity = new Activity(name, description);
-
+        return new Activity(name, description);
+    }
+    
+    public void AddActivity(VenueAggregate venue, Activity activity)
+    {
         CheckRule(new VenueActivityMustNotContainDuplicateBusinessRule(venue.Activities.ToHashSet(), activity));
 
         venue.AddActivity(activity);
