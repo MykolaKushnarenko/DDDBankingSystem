@@ -1,14 +1,14 @@
 using MediatR;
-using VenueHosting.Module.Venue.Domain.Specifications.VenueAggregate;
-using VenueHosting.Module.Venue.Domain.Stores;
+using VenueHosting.Module.Venue.Application.Extensions;
+using VenueHosting.Module.Venue.Domain.Repositories;
 
 namespace VenueHosting.Module.Venue.Application.Features.FetchVenue;
 
 internal sealed class VenueQueryHandler : IRequestHandler<VenueQuery, Domain.Aggregates.VenueAggregate.Venue?>
 {
-    private readonly IVenueStore _venue;
+    private readonly IVenueRepository _venue;
 
-    public VenueQueryHandler(IVenueStore venue)
+    public VenueQueryHandler(IVenueRepository venue)
     {
         _venue = venue;
     }
@@ -16,8 +16,6 @@ internal sealed class VenueQueryHandler : IRequestHandler<VenueQuery, Domain.Agg
     public async Task<Domain.Aggregates.VenueAggregate.Venue?> Handle(VenueQuery request,
         CancellationToken cancellationToken)
     {
-        var venue = await _venue.FindOneAsync(VenueByVenueIdSpec.Create(request.VenueId), cancellationToken);
-
-        return venue;
+        return await _venue.FindOneOrThrowAsync(request.VenueId, cancellationToken);
     }
 }

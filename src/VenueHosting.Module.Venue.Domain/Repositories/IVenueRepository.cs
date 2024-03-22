@@ -1,8 +1,8 @@
 using Ardalis.Specification;
 
-namespace VenueHosting.Module.Venue.Domain.Stores;
+namespace VenueHosting.Module.Venue.Domain.Repositories;
 
-public interface IVenueStore
+public interface IVenueRepository
 {
     public Task<Domain.Aggregates.VenueAggregate.Venue[]> FindManyAsync(
         ISpecification<Domain.Aggregates.VenueAggregate.Venue> specification,

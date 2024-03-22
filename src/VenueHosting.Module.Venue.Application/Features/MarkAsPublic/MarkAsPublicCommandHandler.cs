@@ -1,34 +1,28 @@
 using Component.Domain.Persistence.AtomicScope;
 using MediatR;
-using VenueHosting.Module.Venue.Domain.Exceptions;
+using VenueHosting.Module.Venue.Application.Extensions;
+using VenueHosting.Module.Venue.Domain.Repositories;
 using VenueHosting.Module.Venue.Domain.Services;
-using VenueHosting.Module.Venue.Domain.Specifications.VenueAggregate;
-using VenueHosting.Module.Venue.Domain.Stores;
 
 namespace VenueHosting.Module.Venue.Application.Features.MarkAsPublic;
 
 internal sealed class MarkAsPublicCommandHandler : IRequestHandler<MarkAsPublicCommand, Unit>
 {
-    private readonly IVenueStore _venueStore;
+    private readonly IVenueRepository _venueRepository;
     private readonly IAtomicScope _atomicScope;
     private readonly VenueDomainService _venueDomainService;
 
-    public MarkAsPublicCommandHandler(IVenueStore venueStore, VenueDomainService venueDomainService,
+    public MarkAsPublicCommandHandler(IVenueRepository venueRepository, VenueDomainService venueDomainService,
         IAtomicScope atomicScope)
     {
-        _venueStore = venueStore;
+        _venueRepository = venueRepository;
         _venueDomainService = venueDomainService;
         _atomicScope = atomicScope;
     }
 
     public async Task<Unit> Handle(MarkAsPublicCommand request, CancellationToken cancellationToken)
     {
-        var venue = await _venueStore.FindOneAsync(VenueByVenueIdSpec.Create(request.VenueId), cancellationToken);
-
-        if (venue is null)
-        {
-            throw new VenueNotFoundException();
-        }
+        var venue = await _venueRepository.FindOneOrThrowAsync(request.VenueId, cancellationToken);
 
         _venueDomainService.MarkAsPublic(venue);
 

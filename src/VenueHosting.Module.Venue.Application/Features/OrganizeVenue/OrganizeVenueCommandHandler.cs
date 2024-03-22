@@ -1,24 +1,24 @@
 using Component.Domain.Models;
 using Component.Domain.Persistence.AtomicScope;
 using MediatR;
+using VenueHosting.Module.Venue.Domain.Repositories;
 using VenueHosting.Module.Venue.Domain.Services;
-using VenueHosting.Module.Venue.Domain.Stores;
 
 namespace VenueHosting.Module.Venue.Application.Features.OrganizeVenue;
 
 internal sealed class
     OrganizeVenueCommandHandler : IRequestHandler<OrganizeVenueCommand, Domain.Aggregates.VenueAggregate.Venue>
 {
-    private readonly IVenueStore _venueStore;
+    private readonly IVenueRepository _venueRepository;
     private readonly IAtomicScope _atomicScope;
     private readonly VenueDomainService _venueDomainService;
 
     public OrganizeVenueCommandHandler(
-        IVenueStore venueStore,
+        IVenueRepository venueRepository,
         IAtomicScope atomicScope,
         VenueDomainService venueDomainService)
     {
-        _venueStore = venueStore;
+        _venueRepository = venueRepository;
         _atomicScope = atomicScope;
         _venueDomainService = venueDomainService;
     }
@@ -39,7 +39,7 @@ internal sealed class
             request.EventName,
             request.Description, request.Capacity, request.Visibility, request.StartAtDateTime, request.EndAtDateTime);
 
-        _venueStore.Add(venue);
+        _venueRepository.Add(venue);
 
         await _atomicScope.CommitAsync(cancellationToken);
 
