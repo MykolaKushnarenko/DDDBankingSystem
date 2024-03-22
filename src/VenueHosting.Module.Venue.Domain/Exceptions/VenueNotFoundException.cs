@@ -1,15 +1,16 @@
-using VenueHosting.SharedKernel.Exceptions;
+using Component.Domain.Exceptions;
+using Component.Domain.Models;
+using Components.Validation.Exceptions;
 
 namespace VenueHosting.Module.Venue.Domain.Exceptions;
 
-public sealed class VenueNotFoundException : VenueHostingCoreException
+public sealed class VenueNotFoundException : DomainException
 {
-    private const string _message = "Venue not found.";
-
-    public VenueNotFoundException() : base(_message)
+    public VenueNotFoundException(Id<Aggregates.VenueAggregate.Venue> id) : base(
+        $"Venue with id: {id.Value} was not found.")
     {
     }
 
-    public override int ErrorCode { get; } = 1000;
-    public override ErrorType ErrorType { get; } = ErrorType.ResourceNotFound;
+    public override int ErrorCode => 1000;
+    public override ErrorType ErrorType => ErrorType.ResourceNotFound;
 }

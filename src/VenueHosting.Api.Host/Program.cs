@@ -1,8 +1,10 @@
-using VenueHosting.Api.Host.Middlewares;
+using VenueHosting.Api.Host.ExceptionHandlers;
 using VenueHosting.Configuration.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 {
+    builder.Services.AddProblemDetails();
+    builder.Services.AddExceptionHandler<ExceptionHandlerToProblemDetailsHandler>();
     builder.Services.AddVenueModule(builder.Configuration);
 
     builder.Services.AddEndpointsApiExplorer();
@@ -11,14 +13,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
-    app.UseGlobalExceptionHandling();
-
+    
     app.UseSwagger();
     app.UseSwaggerUI();
 
     app.UseAuthentication();
     app.UseAuthorization();
-
+    app.UseExceptionHandler();
+    
     app.UseHttpsRedirection();
 
     app.UseRouting();
